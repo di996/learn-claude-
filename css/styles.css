@@ -794,7 +794,7 @@ kbd {
 .kcursor { display: inline-block; width: 8px; height: 14px; background: var(--term-text); vertical-align: -2px; animation: kblink 1.1s steps(1) infinite; }
 @keyframes kblink { 50% { opacity: 0; } }
 .kstamp { position: absolute; top: -11px; right: 10px; font: 700 10.5px var(--mono); letter-spacing: .1em; color: var(--accent-strong); background: var(--surface); border: 1.5px solid var(--accent); border-radius: 5px; padding: 4px 7px; transform: rotate(-4deg); }
-.kbtn { display: flex; width: 100%; min-height: 48px; margin-top: 14px; font-size: 16px; transition: transform .12s var(--ease), box-shadow .12s var(--ease); }
+.kp-btn { display: flex; width: 100%; min-height: 48px; margin-top: 14px; font-size: 16px; transition: transform .12s var(--ease), box-shadow .12s var(--ease); }
 .kv { list-style: none; padding: 0; margin: 0; }
 .kv li { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 14.5px; }
 .kv li b { font: 800 15px var(--mono); white-space: nowrap; }
@@ -815,7 +815,7 @@ kbd {
 .kmeter b { display: block; height: 100%; background: var(--accent); }
 .kpro { background: var(--accent-soft); border-color: var(--accent-soft); border-left-color: var(--accent); }
 .kpro p { font-size: 14.5px; margin: 0; }
-.kpro .kbtn { display: inline-flex; width: auto; }
+.kpro .kp-btn { display: inline-flex; width: auto; }
 
 /* Lesson list */
 .klessons-head { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin: 32px 0 12px; scroll-margin-top: 120px; }
@@ -861,7 +861,7 @@ kbd {
   .kstripe i { height: 16px; }
   .kp-three { grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px; }
   .kp-three .kbox { display: flex; flex-direction: column; }
-  .kp-three .kbtn { margin-top: auto; }
+  .kp-three .kp-btn { margin-top: auto; }
   .kp-three .kterm { margin-bottom: 14px; }
   .kp-two { grid-template-columns: 2fr 1fr; gap: 20px; margin-top: 20px; }
   .kp-two.no-pro { grid-template-columns: 1fr; }
@@ -869,6 +869,6 @@ kbd {
 }
 @media (prefers-reduced-motion: reduce) {
   .kcursor { animation: none; }
-  .kbtn { transition: none; }
+  .kp-btn { transition: none; }
 }
 .nav-pro[hidden], .kpro[hidden] { display: none; }
