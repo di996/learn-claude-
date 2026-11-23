@@ -30,6 +30,7 @@
           <a class="btn" href="lesson.html?id=start-session">Try lesson 1 – free</a>
           <a class="btn secondary" href="#curriculum">See all lessons</a>
         </div>
+        <p class="newbie" id="newbie" hidden>Never used Claude? <a href="lesson.html">Start with the basics →</a></p>
         <p class="hero-note">No install. No API key. No sign-up. 5 minutes per lesson.</p>
       </div>
       <div id="demo" aria-label="Animated demo of a Claude Code lesson"></div>
@@ -91,6 +92,11 @@
     <div class="wrap">
       <h2>What you'll learn</h2>
       <p class="intro">Start with the essentials for free. Go Pro for the habits that make experienced users so fast.</p>
+      <div id="basicsGroup" hidden>
+        <h3 class="cur-group">Start here · Claude Basics</h3>
+        <ol class="curriculum" id="basicsList"></ol>
+        <h3 class="cur-group">Claude Code</h3>
+      </div>
       <ol class="curriculum" id="curriculumList"></ol>
     </div>
   </section>
@@ -175,13 +181,25 @@
   <script src="js/lessons/04-mention-files.js"></script>
   <script src="js/lessons/05-modes.js"></script>
   <script src="js/lessons/06-context-sessions.js"></script>
+  <script src="js/lessons/07-subagents.js"></script>
+  <script src="js/lessons/b01-first-chat.js"></script>
+  <script src="js/lessons/b02-good-prompt.js"></script>
   <script>
     (function () {
       // Curriculum list from the lesson registry
       const list = document.getElementById('curriculumList');
-      const items = AD.lessons.map((l) =>
-        `<li><span class="n">${l.n}</span><div><div class="t">${AD.escapeHtml(l.title)}</div><div class="d">${AD.escapeHtml(l.blurb)}</div></div><span class="tag${l.pro ? ' pro' : ''}">${l.pro ? 'Pro' : 'Free'}</span></li>`
-      );
+      const row = (l) =>
+        `<li><span class="n">${l.n}</span><div><div class="t">${AD.escapeHtml(l.title)}</div><div class="d">${AD.escapeHtml(l.blurb)}</div></div><span class="tag${l.pro ? ' pro' : ''}">${l.pro ? 'Pro' : 'Free'}</span></li>`;
+      const items = AD.lessonsIn('code').map(row);
+      // Claude Basics: grouped above Claude Code, plus a small link under the hero buttons
+      const basics = AD.lessonsIn('basics');
+      if (basics.length) {
+        document.getElementById('basicsList').innerHTML = basics.map(row).join('');
+        document.getElementById('basicsGroup').hidden = false;
+        const nb = document.getElementById('newbie');
+        nb.querySelector('a').href = `lesson.html?id=${basics[0].id}`;
+        nb.hidden = false;
+      }
       items.push(`<li><span class="n">+</span><div><div class="t">Subagents, hooks, MCP & more</div><div class="d">New units every month.</div></div><span class="tag soon">Soon</span></li>`);
       list.innerHTML = items.join('');
 

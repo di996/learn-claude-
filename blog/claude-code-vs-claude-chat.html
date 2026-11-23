@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Sources (checked 2026-11-23): https://code.claude.com/docs/en/overview, https://code.claude.com/docs/en/setup, https://code.claude.com/docs/en/permissions, https://code.claude.com/docs/en/claude-code-on-the-web, https://support.claude.com/en/articles/11145838-use-claude-code-with-your-pro-max-or-ultra-plan, https://support.claude.com/en/articles/8241126-upload-files-to-claude, https://support.claude.com/en/articles/9517075-what-are-projects, https://support.claude.com/en/articles/17153992-what-are-artifacts-and-how-do-i-use-them, https://support.claude.com/en/articles/12111783-create-and-edit-files-with-claude, https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork, https://support.claude.com/en/articles/8114491-get-started-with-claude -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claude Code vs Claude Chat: What's the Difference? · AgentDrills</title>
+  <meta name="description" content="Claude chat talks with you. Claude Code works in your files. Learn the difference, when to use each, and how one subscription gives you both.">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap">
+      <a class="brand" href="../index.html"><span class="brand-mark">&gt;_</span>AgentDrills</a>
+      <div class="nav-links">
+        <a href="../index.html#curriculum">Lessons</a>
+        <a href="index.html">Blog</a>
+        <a class="btn small" href="../learn.html">Start free</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article">
+    <div class="crumbs"><a href="index.html">← All guides</a></div>
+    <span class="tag cat">Getting Started</span>
+    <h1>Claude Code vs. chatting with Claude: which one do you need?</h1>
+    <p class="dek">When you chat with Claude, you talk about things and Claude answers. Claude Code goes further: it opens the files in your project, changes them and runs commands, asking you first. Same Claude, two very different ways of working.</p>
+    <p class="post-meta">AgentDrills team · Updated November 23, 2026 · 9 min read</p>
+
+    <div class="article-body">
+      <p>Here's the short answer. Use the Claude chat app for writing, research, analysis and questions. Use Claude Code when you want Claude to actually work on a software project: read the code, fix it, test it and save the changes. If you pay for Claude Pro, Max or Ultra, you already have both.</p>
+      <p>If you're new to all this, the difference can feel fuzzy. They're both "Claude", after all. So let's take it slowly, with real examples, and by the end you'll know exactly which one to open for which job.</p>
+
+      <h2>What chatting with Claude is good at</h2>
+      <p>The chat app is what most people mean when they say "Claude". You open claude.ai in your browser, or the Claude app on your computer or phone, type a message, and Claude replies. It's a conversation.</p>
+      <p>That conversation is surprisingly powerful. Claude can help you write an email, explain a hard topic, brainstorm ideas, or check your reasoning. And it's not limited to text you type:</p>
+      <ul>
+        <li><b>Upload files.</b> You can add documents like PDFs, Word files and spreadsheets, or images like screenshots, and ask Claude about them.</li>
+        <li><b>Projects.</b> A project is a workspace with its own chats and its own collection of files and background info, so you don't repeat yourself every time.</li>
+        <li><b>Artifacts.</b> When Claude makes something you'd show someone, like a document, a design or a small interactive tool, it opens beside the chat. You can keep editing it and share it.</li>
+        <li><b>Create files.</b> Claude can make Word, Excel, PowerPoint and PDF files that you download straight from the chat.</li>
+      </ul>
+      <p>Notice what all of these have in common. You bring things <i>to</i> Claude, and Claude hands things back. In a normal chat, Claude works with what you share in the conversation. Moving the results into your own files is your job.</p>
+      <div class="note"><b>Free to start.</b> You can chat with Claude on the free plan, with a usage limit that resets every five hours. Claude Code is different: it needs a paid plan.</div>
+
+      <h2>What Claude Code does differently</h2>
+      <p>Claude Code is built for working on code. Anthropic describes it as an "agentic" coding tool. <b>Agentic</b> just means it doesn't only answer; it takes actions on its own to finish a task.</p>
+      <p>Instead of you pasting code into a chat, Claude Code goes into your project folder and looks around for itself. It can:</p>
+      <ul>
+        <li><b>Read your codebase.</b> Your <b>codebase</b> is all the files that make up a program. Claude opens the ones it needs to understand the task.</li>
+        <li><b>Edit files.</b> It changes the real files on your computer, not a copy.</li>
+        <li><b>Run commands.</b> A <b>command</b> is an instruction you'd normally type in a terminal (a text window for controlling your computer), like "run the tests". Claude can run them and read the results.</li>
+        <li><b>Work with git.</b> <b>Git</b> is the tool programmers use to save versions of their code. Claude Code can save changes with a clear description, and much more.</li>
+      </ul>
+      <p>That sounds like a lot of power, and it is. That's why Claude Code asks before it acts. Out of the box, it reads files in your project freely, but it asks for your approval before it edits a file or runs most commands. You stay in charge.</p>
+
+      <h2>Same task, two tools</h2>
+      <p>The easiest way to feel the difference is to watch both tools handle the same problem. Say you have a little to-do app, and the due dates show up as "Invalid Date" on some phones.</p>
+      <h3>In the chat app</h3>
+      <p>You'd start by figuring out which file might be the problem. Then you'd copy that code, paste it into the chat and describe the bug:</p>
+      <p>(A <b>function</b> is a named piece of code that does one job. Here, <code>formatDate</code> turns a date into text.)</p>
+      <pre><code>Here's my formatDate function. On some phones the
+date shows as "Invalid Date". What's wrong?</code></pre>
+      <p>Claude explains a likely cause and suggests a fix. Now it's your turn again. You copy the fix, find the right spot in your file, paste it in, save, and test. If Claude guessed wrong because it never saw the other file involved, you go around again.</p>
+      <h3>In Claude Code</h3>
+      <p>You open Claude Code inside the project folder and type the same problem in plain English:</p>
+      <pre><code>&gt; the due date shows as "Invalid Date" on some phones, can you find out why?</code></pre>
+      <p>Claude searches the project itself, opens the files that handle dates, and finds the cause. Then it proposes the change and shows you exactly which lines it wants to edit. You say yes, and the file is updated. You can even ask it to run the tests to check the fix. <b>Tests</b> are small checks programmers write to confirm their code does what it should.</p>
+      <p>Same brain, very different amount of work for you. In the chat, you're the messenger between Claude and your files. In Claude Code, Claude goes to the files directly.</p>
+
+      <div class="callout">
+        <div><b>See Claude Code in action</b><p>Try it in a safe, simulated terminal: open a project, launch Claude and ask it about the code. No install, no risk.</p></div>
+        <a class="btn small" href="../lesson.html?id=start-session">Start lesson 1</a>
+      </div>
+
+      <h2>Where Claude Code runs</h2>
+      <p>Our lessons teach Claude Code in the <b>terminal</b>, the text window where you control your computer by typing. But you can use it in several places:</p>
+      <ul>
+        <li><b>The terminal</b> on Mac, Windows or Linux. You install it once and type <code>claude</code> to start.</li>
+        <li><b>Code editors.</b> A code editor is the program developers write code in. Claude Code has <b>extensions</b> (add-ons you install inside the editor) for VS Code and for JetBrains, a family of editors that includes PyCharm.</li>
+        <li><b>The Claude desktop app.</b> It has a <b>Code</b> tab, so you don't need to install anything extra.</li>
+        <li><b>Your browser</b>, at claude.ai/code, also called Claude Code on the web. Here the work runs "in the cloud", which means on Anthropic's computers over the internet instead of on yours. It usually works on code stored on GitHub, a website where people keep their code.</li>
+      </ul>
+      <p>The ideas are the same everywhere. Learn them once in the terminal, and you'll recognise them in every other place.</p>
+      <div class="note"><b>What about Claude Cowork?</b> Cowork is a newer feature in the Claude app. It uses the same kind of agent as Claude Code, without a terminal, and on the desktop app it can work with files in folders you connect. You give it a task with several steps, and it hands back finished work. If your goal is to build or fix software, though, Claude Code is the tool made specifically for coding.</div>
+
+      <h2>Do you need to pay twice?</h2>
+      <p>No. This is one of the nicest surprises. With a Pro, Max or Ultra plan, one subscription gives you the chat app on the web, desktop and phone <i>and</i> Claude Code. Team and Enterprise plans for companies can include Claude Code too. Developers can also use Claude Console, Anthropic's account for developers. There you pay in advance by buying credits, a balance that goes down as you use it.</p>
+      <p>There's one thing to know. Your plan has usage limits, and they are shared. Everything you do in the chat and everything you do in Claude Code counts toward the same limits. So a long coding session can leave less room for chatting that day, and the other way around.</p>
+      <p>The free plan works for chatting, but it doesn't include Claude Code.</p>
+
+      <h2>Which one should you use?</h2>
+      <p>Here's a simple rule of thumb: if the result is something to read, chat. If the result is a change to a project's files, use Claude Code.</p>
+      <table>
+        <tr><th>You want to…</th><th>Use</th></tr>
+        <tr><td>Write or polish an email, essay or post</td><td>Chat</td></tr>
+        <tr><td>Understand a topic or get a summary of a PDF</td><td>Chat</td></tr>
+        <tr><td>Ask a quick "what does this error mean?"</td><td>Chat</td></tr>
+        <tr><td>Make a quick one-off document, slide deck or small demo</td><td>Chat (artifacts and file creation)</td></tr>
+        <tr><td>Fix a bug in a project with many files</td><td>Claude Code</td></tr>
+        <tr><td>Add a feature to an app you're building</td><td>Claude Code</td></tr>
+        <tr><td>Understand an unfamiliar codebase</td><td>Claude Code</td></tr>
+        <tr><td>Run tests and fix whatever fails</td><td>Claude Code</td></tr>
+        <tr><td>Save your changes with git</td><td>Claude Code</td></tr>
+      </table>
+      <p>There's a grey zone in the middle. A tiny script for a one-time job? The chat can write it. A small app you'll keep improving for weeks? That's when Claude Code starts to shine, because it can see the whole project every time.</p>
+
+      <h2>Using both together</h2>
+      <p>You don't have to pick a side. Many tasks go nicely in two steps.</p>
+      <ol>
+        <li><b>Think in the chat.</b> Talk through your idea, compare options, and write down what you want, in plain words.</li>
+        <li><b>Build in Claude Code.</b> Open your project, describe the task, and let Claude Code make the changes while you approve them.</li>
+      </ol>
+      <p>For example, say you want to add due dates to your to-do app. In the chat, you could ask "what's the simplest way to add due dates to a to-do list?" and settle on an approach. Then in Claude Code, you'd type "add due dates to todos, using the browser's built-in date picker" and review what it does.</p>
+
+      <h2>How to try Claude Code without installing anything</h2>
+      <p>If you've only ever chatted with Claude, the terminal can look a bit scary at first. That's normal, and you don't have to jump in at the deep end.</p>
+      <p>Our lessons run a realistic, simulated Claude Code terminal right in your browser. You type real commands, see what Claude Code would do, and get a hint whenever you get stuck. Nothing touches your computer, so you can't break anything. Lesson 1 is free and walks you through starting a session, asking questions about a project and exiting cleanly.</p>
+      <p>When you're ready for the real thing, our step-by-step guide on <a href="how-to-install-claude-code.html">how to install Claude Code</a> takes you from "what's a terminal?" to your first login.</p>
+
+      <div class="callout">
+        <div><b>Practice your first Claude Code session</b><p>Move into a project, launch Claude, ask it about the code and exit. Free, in your browser.</p></div>
+        <a class="btn small" href="../lesson.html?id=start-session">Start lesson 1</a>
+      </div>
+
+      <p class="muted" style="font-size:15px">Claude's apps and plans change often. Feature names, where things run and which plan includes what can shift between updates. Anthropic's help center and Claude Code documentation have the latest details.</p>
+    </div>
+  </article>
+
+  <section class="related">
+    <h2>Keep reading</h2>
+    <div class="post-list">
+      <a class="post-card" href="how-to-install-claude-code.html"><span class="post-meta">Getting Started</span><h2>How to install Claude Code</h2><span class="more">Read article →</span></a>
+      <a class="post-card" href="getting-started-with-claude-code.html"><span class="post-meta">Getting Started</span><h2>Your first Claude Code session</h2><span class="more">Read article →</span></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <span>© AgentDrills</span>
+      <span>Independent training resource. Not affiliated with Anthropic.</span>
+    </div>
+  </footer>
+</body>
+</html>

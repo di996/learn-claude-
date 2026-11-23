@@ -19,16 +19,16 @@ CAT_NAME = dict(CATS)
 # (category, title, one-line description, slug or None, minutes)
 POSTS = [
     ("getting-started", "Your first Claude Code session", "Where to launch Claude, how to ask good first questions and how to read the ⏺ tool calls.", "getting-started-with-claude-code", 6),
+    ("getting-started", "Installing Claude Code", "Set up Claude Code on Mac, Windows and Linux, and sign in for the first time.", "how-to-install-claude-code", 9),
+    ("getting-started", "Claude Code vs. chatting with Claude", "Which tool fits which job, and how to move work between them.", "claude-code-vs-claude-chat", 9),
     ("permissions", "Approving edits and commands", "What each option in the permission menu does, and when to say yes, \"don't ask again\" or no.", "claude-code-permissions", 6),
     ("commands", "Slash commands and CLAUDE.md", "The commands you'll use every day, and the memory file that makes every session smarter.", "claude-code-slash-commands-and-claude-md", 6),
     ("workflow", "@ file mentions and ! bash mode", "Hand Claude the exact files it needs and run shell commands without leaving the session.", "claude-code-file-mentions-and-bash-mode", 5),
     ("workflow", "Plan mode and auto-accept edits", "Switch modes with Shift+Tab, let Claude plan before it codes, and know when to let it work freely.", "claude-code-plan-mode", 6),
     ("context", "Interrupt, compact and resume", "Stop Claude with Esc, keep long sessions sharp with /compact and pick up tomorrow with --continue.", "claude-code-context-and-sessions", 6),
     # Coming soon
-    ("getting-started", "Installing Claude Code", "Set up Claude Code on Mac, Windows and Linux, and sign in for the first time.", None, 0),
     ("getting-started", "Claude Code in VS Code and JetBrains", "Use Claude Code next to your editor and share what you're looking at.", None, 0),
     ("getting-started", "Choosing a model with /model", "When a faster model is enough, and when to switch to the most capable one.", None, 0),
-    ("getting-started", "Claude Code vs. chatting with Claude", "Which tool fits which job, and how to move work between them.", None, 0),
     ("workflow", "Prompts that get good results", "Turn vague requests into clear tasks Claude can finish in one go.", None, 0),
     ("workflow", "Working with screenshots and images", "Paste a screenshot of a bug or a design and let Claude build from it.", None, 0),
     ("workflow", "Reviewing diffs like a pro", "Read Claude's changes quickly and spot the ones that matter.", None, 0),

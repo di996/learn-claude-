@@ -12,14 +12,14 @@
   }
 
   function render() {
-    const lessons = AD.lessons;
+    const lessons = AD.lessonsIn('code'); // ring, path and Continue stay Claude Code only
     const next = lessons.find((l) => !P.isDone(l.id)) || lessons[0];
     const units = [
       { name: 'Unit 1', title: 'Claude Code basics', items: lessons.filter((l) => !l.pro), pro: false },
       { name: 'Unit 2 · Pro', title: 'Work like a power user', items: lessons.filter((l) => l.pro), pro: true },
     ];
 
-    $('units').innerHTML = units
+    $('units').innerHTML = basicsBox() + units
       .map(
         (u) => `
         <div class="unit-head${u.pro ? ' pro' : ''}"><p class="eyebrow">${esc(u.name)}</p><h2>${esc(u.title)}</h2></div>
@@ -75,6 +75,27 @@
       btn.textContent = 'All done – replay a lesson';
       btn.onclick = (e) => { e.preventDefault(); location.href = `lesson.html?id=${lessons[0].id}`; };
     }
+  }
+
+  // "New to Claude? Start here" box for the Claude Basics track (DESIGN.md, 23 Nov 2026).
+  function basicsBox() {
+    const b = AD.lessonsIn('basics');
+    if (!b.length) return '';
+    const done = b.filter((l) => P.isDone(l.id)).length;
+    const target = b.find((l) => !P.isDone(l.id)) || b[0];
+    const label = done === 0 ? 'Start basics' : done === b.length ? 'Replay basics' : 'Continue basics';
+    return `
+      <section class="basics-box" aria-labelledby="basicsTitle">
+        <p class="eyebrow">New to Claude? Start here</p>
+        <h2 id="basicsTitle">Claude Basics</h2>
+        <p class="meta">${b.length} short lesson${b.length === 1 ? '' : 's'} in a simulated chat. Free. No terminal.</p>
+        <div class="foot">
+          <div class="bdots" role="img" aria-label="${done} of ${b.length} done">
+            ${b.map((l) => `<span class="${P.isDone(l.id) ? 'done' : ''}" title="${esc(l.title)}">${l.n}</span>`).join('')}
+          </div>
+          <a class="btn small secondary" href="lesson.html?id=${target.id}">${label}</a>
+        </div>
+      </section>`;
   }
 
   function openPaywall(lesson) {

@@ -47,7 +47,12 @@
   }
 
   async function runLesson(lesson, termEl) {
-    const term = new AD.Terminal(termEl, { files: lesson.files, cwd: lesson.cwd || '~', project: 'my-project' });
+    // Claude Basics lessons play in a simulated chat; everything else in the terminal.
+    const isChat = lesson.track === 'basics';
+    if (isChat) document.body.classList.add('track-basics');
+    const term = isChat
+      ? new AD.Chat(termEl, lesson.chat || {})
+      : new AD.Terminal(termEl, { files: lesson.files, cwd: lesson.cwd || '~', project: 'my-project' });
     AD.term = term; // handy for debugging
 
     // Touch-friendly key buttons
@@ -68,11 +73,13 @@
     const setPulse = (key) =>
       document.querySelectorAll('[data-key]').forEach((b) => b.classList.toggle('pulse', b.dataset.key === key));
 
-    $('eyebrow').textContent = `Lesson ${lesson.n}${lesson.pro ? ' · Pro' : ''}`;
+    $('eyebrow').textContent = isChat ? `Claude Basics · Lesson ${lesson.n}` : `Lesson ${lesson.n}${lesson.pro ? ' · Pro' : ''}`;
     $('title').textContent = lesson.title;
     document.title = `${lesson.title} · AgentDrills`;
 
-    if (lesson.start === 'claude') {
+    if (isChat) {
+      // The chat draws its own starting messages.
+    } else if (lesson.start === 'claude') {
       term.cwd = '~/my-project';
       await term.stream([{ launch: true, instant: true }]);
     } else if (lesson.cwd) {
@@ -104,14 +111,14 @@
         if (misses >= 2 && step.type !== 'choice') $('showAnswer').hidden = false;
       };
 
-      const type = step.type || (step.menu ? 'menu' : step.mode ? 'mode' : step.during ? 'esc' : step.choices ? 'choice' : 'input');
+      const type = step.type || (step.click ? 'click' : step.pick ? 'pick' : step.menu ? 'menu' : step.mode ? 'mode' : step.during ? 'esc' : step.choices ? 'choice' : 'input');
       currentType = type;
 
       if (type === 'input') {
         $('showAnswer').onclick = () => {
           hintsUsed++;
           term.fill(step.answer || '');
-          coach('info', 'Here it is.', 'Press Enter to run it.');
+          coach('info', 'Here it is.', isChat ? 'Press Enter or tap send.' : 'Press Enter to run it.');
         };
         await term.prompt((raw) => {
           const v = raw.trim();
@@ -154,6 +161,33 @@
         await term.menu(step.menu, (idx) => {
           if (ok.includes(idx)) return true;
           miss(idx);
+          return false;
+        });
+      } else if (type === 'click') {
+        // Chat only: click the right button (e.g. "attach", "retry", or a + menu item).
+        const target = step.click;
+        const via = step.via || (term.isMenuItem && term.isMenuItem(target) ? ['attach'] : []);
+        term.setPulse(target);
+        $('showAnswer').onclick = () => {
+          hintsUsed++;
+          term.setPulse(target);
+          coach('info', 'Highlighted for you.', step.answerText || 'Press the highlighted button.');
+        };
+        await term.waitClick((id) => {
+          if (id === target) return true;
+          if (via.includes(id) || id === 'menu') return false;
+          miss(id);
+          return false;
+        });
+      } else if (type === 'pick') {
+        // Chat only: choose the right file in the file picker.
+        $('showAnswer').onclick = () => {
+          hintsUsed++;
+          coach('info', 'Here it is.', `Choose **${step.pick}**.`);
+        };
+        await term.pick(step.files || [step.pick], (name) => {
+          if (name === step.pick) return true;
+          miss(name);
           return false;
         });
       } else if (type === 'choice') {

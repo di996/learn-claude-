@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Sources (checked 2026-11-23): https://code.claude.com/docs/en/setup, https://code.claude.com/docs/en/quickstart, https://code.claude.com/docs/en/terminal-guide, https://code.claude.com/docs/en/troubleshoot-install, https://code.claude.com/docs/en/authentication -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How to Install Claude Code on Mac, Windows and Linux · AgentDrills</title>
+  <meta name="description" content="Install Claude Code step by step on Mac, Windows or Linux. Open a terminal, run one command, check it works and sign in. Written for complete beginners.">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap">
+      <a class="brand" href="../index.html"><span class="brand-mark">&gt;_</span>AgentDrills</a>
+      <div class="nav-links">
+        <a href="../index.html#curriculum">Lessons</a>
+        <a href="index.html">Blog</a>
+        <a class="btn small" href="../learn.html">Start free</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article">
+    <div class="crumbs"><a href="index.html">← All guides</a></div>
+    <span class="tag cat">Getting Started</span>
+    <h1>How to install Claude Code (even if you've never used a terminal)</h1>
+    <p class="dek">You install Claude Code by pasting one command into your computer's terminal, then typing <code>claude</code> and signing in. It only takes a few minutes, and this guide walks you through every click.</p>
+    <p class="post-meta">AgentDrills team · Updated November 23, 2026 · 9 min read</p>
+
+    <div class="article-body">
+      <p>Here's the short version. On a Mac or Linux computer, you open the Terminal app and paste <code>curl -fsSL https://claude.ai/install.sh | bash</code>. On Windows, you open PowerShell and paste <code>irm https://claude.ai/install.ps1 | iex</code>. Then you type <code>claude</code>, a browser window opens, and you sign in with your Claude account. Done.</p>
+      <p>If that paragraph sounded like a foreign language, don't worry. That's exactly who this guide is for. We'll go slowly, explain every new word, and tell you what you should see at each step, so you always know whether things are going well.</p>
+
+      <h2>What you need before you start</h2>
+      <p>Let's check three things first. It's much nicer to find a problem now than halfway through.</p>
+      <h3>1. A computer that's new enough</h3>
+      <p>Claude Code runs on:</p>
+      <ul>
+        <li><b>Mac:</b> macOS 13 (Ventura) or newer</li>
+        <li><b>Windows:</b> Windows 10 (version 1809) or newer</li>
+        <li><b>Linux:</b> for example Ubuntu 20.04 or newer, or Debian 10 or newer</li>
+      </ul>
+      <p>You'll also want at least 4 GB of memory (RAM) and an internet connection. Almost any computer from the last few years is fine.</p>
+      <h3>2. A paid Claude plan</h3>
+      <p>This is the one that surprises people. The free Claude plan doesn't include Claude Code. You need a paid plan.</p>
+      <ul>
+        <li><b>Pro, Max and Ultra</b> are the personal plans you can buy on claude.com.</li>
+        <li><b>Team and Enterprise</b> are plans a company buys for its staff.</li>
+        <li><b>Claude Console</b> is the developer account, where you pay in advance with credits.</li>
+      </ul>
+      <p>If you already pay for Claude to chat with it, you most likely have everything you need.</p>
+      <h3>3. A supported country</h3>
+      <p>Claude Code is only available in the countries Anthropic supports. If you can use Claude where you live, you're almost certainly fine.</p>
+      <div class="note"><b>No Node.js needed.</b> Node.js is a tool for running JavaScript programs. Older guides online tell you to install it first. With the recommended installer, you don't need it anymore.</div>
+
+      <h2>What a terminal is, and how to open one</h2>
+      <p>A <b>terminal</b> is a window where you control your computer by typing instead of clicking. You type a <b>command</b> (a short instruction, like "install this" or "go into that folder"), press <kbd>Enter</kbd>, and the computer does it and prints a reply. Every Mac, Windows and Linux computer already has one built in.</p>
+      <p>It looks plain, usually just a dark or white window with a blinking cursor. That's normal. Nothing is broken.</p>
+      <h3>On a Mac</h3>
+      <p>Press <kbd>Cmd</kbd>+<kbd>Space</kbd> to open Spotlight (the Mac's built-in search bar), type <code>Terminal</code> and press <kbd>Enter</kbd>.</p>
+      <h3>On Windows</h3>
+      <p>Press <kbd>Win</kbd>+<kbd>X</kbd> and choose <b>Windows PowerShell</b> or <b>Terminal</b> from the menu. Windows actually has two kinds of terminal: <b>PowerShell</b>, the modern one, and an older one called <b>CMD</b> (Command Prompt). Both are just windows where you type commands, but they understand slightly different commands. You can tell them apart by the text at the start of the line:</p>
+      <pre><code>PS C:\Users\YourName&gt;     ← PowerShell (this is the one you want)
+C:\Users\YourName&gt;        ← CMD</code></pre>
+      <h3>On Linux</h3>
+      <p>On most versions of Linux, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd>, or search for "Terminal" in your app menu.</p>
+      <h3>Pasting into a terminal</h3>
+      <p>You don't need to type the install commands by hand. Copy them from this page and paste. One small trap: the paste shortcut isn't always the usual one.</p>
+      <ul>
+        <li><b>Mac:</b> <kbd>Cmd</kbd>+<kbd>V</kbd></li>
+        <li><b>Windows PowerShell:</b> <kbd>Ctrl</kbd>+<kbd>V</kbd>, or right-click</li>
+        <li><b>Linux:</b> <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd></li>
+      </ul>
+
+      <h2>Install on a Mac or Linux</h2>
+      <p>Open your terminal, paste this line and press <kbd>Enter</kbd>:</p>
+      <pre><code>curl -fsSL https://claude.ai/install.sh | bash</code></pre>
+      <p>In plain words, this says: "download Anthropic's install script and run it". <code>curl</code> is the part that downloads. A <b>script</b> is a small list of commands that runs one after the other. <code>bash</code> at the end is the program that runs it. The installer puts Claude Code in a folder inside your own user account.</p>
+      <p>Now the slightly nerve-racking part: for a little while, it may look like nothing is happening. The installer doesn't show a progress bar while it downloads. Leave the window open and wait. When you get a fresh line with a blinking cursor again, it's finished.</p>
+      <div class="note"><b>Already use Homebrew?</b> Homebrew is a popular package manager for Mac: a kind of app store you use from the terminal. If you have it, <code>brew install --cask claude-code</code> also works. Just know that the Homebrew version doesn't update itself. If you've never heard of Homebrew, ignore this box and use the command above.</div>
+
+      <h2>Install on Windows</h2>
+      <p>Open <b>PowerShell</b> (see above), paste this line and press <kbd>Enter</kbd>:</p>
+      <pre><code>irm https://claude.ai/install.ps1 | iex</code></pre>
+      <p>Again, give it a minute and wait for the blinking cursor to come back. You don't need administrator rights (the special permission to change settings for everyone on the computer).</p>
+      <p>If you ended up in CMD instead of PowerShell, that's fine too. CMD has its own version of the command:</p>
+      <pre><code>curl -fsSL https://claude.ai/install.cmd -o install.cmd &amp;&amp; install.cmd &amp;&amp; del install.cmd</code></pre>
+      <h3>Two extra words Windows users will meet</h3>
+      <ul>
+        <li><b>Git for Windows</b> is a free program. It includes Git Bash, a terminal like the ones on Mac and Linux. Claude Code works without it and uses PowerShell instead. Still, installing it is recommended, so Claude can use its usual tools. You'll want Git sooner or later anyway. It's how most people save versions of their code.</li>
+        <li><b>WSL</b> (Windows Subsystem for Linux) lets you run Linux inside Windows. Some developers prefer it. If you use WSL, open your WSL terminal and follow the Mac and Linux steps instead. If you don't know what WSL is, you don't need it.</li>
+      </ul>
+
+      <div class="callout">
+        <div><b>Want to practice first?</b><p>Lesson 1 runs a realistic Claude Code terminal right in your browser. Launch Claude, ask it questions and exit, with nothing to install and nothing to break.</p></div>
+        <a class="btn small" href="../lesson.html?id=start-session">Start lesson 1</a>
+      </div>
+
+      <h2>Check that it worked</h2>
+      <p>Close your terminal and open a new one. This matters: a terminal that was already open sometimes doesn't "see" newly installed programs until you restart it. Then type:</p>
+      <pre><code>claude --version</code></pre>
+      <p>If everything went well, you'll see a version number followed by "(Claude Code)", something like <code>2.1.211 (Claude Code)</code>. Your number will be different, and that's fine. Any version number means Claude Code is installed.</p>
+      <p>Want a fuller check-up? Run this:</p>
+      <pre><code>claude doctor</code></pre>
+      <p>It looks over your installation and settings and tells you if something needs fixing. It only reads and reports, so it's safe to run any time.</p>
+
+      <h2>Sign in the first time</h2>
+      <p>Claude Code always works inside a <b>folder</b> on your computer, and it can read and change the files in that folder. So first, move into a project folder with the <code>cd</code> command ("change directory"). Say you have a folder called <code>my-project</code>:</p>
+      <pre><code>cd my-project
+claude</code></pre>
+      <p>The first time you run <code>claude</code>, it opens a browser window and asks you to log in. Use the same account you use for Claude (or your Console account, if that's what you have). Here's what can happen next:</p>
+      <ul>
+        <li><b>The browser opens, you sign in, and it sends you back.</b> Perfect. The terminal says <code>Login successful</code>. Press <kbd>Enter</kbd> to continue.</li>
+        <li><b>The browser doesn't open by itself.</b> Press <kbd>c</kbd> in the terminal. That copies the login link, which you can paste into your browser.</li>
+        <li><b>The browser shows you a code</b> instead of sending you back. Copy it, go back to the terminal, and paste it where it says <code>Paste code here if prompted</code>.</li>
+      </ul>
+      <p>You only do this once. Claude Code remembers your login. If you ever want to switch to a different account, type <code>/login</code> while Claude Code is running. Words that start with a slash, like <code>/login</code>, are commands for Claude Code itself rather than messages to Claude.</p>
+
+      <h2>When something goes wrong</h2>
+      <p>Most install problems are one of a handful of classics. Here's what they look like and what to do.</p>
+      <h3>"command not found" or "not recognized"</h3>
+      <p>You type <code>claude</code> and get something like <code>zsh: command not found: claude</code> on a Mac or <code>The term 'claude' is not recognized</code> on Windows. First, close the terminal and open a brand-new one. That fixes it surprisingly often.</p>
+      <p>If it still happens, your computer doesn't know where Claude Code was installed. Your terminal only looks for programs in certain folders. That list of folders is called the <b>PATH</b>. The installer's folder isn't on it yet. Anthropic's troubleshooting page has the exact commands to add it for each system. Run them, open a new terminal and try again.</p>
+      <h3>Windows: "'irm' is not recognized" or "'&amp;&amp;' is not a valid statement separator"</h3>
+      <p>You pasted a command into the wrong kind of terminal. The first message means you're in CMD with the PowerShell command. The second means you're in PowerShell with the CMD command. Check the start of the line (<code>PS C:\</code> or <code>C:\</code>) and use the matching command.</p>
+      <h3>Windows: "does not support 32-bit Windows"</h3>
+      <p>"32-bit" is an older type of program. You probably opened the old version of PowerShell, called <b>Windows PowerShell (x86)</b>. The "(x86)" in the name gives it away. Close it and open the one without "(x86)".</p>
+      <h3>Mac: an error that mentions "Mac OS X 13.0"</h3>
+      <p>Your macOS is older than version 13. Update it through Software Update, then install again.</p>
+      <div class="note"><b>Not sure what's wrong?</b> Run <code>claude doctor</code> and read what it says. It usually points straight at the problem.</div>
+
+      <h2>Keeping Claude Code up to date</h2>
+      <p>Good news: if you used the recommended installer, Claude Code updates itself in the background. New versions take effect the next time you start it. You don't have to do anything.</p>
+      <p>If you ever want to update right now, type:</p>
+      <pre><code>claude update</code></pre>
+      <p>It either installs the newest version or tells you you're already up to date. Did you install with Homebrew or another <b>package manager</b> (an app store for the terminal)? Those versions don't update on their own. Upgrade them through that tool instead.</p>
+
+      <h2>What to do next</h2>
+      <p>You've installed Claude Code, checked it, and signed in. That's honestly the hardest part for most beginners, because everything after this happens in plain English.</p>
+      <p>Your next step is your first real session: starting Claude in the right folder, asking about the project before you ask for changes, and reading the little <code>⏺</code> lines that show what Claude is doing. Our guide to <a href="getting-started-with-claude-code.html">your first Claude Code session</a> covers all of that.</p>
+      <p>Or, if you'd rather learn by doing, practice it first in a safe, simulated terminal. You'll type the same commands you just read about, and get hints when you make a mistake.</p>
+
+      <div class="callout">
+        <div><b>Practice your first session</b><p>Move into a project, launch Claude, ask it about the code and exit cleanly. Free, in your browser.</p></div>
+        <a class="btn small" href="../lesson.html?id=start-session">Start lesson 1</a>
+      </div>
+
+      <p class="muted" style="font-size:15px">Claude Code is updated often, and install steps, messages and requirements can change between versions. If something on your screen looks different from this guide, Anthropic's official setup documentation has the latest details.</p>
+    </div>
+  </article>
+
+  <section class="related">
+    <h2>Keep reading</h2>
+    <div class="post-list">
+      <a class="post-card" href="getting-started-with-claude-code.html"><span class="post-meta">Getting Started</span><h2>Your first Claude Code session</h2><span class="more">Read article →</span></a>
+      <a class="post-card" href="claude-code-permissions.html"><span class="post-meta">Permissions &amp; Safety</span><h2>Approving edits and commands</h2><span class="more">Read article →</span></a>
+      <a class="post-card" href="claude-code-vs-claude-chat.html"><span class="post-meta">Getting Started</span><h2>Claude Code vs. chatting with Claude</h2><span class="more">Read article →</span></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <span>© AgentDrills</span>
+      <span>Independent training resource. Not affiliated with Anthropic.</span>
+    </div>
+  </footer>
+</body>
+</html>

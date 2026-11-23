@@ -52,6 +52,7 @@
       this.el = el;
       this.opts = opts;
       this.files = opts.files || DEFAULT_FILES;
+      this.agents = opts.agents ? opts.agents.slice() : []; // subagents known to @-autocomplete
       this.cwd = opts.cwd || '~';
       this.project = opts.project || 'my-project';
       this.mode = 'shell';
@@ -257,10 +258,14 @@
           const part = m[2].toLowerCase();
           // Already a complete path: nothing left to suggest.
           if (this.files.some((f) => f.toLowerCase() === part)) return this.closePopup();
-          items = this.files
+          if (this.agents.some((a) => 'agent-' + a.toLowerCase() === part)) return this.closePopup();
+          const agentItems = this.agents
+            .filter((a) => ('agent-' + a).toLowerCase().includes(part))
+            .map((a) => ({ kind: 'agent', value: 'agent-' + a, label: '@agent-' + a, desc: 'agent' }));
+          const fileItems = this.files
             .filter((f) => f.toLowerCase().includes(part))
-            .slice(0, 7)
             .map((f) => ({ kind: 'file', value: f, label: '@' + f, desc: '' }));
+          items = agentItems.concat(fileItems).slice(0, 7);
         }
       }
       this.popupItems = items;
@@ -462,6 +467,9 @@
         await this.wait(it.delay || 450);
         const cls = 't-msg tool' + (it.error ? ' err' : '');
         this.append(`<span class="bul">⏺</span><div><b>${escapeHtml(it.tool)}</b>(${escapeHtml(it.arg || '')})</div>`, cls);
+        // Writing .claude/agents/<name>.md creates a subagent: offer it in @-autocomplete from now on.
+        const agentFile = it.tool === 'Write' && /(?:^|\/)\.claude\/agents\/([\w-]+)\.md$/.exec(it.arg || '');
+        if (agentFile && !this.agents.includes(agentFile[1])) this.agents.push(agentFile[1]);
         if (it.out) this.out(it.out);
         if (it.diff) this.diff(it.diff);
         return this.wait(200);
