@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claude Code Slash Commands and CLAUDE.md Explained · AgentDrills</title>
+  <meta name="description" content="The Claude Code slash commands you'll use every day (/help, /init, /clear, /compact, /context) and how a CLAUDE.md file gives Claude a lasting memory of your project.">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap">
+      <a class="brand" href="../index.html"><span class="brand-mark">&gt;_</span>AgentDrills</a>
+      <div class="nav-links">
+        <a href="../index.html#curriculum">Lessons</a>
+        <a href="index.html">Blog</a>
+        <a class="btn small" href="../learn.html">Start free</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article">
+    <div class="crumbs"><a href="index.html">← All guides</a></div>
+    <span class="tag cat">Commands &amp; Memory</span>
+    <h1>Slash commands and CLAUDE.md: give Claude a memory</h1>
+    <p class="dek">A handful of slash commands cover almost everything you'll do day to day. One of them creates a file that makes every future session smarter.</p>
+    <p class="post-meta">AgentDrills team · Updated November 23, 2026 · 6 min read</p>
+
+    <div class="article-body">
+      <p>Inside Claude Code, there are two kinds of input. Plain text is a message to Claude, the model. Text that starts with a <code>/</code> is a <b>slash command</b>: an instruction to Claude Code, the tool. Slash commands don't go to the model as a question. They change the session itself: clear it, summarize it, show help, quit.</p>
+      <p>Type a single <code>/</code> and a list appears. Keep typing to filter it, use the arrow keys to move, <kbd>Tab</kbd> to complete and <kbd>Enter</kbd> to run. You don't need to memorize the full list, but a few commands are worth knowing by heart.</p>
+
+      <h2>The everyday commands</h2>
+      <table>
+        <tr><th>Command</th><th>What it does</th></tr>
+        <tr><td><code>/help</code></td><td>Shows how to use Claude Code and the available commands.</td></tr>
+        <tr><td><code>/init</code></td><td>Analyzes your project and writes a <code>CLAUDE.md</code> file with key facts about it.</td></tr>
+        <tr><td><code>/clear</code></td><td>Wipes the conversation and starts fresh in the same folder.</td></tr>
+        <tr><td><code>/compact</code></td><td>Replaces the conversation with a short summary to free up space.</td></tr>
+        <tr><td><code>/context</code></td><td>Shows how much of Claude's working memory is in use.</td></tr>
+        <tr><td><code>/memory</code></td><td>Opens your memory files (like CLAUDE.md) for editing.</td></tr>
+        <tr><td><code>/model</code></td><td>Switches which Claude model the session uses.</td></tr>
+        <tr><td><code>/exit</code></td><td>Quits Claude Code.</td></tr>
+      </table>
+      <p>The most common mistake is forgetting the slash. <code>clear</code> on its own is a message, and Claude will try to answer it. The second most common is a typo like <code>/inti</code>. The autocomplete list is there to save you from both.</p>
+
+      <h2>CLAUDE.md: the most underrated file in your project</h2>
+      <p>Every new Claude Code session starts with a blank memory. Claude can read your code, but it doesn't know <i>your</i> conventions: how you run tests, which folder is off limits, that you prefer plain functions over classes. Without that, you end up repeating the same instructions every day.</p>
+      <p><code>CLAUDE.md</code> fixes this. It's a normal Markdown file in the root of your project, and Claude Code <b>automatically reads it at the start of every session</b>. Whatever you write there, Claude knows from the first message.</p>
+
+      <h3>Creating it with /init</h3>
+      <p>You can write the file by hand, but the fastest start is:</p>
+      <pre><code>&gt; /init</code></pre>
+      <p>Claude reads through the project (package files, README, folder structure) and writes a first version. A typical result looks like this:</p>
+      <pre><code># CLAUDE.md
+
+## Commands
+- `npm test` – run unit tests
+- `npm start` – serve the app on :3000
+
+## Code style
+- Plain ES modules, no frameworks
+- Persist data only through src/storage.js</code></pre>
+      <p>Treat this as a draft. Read it, correct anything that's wrong, and add what only you know.</p>
+
+      <h3>What belongs in CLAUDE.md</h3>
+      <ul>
+        <li><b>Commands:</b> how to install, run, test and lint the project.</li>
+        <li><b>Structure:</b> where the important code lives and what each folder is for.</li>
+        <li><b>Rules:</b> "never edit files in <code>generated/</code>", "all user-facing text must be in English", "ask before installing packages".</li>
+        <li><b>Style:</b> naming, formatting and patterns you want followed.</li>
+        <li><b>Gotchas:</b> the things that tripped up the last person (or AI) who worked on it.</li>
+      </ul>
+      <h3>What doesn't belong there</h3>
+      <ul>
+        <li>Secrets, passwords or API keys. CLAUDE.md is usually committed to your repository.</li>
+        <li>Long documentation Claude can read from the code itself.</li>
+        <li>One-off instructions for today's task. Just say those in the chat.</li>
+      </ul>
+      <div class="note"><b>Keep it short.</b> Everything in CLAUDE.md is loaded into every session and uses up context. A focused page beats a ten-page manual.</div>
+      <p>Besides the project file, you can have a personal one in your home folder (<code>~/.claude/CLAUDE.md</code>) for preferences that apply to all your projects, like "explain things simply" or "always answer in British English".</p>
+
+      <div class="callout">
+        <div><b>Practice the commands</b><p>Run /help, create a CLAUDE.md with /init, check your context and clear the session.</p></div>
+        <a class="btn small" href="../lesson.html?id=slash-commands">Start lesson 3</a>
+      </div>
+
+      <h2>/clear vs /compact: which one when?</h2>
+      <p>Both commands free up Claude's working memory, but in different ways:</p>
+      <ul>
+        <li><b><code>/clear</code></b> forgets everything in the conversation. Use it when you switch to an unrelated task. Old messages about yesterday's bug only distract Claude from today's feature.</li>
+        <li><b><code>/compact</code></b> keeps a summary and drops the details. Use it in the middle of a long task when you want to continue but the conversation has grown huge.</li>
+      </ul>
+      <p>In both cases, CLAUDE.md is still loaded. That's the beauty of it: the conversation is temporary, the memory file is not. If you find yourself telling Claude the same thing after every <code>/clear</code>, that's a sign it belongs in CLAUDE.md.</p>
+
+      <h2>Make your own slash commands</h2>
+      <p>Once you notice yourself typing the same instructions again and again, you can turn them into your own command. Custom commands are just Markdown files in a <code>.claude/commands/</code> folder in your project. The file name becomes the command name, and the file's content is the prompt Claude receives.</p>
+      <p>For example, a file at <code>.claude/commands/review.md</code> containing</p>
+      <pre><code>Review the changes since the last commit.
+Look for bugs, missing tests and unclear names.
+List problems by severity. Don't change any files.</code></pre>
+      <p>gives you a <code>/review</code> command that runs that exact checklist every time. Because the folder lives in your project, you can commit it, and everyone on your team gets the same commands. Good candidates are routines you do often and want done the same way: reviewing changes, writing release notes, preparing a commit message, or checking a page on mobile.</p>
+      <p>Start small. One or two commands that you actually use beat a folder of twenty you forget about. And as with CLAUDE.md, keep each one short and specific.</p>
+
+      <h2>A simple habit to adopt</h2>
+      <p>At the end of a session where you corrected Claude on something important, ask it to update the memory:</p>
+      <pre><code>&gt; add a note to CLAUDE.md that dates must always be stored in UTC</code></pre>
+      <p>Over a few weeks, your CLAUDE.md turns into a sharp, project-specific guide, and every session starts smarter than the last.</p>
+      <p class="muted" style="font-size:15px">Claude Code is updated often, and the list of commands grows over time. Type / inside Claude Code to see what your version offers.</p>
+    </div>
+  </article>
+
+  <section class="related">
+    <h2>Keep reading</h2>
+    <div class="post-list">
+      <a class="post-card" href="claude-code-context-and-sessions.html"><span class="post-meta">Context &amp; Sessions</span><h2>Context, interrupting and resuming</h2><span class="more">Read article →</span></a>
+      <a class="post-card" href="claude-code-file-mentions-and-bash-mode.html"><span class="post-meta">Workflow</span><h2>File mentions with @ and bash mode</h2><span class="more">Read article →</span></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <span>© AgentDrills</span>
+      <span>Independent training resource. Not affiliated with Anthropic.</span>
+    </div>
+  </footer>
+</body>
+</html>

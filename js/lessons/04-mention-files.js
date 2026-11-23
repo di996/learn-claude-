@@ -6,6 +6,7 @@ AD.addLesson({
   icon: '@',
   pro: true,
   summary: 'You attached files with @ and ran a shell command with !.',
+  article: 'blog/claude-code-file-mentions-and-bash-mode.html',
   start: 'claude',
   steps: [
     {

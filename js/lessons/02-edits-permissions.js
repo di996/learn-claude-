@@ -5,6 +5,7 @@ AD.addLesson({
   blurb: 'Ask for a change, read the diff and decide what Claude may do.',
   icon: '✎',
   summary: 'You approved a single edit, allowed a safe command and rejected a risky one.',
+  article: 'blog/claude-code-permissions.html',
   start: 'claude',
   steps: [
     {

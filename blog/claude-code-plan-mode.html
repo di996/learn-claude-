@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claude Code Plan Mode and Auto-Accept Edits Explained · AgentDrills</title>
+  <meta name="description" content="Use Shift+Tab to switch between normal mode, auto-accept edits and plan mode in Claude Code. Learn when to let Claude plan first and when to let it work freely.">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap">
+      <a class="brand" href="../index.html"><span class="brand-mark">&gt;_</span>AgentDrills</a>
+      <div class="nav-links">
+        <a href="../index.html#curriculum">Lessons</a>
+        <a href="index.html">Blog</a>
+        <a class="btn small" href="../learn.html">Start free</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article">
+    <div class="crumbs"><a href="index.html">← All guides</a></div>
+    <span class="tag cat">Workflow</span>
+    <h1>Plan mode and auto-accept: choosing how much control to give</h1>
+    <p class="dek">One shortcut, Shift+Tab, decides whether Claude asks before every edit, edits freely, or only thinks and plans. Picking the right mode is half the skill.</p>
+    <p class="post-meta">AgentDrills team · Updated November 23, 2026 · 6 min read</p>
+
+    <div class="article-body">
+      <p>If you've worked through a few tasks with Claude Code, you know the rhythm: Claude proposes an edit, you approve it, repeat. For small changes that's perfect. For a feature that touches eight files, approving each edit one by one gets tedious, and approving them blindly defeats the purpose. Modes solve this by letting you choose, per task, how much control you want.</p>
+
+      <h2>The three modes</h2>
+      <p>Press <kbd>Shift</kbd>+<kbd>Tab</kbd> while in Claude Code to cycle through them. The line under the input box tells you which one is active:</p>
+      <table>
+        <tr><th>Mode</th><th>Indicator</th><th>What Claude may do</th></tr>
+        <tr><td><b>Normal</b></td><td>(nothing shown)</td><td>Read freely; asks before each edit and command.</td></tr>
+        <tr><td><b>Accept edits</b></td><td><code>⏵⏵ accept edits on</code></td><td>Edits files without asking; still asks before shell commands.</td></tr>
+        <tr><td><b>Plan mode</b></td><td><code>⏸ plan mode on</code></td><td>Reads and researches, but makes no changes at all until you approve a plan.</td></tr>
+      </table>
+      <p>The cycle wraps around, so if you overshoot, keep pressing until you're back where you want to be.</p>
+
+      <h2>Accept edits: speed when you trust the direction</h2>
+      <p>Accept-edits mode is the "I've seen enough, go ahead" setting. Claude writes code without stopping for approval, which makes multi-file changes dramatically faster. Commands still need your OK, so it can't, for example, delete a folder or push to GitHub on its own.</p>
+      <p>Use it when:</p>
+      <ul>
+        <li>the task is well understood and you've already seen Claude's approach</li>
+        <li>you're working in a git repository, so every change can be reviewed and undone afterwards</li>
+        <li>the change is mechanical: renaming, moving code, adding types, updating tests</li>
+      </ul>
+      <div class="note"><b>Review at the end.</b> Auto-accept doesn't mean "don't look". It means "look once, at the end". Run <code>!git diff</code> or open your editor's source-control view when Claude is done.</div>
+
+      <h2>Plan mode: think before typing</h2>
+      <p>Plan mode is the opposite. Claude can read, search and reason about your code, but it won't change a single file. Instead, it presents a plan and asks whether to go ahead. This is the most underused feature among beginners, and one of the most valuable.</p>
+      <p>Try it with a feature that touches several parts of the app:</p>
+      <pre><code>&gt; add due dates to todos</code></pre>
+      <p>In plan mode, Claude reads the relevant files and comes back with something like:</p>
+      <pre><code>Here's my plan:
+1. Add an optional `due` field to each todo in storage.js
+2. Add a date picker next to the "Add" input in index.html
+3. Show the date with formatDate() and highlight overdue items
+4. Add tests for isOverdue() in tests/utils.test.js</code></pre>
+      <p>Then it asks how you want to proceed: go ahead with edits auto-accepted, go ahead but approve edits manually, or keep planning. "Keep planning" is not a dead end. It's your chance to say "skip the tests for now" or "use the native date input, no library", before a single line of code is written.</p>
+
+      <h3>Why planning first saves time</h3>
+      <ul>
+        <li><b>Mistakes are cheaper in a plan than in code.</b> Rejecting step 2 of a plan takes a sentence. Undoing step 2 after it's been implemented across four files takes much longer.</li>
+        <li><b>You learn the codebase.</b> A plan shows you which files matter for a feature, which is useful even if you end up changing the approach.</li>
+        <li><b>Claude does better work.</b> Researching before writing leads to changes that fit the existing code instead of fighting it.</li>
+      </ul>
+
+      <div class="callout">
+        <div><b>Practice switching modes</b><p>Cycle through the modes with Shift+Tab, get Claude to plan a feature and approve the plan.</p></div>
+        <a class="btn small" href="../lesson.html?id=modes">Start lesson 5</a>
+      </div>
+
+      <h2>How to judge a plan</h2>
+      <p>A plan is only useful if you actually read it critically. You don't need to be an expert to do that. Look for these signs.</p>
+      <h3>Signs of a good plan</h3>
+      <ul>
+        <li><b>It names real files</b> from your project, and they're the ones you'd expect.</li>
+        <li><b>It reuses what exists.</b> "Use the existing <code>formatDate()</code>" is a great sign. Claude has read the code and is building on it.</li>
+        <li><b>It's in small, ordered steps</b>, each of which you could check on its own.</li>
+        <li><b>It mentions tests or how to verify the change.</b></li>
+      </ul>
+      <h3>Red flags</h3>
+      <ul>
+        <li><b>New libraries you didn't ask for.</b> Ask whether it can be done without them.</li>
+        <li><b>Rewriting things that work.</b> "Refactor the storage layer" as step one of adding a date field is scope creep.</li>
+        <li><b>Vague steps</b> like "update the UI" or "handle edge cases". Ask what exactly that means.</li>
+        <li><b>It touches areas you consider off limits</b>, like authentication or payment code, when the task didn't require it.</li>
+      </ul>
+      <p>When you spot a red flag, stay in plan mode and say so in plain words: "don't add a library, use the browser's built-in date input" or "leave the storage layer alone". Claude revises the plan. Two or three rounds of this are completely normal and still much faster than fixing code afterwards.</p>
+
+      <h2>Which mode for which task?</h2>
+      <table>
+        <tr><th>Task</th><th>Good mode</th></tr>
+        <tr><td>Fix a typo or tweak one line</td><td>Normal: just ask and approve</td></tr>
+        <tr><td>A new feature across several files</td><td>Plan mode first, then accept edits</td></tr>
+        <tr><td>You don't fully understand the problem yet</td><td>Plan mode, and keep planning until you do</td></tr>
+        <tr><td>Mechanical refactor you've already scoped</td><td>Accept edits</td></tr>
+        <tr><td>Anything touching payments, auth or production data</td><td>Normal, and read every diff</td></tr>
+      </table>
+
+      <h2>A workflow that works</h2>
+      <ol>
+        <li>Press <kbd>Shift</kbd>+<kbd>Tab</kbd> into plan mode and describe the task.</li>
+        <li>Read the plan. Push back on anything that's too big, too clever or missing.</li>
+        <li>Approve it with auto-accepted edits once it looks right.</li>
+        <li>Let Claude work, and keep an eye on the tool calls as they scroll by.</li>
+        <li>Review the full diff at the end, then run the tests.</li>
+      </ol>
+      <p>This combines the best of both worlds: you make the important decisions up front, and Claude does the typing without interrupting you twenty times.</p>
+      <p class="muted" style="font-size:15px">Claude Code is updated often, and the names and order of modes may change slightly between versions. The indicator under the input box always tells you which mode you're in.</p>
+    </div>
+  </article>
+
+  <section class="related">
+    <h2>Keep reading</h2>
+    <div class="post-list">
+      <a class="post-card" href="claude-code-permissions.html"><span class="post-meta">Permissions &amp; Safety</span><h2>Claude Code permissions</h2><span class="more">Read article →</span></a>
+      <a class="post-card" href="claude-code-context-and-sessions.html"><span class="post-meta">Context &amp; Sessions</span><h2>Context, interrupting and resuming</h2><span class="more">Read article →</span></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <span>© AgentDrills</span>
+      <span>Independent training resource. Not affiliated with Anthropic.</span>
+    </div>
+  </footer>
+</body>
+</html>

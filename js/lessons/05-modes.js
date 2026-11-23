@@ -6,6 +6,7 @@ AD.addLesson({
   icon: '⇄',
   pro: true,
   summary: 'You cycled modes, made Claude plan first and approved the plan.',
+  article: 'blog/claude-code-plan-mode.html',
   start: 'claude',
   steps: [
     {

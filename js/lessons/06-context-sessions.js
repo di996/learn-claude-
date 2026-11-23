@@ -6,6 +6,7 @@ AD.addLesson({
   icon: '↺',
   pro: true,
   summary: 'You interrupted Claude, redirected it, compacted context and resumed a session.',
+  article: 'blog/claude-code-context-and-sessions.html',
   start: 'claude',
   steps: [
     {

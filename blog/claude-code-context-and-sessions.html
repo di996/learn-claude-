@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claude Code Context, Interrupting and Resuming Sessions · AgentDrills</title>
+  <meta name="description" content="Why Claude Code answers get worse in long sessions, how to interrupt with Esc, when to use /clear or /compact, and how to resume yesterday's work with claude --continue.">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap">
+      <a class="brand" href="../index.html"><span class="brand-mark">&gt;_</span>AgentDrills</a>
+      <div class="nav-links">
+        <a href="../index.html#curriculum">Lessons</a>
+        <a href="index.html">Blog</a>
+        <a class="btn small" href="../learn.html">Start free</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article">
+    <div class="crumbs"><a href="index.html">← All guides</a></div>
+    <span class="tag cat">Context &amp; Sessions</span>
+    <h1>Context, interrupting and resuming: keep long sessions on track</h1>
+    <p class="dek">The longer a session runs, the more it matters how you manage it. Here's how to stop Claude mid-task, keep its memory sharp, and pick up exactly where you left off.</p>
+    <p class="post-meta">AgentDrills team · Updated November 23, 2026 · 6 min read</p>
+
+    <div class="article-body">
+      <p>Short sessions mostly take care of themselves. Long ones don't. After an hour of back-and-forth, many people notice Claude getting slower, forgetting earlier decisions or drifting off course. That's not random. It comes down to one concept, the context window, and a few habits for managing it.</p>
+
+      <h2>What "context" actually is</h2>
+      <p>Everything Claude knows during a session lives in its <b>context window</b>: your messages, its replies, every file it has read, every command output, plus your CLAUDE.md and some built-in instructions. Think of it as Claude's desk. It's large, but not infinite, and the more paper piles up on it, the harder it is to find the important sheet.</p>
+      <p>You can see how full the desk is with:</p>
+      <pre><code>&gt; /context</code></pre>
+      <p>This shows a breakdown of what's using space and how much is free. You don't need to check it constantly, but it's a good habit when a session starts to feel sluggish or Claude seems to have forgotten something you said earlier.</p>
+      <div class="note"><b>Why it matters:</b> a full context means more for Claude to sift through, so focus suffers. Old, irrelevant messages compete for attention with the task you care about right now.</div>
+
+      <h2>Interrupt early with Esc</h2>
+      <p>The most useful key in Claude Code might be <kbd>Esc</kbd>. Press it while Claude is working, and it stops immediately. Nothing more is changed, and you're back at the prompt.</p>
+      <p>The classic case: you ask for something like</p>
+      <pre><code>&gt; convert the app to TypeScript</code></pre>
+      <p>and Claude cheerfully announces it'll convert all seven files, add a config and update the build. That might be more than you wanted. Don't wait for it to finish and then try to undo it. Press <kbd>Esc</kbd>, then redirect:</p>
+      <pre><code>&gt; only convert src/utils.js for now</code></pre>
+      <p>Interrupting isn't rude and doesn't confuse Claude. It sees that it was stopped and takes your new instruction into account. Experienced users interrupt all the time; it's how you keep a session pointed in the right direction.</p>
+      <p>Pressing <kbd>Esc</kbd> twice lets you jump back to an earlier message in the conversation and take a different path from there. That's handy when a whole line of discussion went the wrong way.</p>
+
+      <h2>Free up space: /clear or /compact</h2>
+      <p>When the context fills up, you have two tools:</p>
+      <table>
+        <tr><th></th><th><code>/clear</code></th><th><code>/compact</code></th></tr>
+        <tr><td><b>What it does</b></td><td>Deletes the whole conversation</td><td>Replaces the conversation with a summary</td></tr>
+        <tr><td><b>Keeps</b></td><td>CLAUDE.md and your files</td><td>CLAUDE.md, your files and a summary of what happened</td></tr>
+        <tr><td><b>Use when</b></td><td>Starting an unrelated task</td><td>Continuing the same task in a long session</td></tr>
+      </table>
+      <p><code>/compact</code> accepts instructions, which makes it much better:</p>
+      <pre><code>&gt; /compact focus on the TypeScript migration and the decisions we made about types</code></pre>
+      <p>That tells Claude what to keep in detail and what can be summarized away. Claude Code will also compact automatically when the context is nearly full, but doing it yourself, at a natural break in the work, gives you control over what's kept.</p>
+      <p>A good rule: <b>one task, one conversation</b>. Finished the bug fix and starting on documentation? <code>/clear</code>. Halfway through a large feature and the session is getting heavy? <code>/compact</code>.</p>
+
+      <div class="callout">
+        <div><b>Practice interrupting and resuming</b><p>Stop Claude with Esc, redirect it, compact the conversation and continue it the next day.</p></div>
+        <a class="btn small" href="../lesson.html?id=context-sessions">Start lesson 6</a>
+      </div>
+
+      <h2>Picking up where you left off</h2>
+      <p>Claude Code saves your conversations, so quitting with <code>/exit</code> doesn't lose anything. The next time you start it, you choose whether to start fresh or continue:</p>
+      <table>
+        <tr><th>Command</th><th>What it does</th></tr>
+        <tr><td><code>claude</code></td><td>Starts a brand-new conversation</td></tr>
+        <tr><td><code>claude --continue</code> (or <code>-c</code>)</td><td>Jumps straight back into your most recent conversation in this folder</td></tr>
+        <tr><td><code>claude --resume</code> (or <code>-r</code>)</td><td>Shows a list of earlier conversations to pick from</td></tr>
+      </table>
+      <p>Inside a running session, <code>/resume</code> does the same as <code>--resume</code>. Continuing is perfect for multi-day features: yesterday's decisions, the files Claude read and the plan you agreed on are all still there.</p>
+      <p>That said, don't continue forever. If yesterday's session was long and messy, it can be better to start fresh and give a short summary of where you are. A clean, focused context often beats a long, cluttered one.</p>
+
+      <h2>A day with good session habits</h2>
+      <p>Here is what this looks like in practice over a normal working day on a small project.</p>
+      <ol>
+        <li><b>Morning:</b> you run <code>claude -c</code> to continue yesterday's work on the due-dates feature. Claude summarizes where you left off, and you carry on.</li>
+        <li><b>Mid-morning:</b> Claude starts rewriting the whole date picker when you only asked for a label change. You press <kbd>Esc</kbd> and say "just change the label text".</li>
+        <li><b>Before lunch:</b> the feature works, but the session has grown long. You run <code>/compact keep the decisions about date formats</code> and finish the last tests.</li>
+        <li><b>After lunch:</b> a bug report comes in about something unrelated. You run <code>/clear</code>, so none of the date-picker discussion distracts from the bug, and start fresh with the error message.</li>
+        <li><b>End of day:</b> you learned that dates must always be stored in UTC. You ask Claude to add that rule to CLAUDE.md, so tomorrow's session knows it from the start.</li>
+      </ol>
+      <p>None of these steps takes more than a few seconds, but together they keep every conversation focused on one thing, with just the right amount of history.</p>
+
+      <h2>Habits for long sessions</h2>
+      <ul>
+        <li><b>Interrupt early.</b> The sooner you press Esc, the less there is to undo.</li>
+        <li><b>One task per conversation.</b> Use <code>/clear</code> between unrelated tasks.</li>
+        <li><b>Compact at natural breaks</b>, with a hint about what to keep.</li>
+        <li><b>Put lasting knowledge in CLAUDE.md</b>, not in the conversation, so it survives clears and compacts.</li>
+        <li><b>Use <code>@</code> mentions</b> instead of letting Claude read half the codebase, to keep context lean.</li>
+        <li><b>Continue with <code>-c</code></b> when you want yesterday's context; start fresh when you don't.</li>
+      </ul>
+      <p>Get these right, and long sessions stay as sharp as the first five minutes.</p>
+      <p class="muted" style="font-size:15px">Claude Code is updated often, and the exact output of /context and /compact may look different in your version.</p>
+    </div>
+  </article>
+
+  <section class="related">
+    <h2>Keep reading</h2>
+    <div class="post-list">
+      <a class="post-card" href="claude-code-slash-commands-and-claude-md.html"><span class="post-meta">Commands &amp; Memory</span><h2>Slash commands and CLAUDE.md</h2><span class="more">Read article →</span></a>
+      <a class="post-card" href="claude-code-file-mentions-and-bash-mode.html"><span class="post-meta">Workflow</span><h2>File mentions with @ and bash mode</h2><span class="more">Read article →</span></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <span>© AgentDrills</span>
+      <span>Independent training resource. Not affiliated with Anthropic.</span>
+    </div>
+  </footer>
+</body>
+</html>

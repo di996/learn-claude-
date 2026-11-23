@@ -5,6 +5,7 @@ AD.addLesson({
   blurb: 'Open a project, launch Claude Code and ask it about the code.',
   icon: '▶',
   summary: 'You launched Claude Code, asked questions in plain English and exited cleanly.',
+  article: 'blog/getting-started-with-claude-code.html',
   cwd: '~',
   steps: [
     {

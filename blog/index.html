@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claude Code Guides &amp; Tutorials · AgentDrills Blog</title>
+  <meta name="description" content="Practical Claude Code guides by topic: getting started, workflow, permissions, slash commands and CLAUDE.md, context and sessions, testing, building projects, git and subagents.">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap">
+      <a class="brand" href="../index.html"><span class="brand-mark">&gt;_</span>AgentDrills</a>
+      <div class="nav-links">
+        <a href="../index.html#curriculum">Lessons</a>
+        <a href="index.html" aria-current="page">Blog</a>
+        <a class="btn small" href="../learn.html">Start free</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <header class="blog-head">
+      <h1>Claude Code guides</h1>
+      <p class="intro">Practical articles on every part of Claude Code, sorted by topic. Each guide comes with a hands-on lesson, so you can practice what you just read. 6 published, 34 on the way.</p>
+    </header>
+
+    <div class="chips" role="toolbar" aria-label="Filter by topic">
+      <button type="button" class="chip on" data-cat="all" aria-pressed="true">All <span>40</span></button>
+      <button type="button" class="chip" data-cat="getting-started" aria-pressed="false">Getting Started <span>5</span></button>
+      <button type="button" class="chip" data-cat="workflow" aria-pressed="false">Workflow <span>6</span></button>
+      <button type="button" class="chip" data-cat="permissions" aria-pressed="false">Permissions &amp; Safety <span>4</span></button>
+      <button type="button" class="chip" data-cat="commands" aria-pressed="false">Commands &amp; Memory <span>4</span></button>
+      <button type="button" class="chip" data-cat="context" aria-pressed="false">Context &amp; Sessions <span>4</span></button>
+      <button type="button" class="chip" data-cat="testing" aria-pressed="false">Testing &amp; Debugging <span>4</span></button>
+      <button type="button" class="chip" data-cat="building" aria-pressed="false">Building Projects <span>4</span></button>
+      <button type="button" class="chip" data-cat="git" aria-pressed="false">Git &amp; GitHub <span>3</span></button>
+      <button type="button" class="chip" data-cat="subagents" aria-pressed="false">Subagents &amp; Automation <span>6</span></button>
+    </div>
+    <p class="filter-note muted" id="filterNote" aria-live="polite"></p>
+
+    <div class="post-list" id="posts">
+      <a class="post-card" data-cat="getting-started" href="getting-started-with-claude-code.html">
+        <div class="post-top"><span class="tag cat">Getting Started</span><span class="post-meta">6 min read</span></div>
+        <h2>Your first Claude Code session</h2>
+        <p>Where to launch Claude, how to ask good first questions and how to read the ⏺ tool calls.</p>
+        <span class="more">Read article →</span>
+      </a>
+      <a class="post-card" data-cat="permissions" href="claude-code-permissions.html">
+        <div class="post-top"><span class="tag cat">Permissions &amp; Safety</span><span class="post-meta">6 min read</span></div>
+        <h2>Approving edits and commands</h2>
+        <p>What each option in the permission menu does, and when to say yes, &quot;don&#x27;t ask again&quot; or no.</p>
+        <span class="more">Read article →</span>
+      </a>
+      <a class="post-card" data-cat="commands" href="claude-code-slash-commands-and-claude-md.html">
+        <div class="post-top"><span class="tag cat">Commands &amp; Memory</span><span class="post-meta">6 min read</span></div>
+        <h2>Slash commands and CLAUDE.md</h2>
+        <p>The commands you&#x27;ll use every day, and the memory file that makes every session smarter.</p>
+        <span class="more">Read article →</span>
+      </a>
+      <a class="post-card" data-cat="workflow" href="claude-code-file-mentions-and-bash-mode.html">
+        <div class="post-top"><span class="tag cat">Workflow</span><span class="post-meta">5 min read</span></div>
+        <h2>@ file mentions and ! bash mode</h2>
+        <p>Hand Claude the exact files it needs and run shell commands without leaving the session.</p>
+        <span class="more">Read article →</span>
+      </a>
+      <a class="post-card" data-cat="workflow" href="claude-code-plan-mode.html">
+        <div class="post-top"><span class="tag cat">Workflow</span><span class="post-meta">6 min read</span></div>
+        <h2>Plan mode and auto-accept edits</h2>
+        <p>Switch modes with Shift+Tab, let Claude plan before it codes, and know when to let it work freely.</p>
+        <span class="more">Read article →</span>
+      </a>
+      <a class="post-card" data-cat="context" href="claude-code-context-and-sessions.html">
+        <div class="post-top"><span class="tag cat">Context &amp; Sessions</span><span class="post-meta">6 min read</span></div>
+        <h2>Interrupt, compact and resume</h2>
+        <p>Stop Claude with Esc, keep long sessions sharp with /compact and pick up tomorrow with --continue.</p>
+        <span class="more">Read article →</span>
+      </a>
+      <div class="post-card soon" data-cat="getting-started">
+        <div class="post-top"><span class="tag cat">Getting Started</span><span class="tag soon">Coming soon</span></div>
+        <h2>Installing Claude Code</h2>
+        <p>Set up Claude Code on Mac, Windows and Linux, and sign in for the first time.</p>
+      </div>
+      <div class="post-card soon" data-cat="getting-started">
+        <div class="post-top"><span class="tag cat">Getting Started</span><span class="tag soon">Coming soon</span></div>
+        <h2>Claude Code in VS Code and JetBrains</h2>
+        <p>Use Claude Code next to your editor and share what you&#x27;re looking at.</p>
+      </div>
+      <div class="post-card soon" data-cat="getting-started">
+        <div class="post-top"><span class="tag cat">Getting Started</span><span class="tag soon">Coming soon</span></div>
+        <h2>Choosing a model with /model</h2>
+        <p>When a faster model is enough, and when to switch to the most capable one.</p>
+      </div>
+      <div class="post-card soon" data-cat="getting-started">
+        <div class="post-top"><span class="tag cat">Getting Started</span><span class="tag soon">Coming soon</span></div>
+        <h2>Claude Code vs. chatting with Claude</h2>
+        <p>Which tool fits which job, and how to move work between them.</p>
+      </div>
+      <div class="post-card soon" data-cat="workflow">
+        <div class="post-top"><span class="tag cat">Workflow</span><span class="tag soon">Coming soon</span></div>
+        <h2>Prompts that get good results</h2>
+        <p>Turn vague requests into clear tasks Claude can finish in one go.</p>
+      </div>
+      <div class="post-card soon" data-cat="workflow">
+        <div class="post-top"><span class="tag cat">Workflow</span><span class="tag soon">Coming soon</span></div>
+        <h2>Working with screenshots and images</h2>
+        <p>Paste a screenshot of a bug or a design and let Claude build from it.</p>
+      </div>
+      <div class="post-card soon" data-cat="workflow">
+        <div class="post-top"><span class="tag cat">Workflow</span><span class="tag soon">Coming soon</span></div>
+        <h2>Reviewing diffs like a pro</h2>
+        <p>Read Claude&#x27;s changes quickly and spot the ones that matter.</p>
+      </div>
+      <div class="post-card soon" data-cat="workflow">
+        <div class="post-top"><span class="tag cat">Workflow</span><span class="tag soon">Coming soon</span></div>
+        <h2>Rewinding with Esc Esc</h2>
+        <p>Jump back to an earlier message and take the conversation in a new direction.</p>
+      </div>
+      <div class="post-card soon" data-cat="permissions">
+        <div class="post-top"><span class="tag cat">Permissions &amp; Safety</span><span class="tag soon">Coming soon</span></div>
+        <h2>Permission rules in settings</h2>
+        <p>Write allow and deny rules once, so the whole team shares the same safe defaults.</p>
+      </div>
+      <div class="post-card soon" data-cat="permissions">
+        <div class="post-top"><span class="tag cat">Permissions &amp; Safety</span><span class="tag soon">Coming soon</span></div>
+        <h2>Safe experiments with git checkpoints</h2>
+        <p>Commit before big changes so every experiment can be undone in seconds.</p>
+      </div>
+      <div class="post-card soon" data-cat="permissions">
+        <div class="post-top"><span class="tag cat">Permissions &amp; Safety</span><span class="tag soon">Coming soon</span></div>
+        <h2>Keeping secrets out of Claude&#x27;s context</h2>
+        <p>Protect API keys, passwords and .env files while you work.</p>
+      </div>
+      <div class="post-card soon" data-cat="commands">
+        <div class="post-top"><span class="tag cat">Commands &amp; Memory</span><span class="tag soon">Coming soon</span></div>
+        <h2>Writing a great CLAUDE.md</h2>
+        <p>What to put in your project memory, what to leave out, and real examples.</p>
+      </div>
+      <div class="post-card soon" data-cat="commands">
+        <div class="post-top"><span class="tag cat">Commands &amp; Memory</span><span class="tag soon">Coming soon</span></div>
+        <h2>Creating custom slash commands</h2>
+        <p>Turn your favourite prompts into one-word commands your team can share.</p>
+      </div>
+      <div class="post-card soon" data-cat="commands">
+        <div class="post-top"><span class="tag cat">Commands &amp; Memory</span><span class="tag soon">Coming soon</span></div>
+        <h2>Personal memory across projects</h2>
+        <p>Set preferences once in ~/.claude so every project follows them.</p>
+      </div>
+      <div class="post-card soon" data-cat="context">
+        <div class="post-top"><span class="tag cat">Context &amp; Sessions</span><span class="tag soon">Coming soon</span></div>
+        <h2>Understanding /context</h2>
+        <p>Read the context breakdown and know what&#x27;s filling up Claude&#x27;s memory.</p>
+      </div>
+      <div class="post-card soon" data-cat="context">
+        <div class="post-top"><span class="tag cat">Context &amp; Sessions</span><span class="tag soon">Coming soon</span></div>
+        <h2>Finding old sessions with /resume</h2>
+        <p>Get back to last week&#x27;s conversation without starting over.</p>
+      </div>
+      <div class="post-card soon" data-cat="context">
+        <div class="post-top"><span class="tag cat">Context &amp; Sessions</span><span class="tag soon">Coming soon</span></div>
+        <h2>Keeping usage and costs down</h2>
+        <p>Habits that make each session lighter, faster and cheaper.</p>
+      </div>
+      <div class="post-card soon" data-cat="testing">
+        <div class="post-top"><span class="tag cat">Testing &amp; Debugging</span><span class="tag soon">Coming soon</span></div>
+        <h2>Test-driven development with Claude</h2>
+        <p>Write the tests first and let Claude make them pass.</p>
+      </div>
+      <div class="post-card soon" data-cat="testing">
+        <div class="post-top"><span class="tag cat">Testing &amp; Debugging</span><span class="tag soon">Coming soon</span></div>
+        <h2>Debugging with stack traces and logs</h2>
+        <p>Give Claude the right evidence and get to the root cause faster.</p>
+      </div>
+      <div class="post-card soon" data-cat="testing">
+        <div class="post-top"><span class="tag cat">Testing &amp; Debugging</span><span class="tag soon">Coming soon</span></div>
+        <h2>Fixing failing CI builds</h2>
+        <p>Paste the CI output and let Claude reproduce and fix the failure.</p>
+      </div>
+      <div class="post-card soon" data-cat="testing">
+        <div class="post-top"><span class="tag cat">Testing &amp; Debugging</span><span class="tag soon">Coming soon</span></div>
+        <h2>Adding tests to legacy code</h2>
+        <p>Cover old, untested code safely before you change it.</p>
+      </div>
+      <div class="post-card soon" data-cat="building">
+        <div class="post-top"><span class="tag cat">Building Projects</span><span class="tag soon">Coming soon</span></div>
+        <h2>Build a website from scratch</h2>
+        <p>Go from an empty folder to a working site in one session.</p>
+      </div>
+      <div class="post-card soon" data-cat="building">
+        <div class="post-top"><span class="tag cat">Building Projects</span><span class="tag soon">Coming soon</span></div>
+        <h2>Build a command-line tool</h2>
+        <p>Create a small CLI with arguments, help text and tests.</p>
+      </div>
+      <div class="post-card soon" data-cat="building">
+        <div class="post-top"><span class="tag cat">Building Projects</span><span class="tag soon">Coming soon</span></div>
+        <h2>Refactoring a large codebase safely</h2>
+        <p>Split big changes into small, reviewable steps.</p>
+      </div>
+      <div class="post-card soon" data-cat="building">
+        <div class="post-top"><span class="tag cat">Building Projects</span><span class="tag soon">Coming soon</span></div>
+        <h2>Joining an unfamiliar codebase</h2>
+        <p>Use Claude to understand a new project before you touch it.</p>
+      </div>
+      <div class="post-card soon" data-cat="git">
+        <div class="post-top"><span class="tag cat">Git &amp; GitHub</span><span class="tag soon">Coming soon</span></div>
+        <h2>Commits and commit messages</h2>
+        <p>Let Claude stage changes and write clear commit messages.</p>
+      </div>
+      <div class="post-card soon" data-cat="git">
+        <div class="post-top"><span class="tag cat">Git &amp; GitHub</span><span class="tag soon">Coming soon</span></div>
+        <h2>Pull requests with Claude Code</h2>
+        <p>Create, describe and update pull requests from the terminal.</p>
+      </div>
+      <div class="post-card soon" data-cat="git">
+        <div class="post-top"><span class="tag cat">Git &amp; GitHub</span><span class="tag soon">Coming soon</span></div>
+        <h2>Resolving merge conflicts</h2>
+        <p>Have Claude explain both sides of a conflict and merge them correctly.</p>
+      </div>
+      <div class="post-card soon" data-cat="subagents">
+        <div class="post-top"><span class="tag cat">Subagents &amp; Automation</span><span class="tag soon">Coming soon</span></div>
+        <h2>What are subagents?</h2>
+        <p>How Claude hands work to helper agents with their own context.</p>
+      </div>
+      <div class="post-card soon" data-cat="subagents">
+        <div class="post-top"><span class="tag cat">Subagents &amp; Automation</span><span class="tag soon">Coming soon</span></div>
+        <h2>Creating your own subagent</h2>
+        <p>Define a specialist agent, like a reviewer or tester, with its own rules.</p>
+      </div>
+      <div class="post-card soon" data-cat="subagents">
+        <div class="post-top"><span class="tag cat">Subagents &amp; Automation</span><span class="tag soon">Coming soon</span></div>
+        <h2>Hooks: run scripts automatically</h2>
+        <p>Format, lint or block actions every time Claude uses a tool.</p>
+      </div>
+      <div class="post-card soon" data-cat="subagents">
+        <div class="post-top"><span class="tag cat">Subagents &amp; Automation</span><span class="tag soon">Coming soon</span></div>
+        <h2>Connecting tools with MCP</h2>
+        <p>Give Claude access to services like GitHub, databases and docs.</p>
+      </div>
+      <div class="post-card soon" data-cat="subagents">
+        <div class="post-top"><span class="tag cat">Subagents &amp; Automation</span><span class="tag soon">Coming soon</span></div>
+        <h2>Skills: reusable know-how</h2>
+        <p>Package instructions and files Claude can load when a task needs them.</p>
+      </div>
+      <div class="post-card soon" data-cat="subagents">
+        <div class="post-top"><span class="tag cat">Subagents &amp; Automation</span><span class="tag soon">Coming soon</span></div>
+        <h2>Headless mode with claude -p</h2>
+        <p>Run Claude in scripts and automations without the interactive screen.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <span>© AgentDrills</span>
+      <span>Independent training resource. Not affiliated with Anthropic.</span>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const chips = [...document.querySelectorAll('.chip')];
+      const cards = [...document.querySelectorAll('#posts .post-card')];
+      const note = document.getElementById('filterNote');
+      function apply(cat) {
+        if (!chips.some((c) => c.dataset.cat === cat)) cat = 'all';
+        chips.forEach((c) => {
+          const on = c.dataset.cat === cat;
+          c.classList.toggle('on', on);
+          c.setAttribute('aria-pressed', on);
+        });
+        let shown = 0, live = 0;
+        cards.forEach((card) => {
+          const vis = cat === 'all' || card.dataset.cat === cat;
+          card.hidden = !vis;
+          if (vis) { shown++; if (!card.classList.contains('soon')) live++; }
+        });
+        note.textContent = cat === 'all' ? '' : `${shown} article${shown === 1 ? '' : 's'} · ${live} published`;
+      }
+      chips.forEach((c) => c.addEventListener('click', () => {
+        apply(c.dataset.cat);
+        history.replaceState(null, '', c.dataset.cat === 'all' ? location.pathname : '#' + c.dataset.cat);
+      }));
+      apply(location.hash.slice(1) || 'all');
+    })();
+  </script>
+</body>
+</html>

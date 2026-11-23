@@ -5,6 +5,7 @@ AD.addLesson({
   blurb: 'Use /help, /init, /context and /clear like a pro.',
   icon: '/',
   summary: 'You created a CLAUDE.md memory file, checked context and cleared the conversation.',
+  article: 'blog/claude-code-slash-commands-and-claude-md.html',
   start: 'claude',
   steps: [
     {

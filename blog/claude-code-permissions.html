@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claude Code Permissions: When to Say Yes and When to Say No · AgentDrills</title>
+  <meta name="description" content="How Claude Code asks permission before editing files and running commands, what each option in the approval menu does, and how to stay safe without clicking yes all day.">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap">
+      <a class="brand" href="../index.html"><span class="brand-mark">&gt;_</span>AgentDrills</a>
+      <div class="nav-links">
+        <a href="../index.html#curriculum">Lessons</a>
+        <a href="index.html">Blog</a>
+        <a class="btn small" href="../learn.html">Start free</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article">
+    <div class="crumbs"><a href="index.html">← All guides</a></div>
+    <span class="tag cat">Permissions &amp; Safety</span>
+    <h1>Claude Code permissions: when to say yes, and when to say no</h1>
+    <p class="dek">Claude Code asks before it touches your files or runs a command. Those little menus are your steering wheel. Here's how to read them and when each answer makes sense.</p>
+    <p class="post-meta">AgentDrills team · Updated November 23, 2026 · 6 min read</p>
+
+    <div class="article-body">
+      <p>The moment you ask Claude Code to <i>change</i> something rather than explain it, you'll meet the permission system. By default, Claude can read files freely, but it stops and asks before it edits a file or runs a shell command. This is the core safety mechanism in Claude Code, and once you understand it, it's also the core of a fast workflow.</p>
+
+      <h2>The basic loop: ask, review, decide</h2>
+      <p>Say you ask for a feature:</p>
+      <pre><code>&gt; add a button that clears completed todos</code></pre>
+      <p>Claude reads the relevant code, explains its plan in a sentence, and then shows you an <b>edit approval</b>. It looks roughly like this:</p>
+      <pre><code>Edit file
+  src/app.js
+  + function clearCompleted() {
+  +   todos = todos.filter(t =&gt; !t.done);
+  +   saveTodos(todos);
+  +   render();
+  + }
+
+Do you want to make this edit to app.js?
+❯ 1. Yes
+  2. Yes, allow all edits during this session (shift+tab)
+  3. No, and tell Claude what to do differently (esc)</code></pre>
+      <p>The lines starting with <code>+</code> will be added, lines starting with <code>-</code> removed. This is called a <b>diff</b>. Reading diffs is the single most valuable skill when working with any AI coding tool. You don't have to understand every character, but you should understand roughly what changes and where.</p>
+
+      <h2>What each option actually means</h2>
+      <table>
+        <tr><th>Option</th><th>What happens</th><th>Use it when</th></tr>
+        <tr><td><b>1. Yes</b></td><td>This one edit is applied. Claude asks again next time.</td><td>You want to review each change, especially early in a task.</td></tr>
+        <tr><td><b>2. Yes, allow all edits</b></td><td>This edit is applied, and Claude may edit files without asking for the rest of the session.</td><td>You trust the direction and don't want to approve twenty small edits.</td></tr>
+        <tr><td><b>3. No</b></td><td>Nothing is changed. Claude stops and waits for you to explain what you want instead.</td><td>The change is wrong, too big or not what you meant.</td></tr>
+      </table>
+      <p>You can pick options with the arrow keys and <kbd>Enter</kbd>, or press the number. <kbd>Esc</kbd> is a shortcut for "No".</p>
+      <div class="note"><b>Good to know:</b> option 2 covers <i>file edits</i>. Shell commands still have their own approvals, which is a sensible split: editing a file is easy to undo, running a command might not be.</div>
+
+      <h2>Command approvals</h2>
+      <p>When Claude wants to run something in your terminal, like your test suite, it shows a similar menu:</p>
+      <pre><code>Bash command
+  npm test
+  Run the test suite
+
+Do you want to proceed?
+❯ 1. Yes
+  2. Yes, and don't ask again for npm test commands in /Users/you/my-project
+  3. No, and tell Claude what to do differently (esc)</code></pre>
+      <p>The middle option creates a <b>permission rule</b>: Claude remembers that this kind of command is fine in this project and won't ask again. That's perfect for safe, repetitive commands like running tests, linting or type-checking. It is a terrible idea for anything destructive.</p>
+
+      <h3>Commands worth allowing</h3>
+      <ul>
+        <li>Running tests: <code>npm test</code>, <code>pytest</code></li>
+        <li>Linters and formatters: <code>npm run lint</code>, <code>prettier</code></li>
+        <li>Read-only git commands: <code>git status</code>, <code>git diff</code>, <code>git log</code></li>
+      </ul>
+      <h3>Commands to approve one at a time (or reject)</h3>
+      <ul>
+        <li>Anything that deletes: <code>rm</code>, <code>rm -rf</code></li>
+        <li>Anything that publishes or deploys: <code>git push</code>, <code>npm publish</code></li>
+        <li>Anything that touches production data or costs money</li>
+        <li>Installing packages you didn't ask for</li>
+      </ul>
+
+      <h2>Saying no is a feature, not a failure</h2>
+      <p>Beginners often feel they have to say yes to keep things moving. The opposite is true. Rejecting a bad step is how you steer. When you pick "No", Claude doesn't give up; it waits for direction. So reject, then say what you actually want:</p>
+      <pre><code>&gt; keep the tests, just skip the slow one</code></pre>
+      <p>Claude adjusts and tries again. This ask → review → approve-or-redirect loop is the heart of working with Claude Code. Most good sessions involve a few "No"s.</p>
+
+      <div class="callout">
+        <div><b>Try it without risking anything</b><p>Approve an edit, allow a safe command and reject a dangerous one in a simulated session.</p></div>
+        <a class="btn small" href="../lesson.html?id=edits-permissions">Start lesson 2</a>
+      </div>
+
+      <h2>Managing your rules later</h2>
+      <p>Every "don't ask again" you choose is stored as a rule. If you later want to review or remove them, use the <code>/permissions</code> command inside Claude Code. Rules can also be written into the project's settings file, so a whole team shares the same list of safe commands. That's a topic for later; for now it's enough to know that nothing you allow is permanent or hidden.</p>
+
+      <h2>When you approved something you shouldn't have</h2>
+      <p>It happens to everyone: you approve an edit a bit too quickly and then realize it broke something. The good news is that file edits are easy to undo, as long as your project uses git.</p>
+      <ul>
+        <li><b>Ask Claude to revert it.</b> "Undo the last change to src/app.js" works well, because Claude remembers exactly what it changed in this session.</li>
+        <li><b>Use git yourself.</b> <code>git diff</code> shows every change since your last commit, and <code>git restore src/app.js</code> throws away the changes to one file.</li>
+        <li><b>Commit before big tasks.</b> A quick commit before you ask for a large change gives you a clean point to return to. Many people ask Claude to do this for them: "commit the current state before we start".</li>
+      </ul>
+      <p>Commands are a different story. A deleted folder or a published package can't always be taken back, which is exactly why command approvals are separate and why you should read them carefully. If you're working in a folder that isn't under git yet, run <code>git init</code> and make a first commit before you let Claude make serious changes. It's the cheapest insurance there is.</p>
+      <div class="note"><b>Tip:</b> If you're unsure what a command does, choose "No" and ask: "what would that command do, and is it safe?" Claude will explain before you decide.</div>
+
+      <h2>A sensible default workflow</h2>
+      <ol>
+        <li><b>Start a task with per-edit approvals</b> (option 1) until you've seen that Claude understood the task.</li>
+        <li><b>Allow safe commands permanently</b> the first time they come up, so tests run freely.</li>
+        <li><b>Switch to allowing all edits</b> once the direction is clear, and review the result at the end with <code>git diff</code>.</li>
+        <li><b>Never auto-approve destructive commands.</b> The few seconds it takes to read them are always worth it.</li>
+      </ol>
+      <p>This keeps you in control where it matters and out of the way where it doesn't. In the plan mode guide you'll see a third way: letting Claude make a plan first and approving the whole plan at once.</p>
+      <p class="muted" style="font-size:15px">Claude Code is updated often, and the exact wording of menus may differ slightly from what's shown here.</p>
+    </div>
+  </article>
+
+  <section class="related">
+    <h2>Keep reading</h2>
+    <div class="post-list">
+      <a class="post-card" href="claude-code-plan-mode.html"><span class="post-meta">Workflow</span><h2>Plan mode and auto-accept</h2><span class="more">Read article →</span></a>
+      <a class="post-card" href="claude-code-slash-commands-and-claude-md.html"><span class="post-meta">Commands &amp; Memory</span><h2>Slash commands and CLAUDE.md</h2><span class="more">Read article →</span></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <span>© AgentDrills</span>
+      <span>Independent training resource. Not affiliated with Anthropic.</span>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Getting Started with Claude Code: Your First Session · AgentDrills</title>
+  <meta name="description" content="A practical beginner's guide to Claude Code: where to launch it, how to ask good first questions, how to read tool calls, and how to exit cleanly.">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap">
+      <a class="brand" href="../index.html"><span class="brand-mark">&gt;_</span>AgentDrills</a>
+      <div class="nav-links">
+        <a href="../index.html#curriculum">Lessons</a>
+        <a href="index.html">Blog</a>
+        <a class="btn small" href="../learn.html">Start free</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article">
+    <div class="crumbs"><a href="index.html">← All guides</a></div>
+    <span class="tag cat">Getting Started</span>
+    <h1>Getting started with Claude Code: your first session</h1>
+    <p class="dek">Claude Code is easy to install and surprisingly easy to misuse. Here is how to start your first session the right way, and what is actually happening on screen.</p>
+    <p class="post-meta">AgentDrills team · Updated November 23, 2026 · 6 min read</p>
+
+    <div class="article-body">
+      <p>Claude Code is an AI coding assistant that lives in your terminal. You type what you want in plain English, and it reads your files, suggests changes, runs commands and explains what it did. If you have only used chat-style AI tools before, the biggest change is this: <b>Claude Code works directly on your project</b>. It doesn't just answer questions about code you paste in. It goes and looks.</p>
+      <p>That makes the first few minutes important. Start it in the wrong place, or ask in the wrong way, and you'll get vague answers. Start it right, and it feels like pairing with a colleague who has already read the whole codebase.</p>
+
+      <h2>Step 1: Start in the right folder</h2>
+      <p>Claude Code works on the files in the folder you launch it from. That folder is its whole world for the session. So before anything else, move into the root of the project you want help with:</p>
+      <pre><code>cd my-project
+claude</code></pre>
+      <p>The "root" is usually the folder that contains files like <code>package.json</code>, <code>README.md</code> or your <code>.git</code> folder. If you start Claude in your home folder instead, it either can't find your code or has to guess which of your hundreds of folders you mean.</p>
+      <div class="note"><b>Tip:</b> If you work on several projects, open one terminal tab per project and start a separate Claude session in each. Sessions don't share context, which is exactly what you want.</div>
+
+      <h2>Step 2: Get to know the screen</h2>
+      <p>When Claude Code starts, you'll see a short welcome box with your current folder (<code>cwd</code>), followed by an input box with a <code>&gt;</code> prompt. That box is where you talk to Claude. A few things are good to know right away:</p>
+      <ul>
+        <li><b>Plain text is a message to Claude.</b> Just type a question or a task and press <kbd>Enter</kbd>.</li>
+        <li><b>Text starting with <code>/</code> is a command</b> for Claude Code itself, like <code>/help</code> or <code>/exit</code>. Typing <code>/</code> shows a list you can pick from.</li>
+        <li><b>The line under the input box</b> shows the current mode. You'll learn about modes later; for now, the default is fine.</li>
+      </ul>
+
+      <h2>Step 3: Ask a question before you ask for a change</h2>
+      <p>The best first message isn't a task. It's a question. Ask Claude what the project does:</p>
+      <pre><code>&gt; what does this project do?</code></pre>
+      <p>This does two things. You get a quick overview, and you get to see how Claude explores a codebase. You'll notice it doesn't answer immediately. First, a few lines appear that start with <code>⏺</code>:</p>
+      <pre><code>⏺ Read(README.md)
+  ⎿  Read 24 lines
+⏺ Read(package.json)
+  ⎿  Read 19 lines
+⏺ Read(src/app.js)
+  ⎿  Read 88 lines</code></pre>
+      <p>Each of these is a <b>tool call</b>: an action Claude decided to take on its own to answer your question. <code>Read</code> opens a file, <code>Search</code> looks for text across many files, <code>Bash</code> runs a terminal command, and <code>Update</code> or <code>Write</code> changes files. The indented line under each one (after <code>⎿</code>) shows the result.</p>
+      <p>Reading tool calls is a habit worth building from day one. They tell you what Claude actually based its answer on. If it answers a question about your database without ever reading the database code, that's a red flag.</p>
+
+      <h2>Step 4: Follow up like you would with a colleague</h2>
+      <p>Claude remembers everything in the current session, so you don't need to repeat yourself. Follow-up questions are short:</p>
+      <pre><code>&gt; which file handles saving the todos?</code></pre>
+      <p>Here Claude will typically use <code>Search</code> to find the relevant code instead of guessing. Good follow-ups are specific. Compare:</p>
+      <table>
+        <tr><th>Vague</th><th>Specific</th></tr>
+        <tr><td>how does it work?</td><td>how does a todo get saved after I tick it?</td></tr>
+        <tr><td>is the code good?</td><td>are there any functions in src/utils.js without tests?</td></tr>
+        <tr><td>fix it</td><td>the date shows as "Invalid Date" on Safari, can you find out why?</td></tr>
+      </table>
+      <p>The specific versions give Claude something to search for, and they give you an answer you can check.</p>
+
+      <h2>Step 5: Exit cleanly</h2>
+      <p>When you're done, type <code>/exit</code>. Pressing <kbd>Ctrl</kbd>+<kbd>C</kbd> twice also works. A very common beginner mistake is typing <code>exit</code> without the slash. Inside Claude Code that's just a message, so Claude will politely try to answer it.</p>
+      <p>Exiting doesn't lose your work. Any files Claude changed stay changed, and the conversation is saved, so you can come back to it later with <code>claude --continue</code>.</p>
+
+      <div class="callout">
+        <div><b>Practice this in 5 minutes</b><p>Launch Claude, ask your first questions and exit, in a safe simulated terminal. No install needed.</p></div>
+        <a class="btn small" href="../lesson.html?id=start-session">Start lesson 1</a>
+      </div>
+
+      <h2>What Claude can and can't see</h2>
+      <p>It helps to have a clear picture of what Claude Code actually has access to, because it explains a lot of its behaviour.</p>
+      <ul>
+        <li><b>It can see files in your project folder</b> and everything below it. It reads them on demand, when it decides a file is relevant, not all at once.</li>
+        <li><b>It can't see your screen or your editor.</b> If you have a file open in VS Code, Claude doesn't know that unless you tell it. Saying "the file I have open" means nothing to it; name the file instead.</li>
+        <li><b>It doesn't know what happened before this session</b>, unless you continue an earlier conversation or it's written in a CLAUDE.md file. More on that in the guide on slash commands.</li>
+        <li><b>It can run commands, but only with your permission.</b> Reading is free; editing files and running shell commands require approval by default.</li>
+      </ul>
+      <p>This is also why good questions name things: files, functions, error messages, the exact behaviour you see. Claude is very good at following a trail. Give it the start of the trail and it'll find the rest.</p>
+      <p>Finally, remember that Claude can be wrong. It is usually right about what code <i>does</i>, because it can read it, but it can be overconfident about things it can't check, like how your production server is configured. When an answer matters, ask Claude to show you where in the code it found it.</p>
+
+      <h2>Common first-day mistakes</h2>
+      <ul>
+        <li><b>Starting in the wrong folder.</b> Always <code>cd</code> into the project first.</li>
+        <li><b>Asking for a big change before understanding the code.</b> A question or two first helps both you and Claude.</li>
+        <li><b>Ignoring the tool calls.</b> They are your best clue to whether an answer is grounded in your actual code.</li>
+        <li><b>Typing commands without the slash.</b> <code>exit</code>, <code>help</code> and <code>clear</code> all need a <code>/</code> in front.</li>
+        <li><b>Treating it like a search engine.</b> Claude Code shines when you give it a real task in a real project, not trivia questions.</li>
+      </ul>
+
+      <h2>What to learn next</h2>
+      <p>Once you're comfortable asking questions, the next step is letting Claude change things. That means understanding permissions: when Claude asks before editing a file, what the options mean, and when it's safe to let it work without asking. That's the subject of the next guide.</p>
+      <p class="muted" style="font-size:15px">Claude Code is updated often, and details on screen may differ slightly from what's shown here. The workflow stays the same.</p>
+    </div>
+  </article>
+
+  <section class="related">
+    <h2>Keep reading</h2>
+    <div class="post-list">
+      <a class="post-card" href="claude-code-permissions.html"><span class="post-meta">Permissions &amp; Safety</span><h2>Claude Code permissions</h2><span class="more">Read article →</span></a>
+      <a class="post-card" href="claude-code-slash-commands-and-claude-md.html"><span class="post-meta">Commands &amp; Memory</span><h2>Slash commands and CLAUDE.md</h2><span class="more">Read article →</span></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <span>© AgentDrills</span>
+      <span>Independent training resource. Not affiliated with Anthropic.</span>
+    </div>
+  </footer>
+</body>
+</html>

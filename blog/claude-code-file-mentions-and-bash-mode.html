@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claude Code @ File Mentions and Bash Mode (!) · AgentDrills</title>
+  <meta name="description" content="Give Claude Code precise context by mentioning files with @, run shell commands without leaving the session with !, and learn when each saves you time.">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap">
+      <a class="brand" href="../index.html"><span class="brand-mark">&gt;_</span>AgentDrills</a>
+      <div class="nav-links">
+        <a href="../index.html#curriculum">Lessons</a>
+        <a href="index.html">Blog</a>
+        <a class="btn small" href="../learn.html">Start free</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article">
+    <div class="crumbs"><a href="index.html">← All guides</a></div>
+    <span class="tag cat">Workflow</span>
+    <h1>Point Claude at the right files with @ and run commands with !</h1>
+    <p class="dek">Claude Code can find things on its own, but when you already know where to look, telling it directly is faster, cheaper and more accurate.</p>
+    <p class="post-meta">AgentDrills team · Updated November 23, 2026 · 5 min read</p>
+
+    <div class="article-body">
+      <p>When you ask Claude Code a question, it often starts by searching: it lists files, greps for keywords and reads a few candidates before answering. That's great when you don't know where something lives. But often you <i>do</i> know. You're looking at <code>src/utils.js</code> in your editor right now. Making Claude search for it wastes time and context, and occasionally leads it to the wrong file.</p>
+      <p>Two small prefixes fix this: <code>@</code> for files and <code>!</code> for shell commands.</p>
+
+      <h2>@ mentions: hand Claude a file directly</h2>
+      <p>Type <code>@</code> anywhere in your message, and Claude Code shows a list of files in your project. Keep typing to filter, press <kbd>Tab</kbd> to complete. The file is attached to your message, so Claude can work with it immediately, without a separate search step.</p>
+      <pre><code>&gt; explain @src/utils.js</code></pre>
+      <p>Paths are relative to the folder you started Claude in. So it's <code>@src/utils.js</code>, not <code>@utils.js</code> and not the full path from your home folder. The autocomplete takes care of this if you let it.</p>
+
+      <h3>Mention several files at once</h3>
+      <p>The real power shows when you combine files. Comparing two files is a classic task that's awkward to describe in words but trivial with mentions:</p>
+      <pre><code>&gt; which functions in @src/utils.js are missing tests in @tests/utils.test.js?</code></pre>
+      <p>A few more patterns that work well:</p>
+      <ul>
+        <li><b>Follow an example:</b> <code>add a settings page that works like @src/pages/profile.js</code></li>
+        <li><b>Respect a spec:</b> <code>implement the API described in @docs/api.md</code></li>
+        <li><b>Debug with evidence:</b> <code>this error comes from @src/storage.js, here's the stack trace: …</code></li>
+        <li><b>Whole folders:</b> mentioning a directory gives Claude an overview of what's inside, which is useful for "where should this new file go?"</li>
+      </ul>
+
+      <h3>Why it gives better answers</h3>
+      <p>Claude only knows what is in its context. When it searches by itself, it decides what's relevant, and it can miss things or read the wrong version of something. When you mention files, <b>you</b> decide what's relevant. You also save context space by not filling it with search results, which keeps long sessions sharper. More on that in the guide on context.</p>
+      <div class="note"><b>Rule of thumb:</b> if you could point at the file on your screen, mention it with <code>@</code>. If you don't know where the code lives, describe it and let Claude search.</div>
+
+      <h2>! bash mode: run a command without leaving Claude</h2>
+      <p>Sometimes you just want to run a quick command yourself: check git status, list a folder, run one test. Switching to another terminal window breaks your flow. Instead, start your input with <code>!</code>:</p>
+      <pre><code>&gt; !git status</code></pre>
+      <p>The command runs directly in your shell, exactly as if you'd typed it in a terminal, and the output appears in the session. Two things make this more useful than it sounds:</p>
+      <ol>
+        <li><b>Claude sees the output too.</b> Run <code>!npm test</code>, see three failures, then simply type "fix those". Claude already has the test output in front of it.</li>
+        <li><b>No approval needed.</b> You typed the command yourself, so there's no permission menu. It's your command, not Claude's.</li>
+      </ol>
+      <p>That second point is also the one caveat: Claude can't protect you from your own commands. Bash mode runs exactly what you type.</p>
+
+      <h3>Good uses of bash mode</h3>
+      <ul>
+        <li><code>!git status</code> or <code>!git diff</code> to see what Claude changed</li>
+        <li><code>!ls src</code> to remind yourself of the structure</li>
+        <li><code>!npm test</code> to show Claude the current failures</li>
+        <li><code>!cat .env.example</code> to share a config template (never real secrets)</li>
+      </ul>
+
+      <div class="callout">
+        <div><b>Practice @ and !</b><p>Attach files, compare two of them and run git status, all in a simulated session.</p></div>
+        <a class="btn small" href="../lesson.html?id=mention-files">Start lesson 4</a>
+      </div>
+
+      <h2>A worked example: fixing a bug with @ and !</h2>
+      <p>Here's how the two prefixes work together in a real debugging session. Say a user reports that overdue todos aren't highlighted. You suspect the date helper.</p>
+      <ol>
+        <li><b>Reproduce it.</b> <code>!npm test -- utils</code> runs only the utility tests. One fails: <code>isOverdue</code> returns <code>false</code> for yesterday's date.</li>
+        <li><b>Point at the cause.</b> <code>the failing test is about @src/utils.js, why does isOverdue return false for yesterday?</code> Claude already sees the test output from step 1 and the exact file you mentioned, so it can go straight to the function instead of hunting around.</li>
+        <li><b>Approve the fix.</b> Claude spots that the comparison uses local time on one side and UTC on the other, and proposes a one-line change. You read the diff and approve it.</li>
+        <li><b>Verify.</b> <code>!npm test -- utils</code> again. All green.</li>
+      </ol>
+      <p>Four short inputs, no window switching, and Claude never had to guess which file you meant. Compare that to "overdue todos aren't highlighted, can you fix it?", which works too, but usually after several rounds of searching and reading.</p>
+      <h3>Pitfalls to avoid</h3>
+      <ul>
+        <li><b>Mentioning everything.</b> Attaching ten large files "just in case" fills up Claude's context and buries the relevant part. Mention what matters for the question.</li>
+        <li><b>Huge generated files.</b> Don't mention build output, lock files or minified bundles. They're long and rarely useful.</li>
+        <li><b>Secrets.</b> Never <code>@</code>-mention or <code>!cat</code> a file with real passwords or API keys. Everything you share goes into the conversation.</li>
+      </ul>
+
+      <h2>The three prefixes, side by side</h2>
+      <table>
+        <tr><th>Prefix</th><th>Means</th><th>Example</th></tr>
+        <tr><td><code>/</code></td><td>A command for Claude Code itself</td><td><code>/clear</code></td></tr>
+        <tr><td><code>@</code></td><td>Attach a file or folder to your message</td><td><code>explain @src/app.js</code></td></tr>
+        <tr><td><code>!</code></td><td>Run a shell command yourself</td><td><code>!git status</code></td></tr>
+      </table>
+      <p>Mixing them up is a common beginner slip: <code>/git status</code> isn't a command, and <code>src/utils.js</code> without the <code>@</code> is just text, which Claude may or may not decide to open. Once these three prefixes are in your fingers, sessions get noticeably faster and more precise.</p>
+      <p class="muted" style="font-size:15px">Claude Code is updated often, and the exact behaviour of autocomplete may differ slightly between versions.</p>
+    </div>
+  </article>
+
+  <section class="related">
+    <h2>Keep reading</h2>
+    <div class="post-list">
+      <a class="post-card" href="claude-code-plan-mode.html"><span class="post-meta">Workflow</span><h2>Plan mode and auto-accept</h2><span class="more">Read article →</span></a>
+      <a class="post-card" href="claude-code-context-and-sessions.html"><span class="post-meta">Context &amp; Sessions</span><h2>Context, interrupting and resuming</h2><span class="more">Read article →</span></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <span>© AgentDrills</span>
+      <span>Independent training resource. Not affiliated with Anthropic.</span>
+    </div>
+  </footer>
+</body>
+</html>

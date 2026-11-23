@@ -226,6 +226,11 @@
       nextBtn.textContent = 'Back to lessons';
       nextBtn.href = 'learn.html';
     }
+    const guide = $('doneGuide');
+    if (guide && lesson.article) {
+      guide.href = lesson.article;
+      guide.hidden = false;
+    }
     $('done').hidden = false;
     nextBtn.focus();
   }
