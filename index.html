@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AgentDrills – Learn Claude Code with hands-on exercises</title>
+  <meta name="description" content="Learn Claude Code by doing, not watching. Interactive terminal simulations teach you prompts, permissions, slash commands, plan mode and more in 5-minute lessons.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="brand-mark">&gt;_</span>AgentDrills</a>
+      <div class="nav-links">
+        <a href="#how">How it works</a>
+        <a href="#curriculum">Lessons</a>
+        <a href="#faq">FAQ</a>
+        <a class="btn small" href="learn.html">Start free</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <div>
+        <h1>Learn Claude Code by <em>doing it</em> – not by watching videos.</h1>
+        <p class="lede">Bite-sized lessons in a realistic, simulated terminal. Type real commands, approve real-looking edits, make mistakes safely and get instant hints.</p>
+        <div class="hero-cta">
+          <a class="btn" href="lesson.html?id=start-session">Try lesson 1 – free</a>
+          <a class="btn secondary" href="#curriculum">See all lessons</a>
+        </div>
+        <p class="hero-note">No install. No API key. No sign-up. 5 minutes per lesson.</p>
+      </div>
+      <div id="demo" aria-label="Animated demo of a Claude Code lesson"></div>
+    </div>
+  </header>
+
+  <section class="section alt" id="how">
+    <div class="wrap">
+      <h2>How it works</h2>
+      <p class="intro">Every lesson is a small, guided task inside a simulated Claude Code session. You read one instruction, you do it, you see what happens.</p>
+      <div class="grid3">
+        <div class="feature">
+          <div class="num">01 · Read</div>
+          <h3>One small instruction</h3>
+          <p>"Start Claude in your project." "Approve just this edit." Each step teaches one thing, so it actually sticks.</p>
+        </div>
+        <div class="feature">
+          <div class="num">02 · Do</div>
+          <h3>Type it yourself</h3>
+          <p>You type into a terminal that looks and behaves like Claude Code – autocomplete, permission prompts, Shift+Tab, Esc and all.</p>
+        </div>
+        <div class="feature">
+          <div class="num">03 · Get feedback</div>
+          <h3>Instant, specific hints</h3>
+          <p>Typed <code>claude-code</code> instead of <code>claude</code>? Forgot the slash? You get a hint for exactly that mistake, then try again.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2>Why not just watch a tutorial?</h2>
+      <p class="intro">Because you don't learn a tool by watching someone else use it. You learn it with your hands on the keyboard.</p>
+      <div class="compare">
+        <div class="col bad">
+          <h3>Video courses</h3>
+          <ul>
+            <li>You watch for 40 minutes and remember 5</li>
+            <li>Easy to zone out, hard to find that one part again</li>
+            <li>No feedback when you get it wrong</li>
+            <li>Out of date the moment the UI changes</li>
+          </ul>
+        </div>
+        <div class="col good">
+          <h3>AgentDrills</h3>
+          <ul>
+            <li>Active practice – you type every command</li>
+            <li>5-minute lessons you can finish on a coffee break</li>
+            <li>Hints for the mistakes beginners actually make</li>
+            <li>XP, streaks and stars keep you coming back</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt" id="curriculum">
+    <div class="wrap">
+      <h2>What you'll learn</h2>
+      <p class="intro">Start with the essentials for free. Go Pro for the habits that make experienced users so fast.</p>
+      <ol class="curriculum" id="curriculumList"></ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap prose">
+      <h2>Learn Claude Code the practical way</h2>
+      <p>Claude Code is an AI coding assistant that runs in your terminal. You describe what you want in plain English – "add a dark mode toggle", "why is this test failing?" – and it reads your files, proposes edits, runs commands and explains what it did. It's one of the fastest ways to build software today, but only once you know how to drive it.</p>
+      <p>That's where most people get stuck. The tool itself is simple to install, but the <b>workflow</b> is new: when should you let it edit without asking? What is a CLAUDE.md file? How do you stop it when it heads the wrong way? Why do answers get worse in long conversations? These are the things that separate someone who "tried it once" from someone who ships with it every day.</p>
+
+      <h3>Practice in a safe, simulated terminal</h3>
+      <p>Every AgentDrills lesson runs in a simulation of a Claude Code session, right in your browser. There's nothing to install and nothing can break. You can approve the scary <code>rm -rf</code> command just to see what happens – nothing gets deleted. You can mistype a slash command and get a friendly nudge instead of an error. Because the simulation is scripted, it's also free to use: no API key, no tokens, no bill.</p>
+
+      <h3>Who is it for?</h3>
+      <ul>
+        <li><b>Developers</b> who want to get productive with Claude Code in an afternoon instead of a month of trial and error.</li>
+        <li><b>Product managers, designers and founders</b> who want to build prototypes themselves and need a gentle start in the terminal.</li>
+        <li><b>Students and career switchers</b> who want to put "AI-assisted development" on their CV – and actually mean it.</li>
+        <li><b>Teams</b> rolling out Claude Code who want everyone on the same baseline before the first real project.</li>
+      </ul>
+
+      <h3>What makes it stick</h3>
+      <p>Each lesson is built around repetition and immediate feedback – the same idea that makes language apps work. You see a short instruction, do it, and get feedback in under a second. Small wins add up to XP, daily streaks keep you coming back, and stars reward you for finishing without hints. By the end of the first unit you'll have launched sessions, reviewed diffs, managed permissions and created a CLAUDE.md file – muscle memory you'll use on day one of a real project.</p>
+
+      <h3>From basics to power-user habits</h3>
+      <p>The free unit covers the essentials: starting a session in the right folder, asking good questions, approving or rejecting edits and commands, and the slash commands you'll use every day. The Pro unit goes further: pointing Claude at exact files with <code>@</code>, running shell commands with <code>!</code>, switching modes with Shift+Tab, letting Claude plan before it codes, interrupting with Esc, compacting long conversations and resuming yesterday's session with <code>claude --continue</code>.</p>
+    </div>
+  </section>
+
+  <section class="section alt" id="faq">
+    <div class="wrap">
+      <h2>Frequently asked questions</h2>
+      <div class="faq">
+        <details>
+          <summary>Do I need Claude Code installed or an account?</summary>
+          <p>No. Everything happens in a simulation in your browser. When you're ready to use the real thing, everything you practiced works the same way.</p>
+        </details>
+        <details>
+          <summary>Do I need to know how to code?</summary>
+          <p>No. Lessons explain every command. Some coding experience helps you understand the example project, but it isn't required.</p>
+        </details>
+        <details>
+          <summary>How long does a lesson take?</summary>
+          <p>Most lessons take 3–6 minutes. They're designed to be finished in one sitting.</p>
+        </details>
+        <details>
+          <summary>Is the simulation exactly like the real Claude Code?</summary>
+          <p>It closely mirrors the real workflow – prompts, tool calls, diffs, permission menus and modes – but it's scripted, so Claude's answers are pre-written. The real tool also changes often; we update lessons as it does.</p>
+        </details>
+        <details>
+          <summary>Is my progress saved?</summary>
+          <p>Yes, in this browser. Accounts that sync across devices are coming soon.</p>
+        </details>
+        <details>
+          <summary>Is this an official Anthropic product?</summary>
+          <p>No. AgentDrills is an independent training site and isn't affiliated with or endorsed by Anthropic. Claude and Claude Code are trademarks of Anthropic.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="wrap">
+      <h2>Your first lesson takes 5 minutes.</h2>
+      <p class="muted" style="font-size:18px">Free, no sign-up. See if learning by doing works for you.</p>
+      <a class="btn" href="lesson.html?id=start-session">Start lesson 1</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <span>© AgentDrills</span>
+      <span>Independent training resource. Not affiliated with Anthropic.</span>
+    </div>
+  </footer>
+
+  <script src="js/terminal.js"></script>
+  <script src="js/lessons/index.js"></script>
+  <script src="js/lessons/01-start-session.js"></script>
+  <script src="js/lessons/02-edits-permissions.js"></script>
+  <script src="js/lessons/03-slash-commands.js"></script>
+  <script src="js/lessons/04-mention-files.js"></script>
+  <script src="js/lessons/05-modes.js"></script>
+  <script src="js/lessons/06-context-sessions.js"></script>
+  <script>
+    (function () {
+      // Curriculum list from the lesson registry
+      const list = document.getElementById('curriculumList');
+      const items = AD.lessons.map((l) =>
+        `<li><span class="n">${l.n}</span><div><div class="t">${AD.escapeHtml(l.title)}</div><div class="d">${AD.escapeHtml(l.blurb)}</div></div><span class="tag${l.pro ? ' pro' : ''}">${l.pro ? 'Pro' : 'Free'}</span></li>`
+      );
+      items.push(`<li><span class="n">+</span><div><div class="t">Subagents, hooks, MCP & more</div><div class="d">New units every month.</div></div><span class="tag soon">Soon</span></li>`);
+      list.innerHTML = items.join('');
+
+      // Looping hero demo
+      const term = new AD.Terminal(document.getElementById('demo'), { cwd: '~/my-project', noFocus: true, speed: 1 });
+      const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const script = [
+        { wait: 600 },
+        { type: 'claude' },
+        { launch: true },
+        { wait: 700 },
+        { type: 'add a dark mode toggle' },
+        { think: 1300 },
+        { tool: 'Read', arg: 'src/styles.css', out: 'Read 64 lines' },
+        { tool: 'Update', arg: 'src/styles.css', out: 'Updated src/styles.css with 4 additions', diff: [
+          ['+', '.dark { background: #111; color: #eee; }', 65],
+          ['+', '.dark .todo { border-color: #333; }', 66],
+        ] },
+        { tool: 'Update', arg: 'src/app.js', out: 'Updated src/app.js with 3 additions', diff: [
+          ['+', "toggle.onclick = () =>", 52],
+          ['+', "  document.body.classList.toggle('dark');", 53],
+        ] },
+        { text: 'Added a dark mode toggle in the header. ✓' },
+        { wait: 3500 },
+      ];
+      async function loop() {
+        // eslint-disable-next-line no-constant-condition
+        while (true) {
+          term.reset();
+          await term.stream(script);
+          if (reduce) return;
+        }
+      }
+      loop();
+    })();
+  </script>
+</body>
+</html>

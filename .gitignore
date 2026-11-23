@@ -1,0 +1,12 @@
+# Private agent files (Bob, Dennis, Dorte) – kept local only
+.claude/
+bob/
+dennis/
+dorte/
+CLAUDE.md
+MEMORY.md
+DESIGN.md
+
+# System / tooling
+.DS_Store
+node_modules/

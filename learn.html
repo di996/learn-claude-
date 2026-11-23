@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Your lessons · AgentDrills</title>
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="brand-mark">&gt;_</span>AgentDrills</a>
+      <div class="stat-pills">
+        <span class="pill" title="Day streak"><span class="ico">🔥</span><span id="streak">0</span></span>
+        <span class="pill" title="Total XP"><span class="ico">⚡</span><span id="xp">0</span></span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap dash">
+    <div id="units"></div>
+
+    <aside class="side">
+      <div class="card">
+        <div class="ring">
+          <svg width="72" height="72" viewBox="0 0 72 72" aria-hidden="true">
+            <circle cx="36" cy="36" r="30" fill="none" stroke="var(--surface-2)" stroke-width="8"/>
+            <circle id="ringArc" cx="36" cy="36" r="30" fill="none" stroke="var(--accent)" stroke-width="8" stroke-linecap="round"
+              stroke-dasharray="188.5" stroke-dashoffset="188.5" transform="rotate(-90 36 36)" style="transition: stroke-dashoffset .8s"/>
+          </svg>
+          <div>
+            <div class="big"><span id="doneCount">0</span>/<span id="totalCount">0</span></div>
+            <div class="muted">lessons complete</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Today</h3>
+        <ul class="goal-list">
+          <li><span>Practice once</span><span id="goalToday">—</span></li>
+          <li><span>Current streak</span><span id="goalStreak">0 days</span></li>
+        </ul>
+        <div style="margin-top:16px"><a class="btn small" id="continueBtn" href="#">Continue</a></div>
+      </div>
+      <div class="card">
+        <h3>Go Pro</h3>
+        <p class="muted" style="margin-bottom:12px">Unlock every lesson, new units each month and certificates.</p>
+        <button class="btn small secondary" type="button" id="proBtn">See plans</button>
+      </div>
+      <p class="muted" style="font-size:13px;margin:0">Progress is saved in this browser. <button class="linkbtn" id="resetBtn" type="button">Reset progress</button></p>
+    </aside>
+  </main>
+
+  <div class="modal" id="paywall" hidden role="dialog" aria-modal="true" aria-labelledby="pwTitle">
+    <div class="modal-card">
+      <div style="font-size:44px">🔒</div>
+      <h2 id="pwTitle">This is a Pro lesson</h2>
+      <p class="muted">Pro unlocks all lessons, new units every month and team progress tracking.</p>
+      <div class="result-row">
+        <div class="result"><div class="v">$19</div><div class="k">per month</div></div>
+        <div class="result"><div class="v">$99</div><div class="k">per year</div></div>
+      </div>
+      <p class="muted" style="font-size:14px">Payments aren't live yet in this preview.</p>
+      <div class="modal-actions">
+        <button class="btn" type="button" id="unlockBtn">Unlock for testing</button>
+        <button class="btn secondary" type="button" id="pwClose">Maybe later</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/progress.js"></script>
+  <script src="js/lessons/index.js"></script>
+  <script src="js/lessons/01-start-session.js"></script>
+  <script src="js/lessons/02-edits-permissions.js"></script>
+  <script src="js/lessons/03-slash-commands.js"></script>
+  <script src="js/lessons/04-mention-files.js"></script>
+  <script src="js/lessons/05-modes.js"></script>
+  <script src="js/lessons/06-context-sessions.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

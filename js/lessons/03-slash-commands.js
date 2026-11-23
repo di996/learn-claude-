@@ -1,0 +1,92 @@
+AD.addLesson({
+  id: 'slash-commands',
+  n: 3,
+  title: 'Slash commands & CLAUDE.md',
+  blurb: 'Use /help, /init, /context and /clear like a pro.',
+  icon: '/',
+  summary: 'You created a CLAUDE.md memory file, checked context and cleared the conversation.',
+  start: 'claude',
+  steps: [
+    {
+      say: `<p>Anything starting with <code>/</code> is a <b>command</b> for Claude Code itself, not a message to Claude.</p><p>Type <code>/</code> to see the list, then run <code>/help</code>.</p>`,
+      match: /^\/help$/,
+      answer: '/help',
+      hints: [
+        { match: /^help$/i, msg: 'Commands start with a slash: `/help`.' },
+        { match: /^\/h(e|l)?p?$/, msg: 'Nearly – type the full word: `/help`.' },
+      ],
+      hint: 'Type `/help` and press Enter.',
+      success: 'Notice the autocomplete list that appears when you type `/` – use ↑↓ and Tab to pick.',
+      respond: [
+        { shell: 'Claude Code\n\nAlways review Claude\'s responses, especially when running code.\n\nUsage modes:\n  • REPL: claude (interactive session)\n  • Non-interactive: claude -p "question"\n\nCommon commands:\n  /init      Create a CLAUDE.md file with project instructions\n  /clear     Start a fresh conversation\n  /compact   Summarize the conversation to save context\n  /context   Show how much context is in use\n  /exit      Quit Claude Code', delay: 300 },
+      ],
+    },
+    {
+      say: `<p><b>CLAUDE.md</b> is a file Claude reads at the start of <i>every</i> session – your project's memory: how to run tests, code style, rules.</p><p>Let Claude write one for you with <code>/init</code>.</p>`,
+      match: /^\/init$/,
+      answer: '/init',
+      hints: [
+        { match: /^\/(inti|int|iinit|inits?t)$/, msg: 'Looks like a typo – it\'s `/init`.' },
+        { match: /^init$/i, msg: 'Don\'t forget the slash: `/init`.' },
+        { match: /claude\.md/i, msg: 'You could ask in words, but there\'s a built-in command for this: `/init`.' },
+      ],
+      hint: 'The command is `/init`.',
+      success: 'Edit CLAUDE.md any time – Claude will follow what\'s in it.',
+      respond: [
+        { think: 1100, label: 'Analyzing codebase' },
+        { tool: 'Read', arg: 'package.json', out: 'Read 19 lines' },
+        { tool: 'Search', arg: 'pattern: "**/*.js"', out: 'Found 7 files' },
+        { tool: 'Read', arg: 'README.md', out: 'Read 24 lines' },
+        {
+          tool: 'Write',
+          arg: 'CLAUDE.md',
+          out: 'Wrote 14 lines to CLAUDE.md',
+          diff: [
+            ['+', '# CLAUDE.md', 1],
+            ['+', '', 2],
+            ['+', '## Commands', 3],
+            ['+', '- `npm test` – run unit tests', 4],
+            ['+', '- `npm start` – serve the app on :3000', 5],
+            ['+', '', 6],
+            ['+', '## Code style', 7],
+            ['+', '- Plain ES modules, no frameworks', 8],
+            ['+', '- Persist data only through src/storage.js', 9],
+          ],
+        },
+        { text: 'Created `CLAUDE.md` with build commands, structure and code style notes.' },
+      ],
+    },
+    {
+      say: `<p>Everything in the conversation – your messages, files Claude read, outputs – takes up the <b>context window</b>, Claude's working memory.</p><p>Check how full it is with <code>/context</code>.</p>`,
+      match: /^\/context$/,
+      answer: '/context',
+      hints: [{ match: /^\/cont/, msg: 'Type the full command: `/context`.' }],
+      hint: 'Type `/context`.',
+      success: 'When the context gets full, answers get worse. Keep conversations focused.',
+      respond: [
+        { shell: 'Context Usage\n⛁ ⛁ ⛁ ⛀ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶   claude-model · 31k/200k tokens (16%)\n\n  ⛁ System prompt & tools: 14k\n  ⛁ Memory files (CLAUDE.md): 0.4k\n  ⛁ Messages: 16.6k\n  ⛶ Free space: 169k', delay: 300 },
+      ],
+    },
+    {
+      say: `<p>You're done with this task and want to start something unrelated. Old messages would just waste context.</p><p>Start fresh with <code>/clear</code>.</p>`,
+      match: /^\/clear$/,
+      answer: '/clear',
+      hints: [
+        { match: /^clear$/i, msg: 'Inside Claude Code it needs a slash: `/clear`.' },
+        { match: /^\/compact$/, msg: '`/compact` keeps a summary. Here we want a totally clean slate: `/clear`.' },
+      ],
+      hint: 'The command is `/clear`.',
+      success: 'The conversation is wiped – but CLAUDE.md is still loaded next time.',
+      respond: [{ wait: 300 }, { clear: true }, { launch: true, instant: true }],
+    },
+    {
+      say: `<p><b>You just fixed a bug and now want Claude to write docs for a different feature.</b> Which command fits best?</p>`,
+      choices: [
+        { text: '`/clear` – start a fresh conversation', right: true },
+        { text: '`/init` – create CLAUDE.md', why: '`/init` creates the memory file. It doesn\'t reset the conversation.' },
+        { text: '`/help` – show help', why: '`/help` only lists commands.' },
+      ],
+      success: 'New task → `/clear`. It keeps Claude focused and saves context.',
+    },
+  ],
+});

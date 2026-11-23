@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lesson · AgentDrills</title>
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="wrap lesson-top">
+    <a class="back" href="learn.html" aria-label="Back to lessons">✕ <span>Lessons</span></a>
+    <div class="bar" role="progressbar" aria-label="Lesson progress"><span id="bar"></span></div>
+    <span class="pill" id="xpPill"><span class="ico">⚡</span><span id="xpVal">0</span> XP</span>
+  </header>
+
+  <main class="wrap lesson">
+    <section class="panel" aria-live="polite">
+      <p class="eyebrow" id="eyebrow">Lesson</p>
+      <h1 id="title">Loading…</h1>
+      <p class="step-count" id="stepCount"></p>
+      <div class="step-text" id="say"></div>
+      <div class="choices" id="choices"></div>
+      <div class="coach" id="coach" hidden></div>
+      <div class="panel-actions"><button class="linkbtn" id="showAnswer" type="button" hidden>Show me the answer</button></div>
+    </section>
+
+    <section class="stage">
+      <div id="term"></div>
+      <div class="keybar" aria-label="Special keys">
+        <button class="kbtn" type="button" data-key="shift+tab">⇧ Shift+Tab</button>
+        <button class="kbtn" type="button" data-key="escape">Esc</button>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="done" hidden role="dialog" aria-modal="true" aria-labelledby="doneTitle">
+    <div class="modal-card">
+      <div class="stars" id="doneStars"></div>
+      <h2 id="doneTitle">Lesson complete!</h2>
+      <p class="muted" id="doneSub"></p>
+      <div class="result-row">
+        <div class="result"><div class="v" id="doneXp">+0</div><div class="k">XP earned</div></div>
+        <div class="result"><div class="v" id="doneStreak">1 day</div><div class="k">Streak 🔥</div></div>
+        <div class="result"><div class="v" id="doneHints">0</div><div class="k">Hints used</div></div>
+      </div>
+      <div class="modal-actions">
+        <a class="btn" id="doneNext" href="learn.html">Next lesson</a>
+        <a class="btn secondary" href="learn.html">Back to lessons</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/terminal.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/lessons/index.js"></script>
+  <script src="js/lessons/01-start-session.js"></script>
+  <script src="js/lessons/02-edits-permissions.js"></script>
+  <script src="js/lessons/03-slash-commands.js"></script>
+  <script src="js/lessons/04-mention-files.js"></script>
+  <script src="js/lessons/05-modes.js"></script>
+  <script src="js/lessons/06-context-sessions.js"></script>
+  <script src="js/engine.js"></script>
+  <script>
+    (function () {
+      const id = new URLSearchParams(location.search).get('id') || 'start-session';
+      const lesson = AD.lessonById(id);
+      if (!lesson) { location.replace('learn.html'); return; }
+      if (!AD.progress.isUnlocked(lesson)) { location.replace('learn.html?paywall=' + encodeURIComponent(id)); return; }
+      AD.runLesson(lesson, document.getElementById('term'));
+    })();
+  </script>
+</body>
+</html>
