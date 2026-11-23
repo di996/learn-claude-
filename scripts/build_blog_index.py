@@ -53,7 +53,7 @@ POSTS = [
     ("git", "Commits and commit messages", "Let Claude stage changes and write clear commit messages.", None, 0),
     ("git", "Pull requests with Claude Code", "Create, describe and update pull requests from the terminal.", None, 0),
     ("git", "Resolving merge conflicts", "Have Claude explain both sides of a conflict and merge them correctly.", None, 0),
-    ("subagents", "What are subagents?", "How Claude hands work to helper agents with their own context.", None, 0),
+    ("subagents", "What are subagents?", "How Claude hands work to helper agents with their own context.", "what-are-claude-code-subagents", 8),
     ("subagents", "Creating your own subagent", "Define a specialist agent, like a reviewer or tester, with its own rules.", None, 0),
     ("subagents", "Hooks: run scripts automatically", "Format, lint or block actions every time Claude uses a tool.", None, 0),
     ("subagents", "Connecting tools with MCP", "Give Claude access to services like GitHub, databases and docs.", None, 0),

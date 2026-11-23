@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Sources (checked 2026-11-23): https://code.claude.com/docs/en/sub-agents -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What Are Claude Code Subagents? How to Create and Use Them · AgentDrills</title>
+  <meta name="description" content="Subagents are helpers Claude Code sends off to do a side task in their own context. Learn when to use them and how to create and call your own.">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap">
+      <a class="brand" href="../index.html"><span class="brand-mark">&gt;_</span>AgentDrills</a>
+      <div class="nav-links">
+        <a href="../index.html#curriculum">Lessons</a>
+        <a href="index.html">Blog</a>
+        <a class="btn small" href="../learn.html">Start free</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article">
+    <div class="crumbs"><a href="index.html">← All guides</a></div>
+    <span class="tag cat">Subagents &amp; Automation</span>
+    <h1>What are subagents in Claude Code? (And how to make your own)</h1>
+    <p class="dek">A subagent is a helper that Claude Code sends off to do one side task in its own separate workspace. It does the messy work out of sight and brings back only a short summary, so your main conversation stays clean.</p>
+    <p class="post-meta">AgentDrills team · Updated November 23, 2026 · 8 min read</p>
+
+    <div class="article-body">
+      <p>That's the whole idea in one sentence. Claude Code can hand a job, like searching through a project or running tests, to a helper. The helper reads files, runs commands and digs through results on its own. When it's done, you only see what it found. You can use the helpers Claude Code comes with, and you can make your own with a single request.</p>
+      <p>This guide explains what that means in plain words, when it's worth it, and how to set up and call your first subagent. If a word is new, don't worry. Each one is explained the first time it shows up.</p>
+
+      <h2>The short answer: a helper with its own desk</h2>
+      <p>When you work with Claude Code, everything happens in one <b>conversation</b>: your messages, Claude's replies, and every file and command result Claude looks at along the way. All of that sits in Claude's <b>context</b>, which is its working memory for the session.</p>
+      <p>Think of context as a desk. Every file Claude reads is another sheet of paper on it. A subagent gets <b>its own desk</b>. It starts empty, does its task there, and walks back to your desk with one note: the answer. The pile of paper it needed stays on its desk.</p>
+      <p>Each subagent also has its own instructions, its own list of <b>tools</b> it's allowed to use, and its own permissions (rules for what it may do without asking you). A tool is simply an action Claude can take, like reading a file, searching, or running a command in the terminal (the text window where you type commands).</p>
+
+      <h2>Why your main conversation gets crowded</h2>
+      <p>Say you're working on a small to-do app in a folder called <code>my-project</code> and you ask Claude where the to-dos get saved. To answer, Claude may open five files and run a search. Every one of those results lands in your conversation, even though you'll never look at most of them again.</p>
+      <p>Do that a few times and the desk fills up. You can see how full it is with a slash command (a command for Claude Code itself, starting with <code>/</code>):</p>
+      <pre><code>&gt; /context</code></pre>
+      <p>A crowded context isn't just untidy. The more there is, the more Claude has to sift through, and the easier it is for the important details to get lost. Subagents are one of the best ways to keep that from happening, because the noisy part of the work never reaches your desk.</p>
+      <div class="note"><b>Good to know:</b> a subagent still does real work. Its requests count toward the same usage limits as your main conversation (the amount of Claude your plan lets you use in a given period). You save space in your conversation, not usage.</div>
+
+      <h2>Claude already uses built-in subagents</h2>
+      <p>You don't have to set anything up to see a subagent in action. Claude Code comes with a few built in, and it uses them on its own when a task fits:</p>
+      <ul>
+        <li><b>Explore</b> is a fast helper for searching and understanding code. It can only read, never change files.</li>
+        <li><b>Plan</b> gathers information while you're in plan mode (a mode where Claude researches and suggests a plan but changes nothing), so Claude can show you a plan before it changes anything.</li>
+        <li><b>general-purpose</b> handles bigger tasks with several steps that need both looking around and taking action.</li>
+      </ul>
+      <p>You can also simply ask for one. In the to-do app, you might type:</p>
+      <pre><code>&gt; use a subagent to find where todos are saved and loaded</code></pre>
+      <p>In the terminal, the hand-off shows up as one line with the helper's name and a short description of its task, followed by Claude's answer:</p>
+      <pre><code>⏺ Explore(Find where todos are saved and loaded)
+
+⏺ Todos are saved and loaded in one place:
+  - src/storage.js – loadTodos() and saveTodos(todos) use localStorage
+  - src/app.js – calls loadTodos() on start and saveTodos() after every change</code></pre>
+      <p>Notice what you <i>didn't</i> get: a long list of every file the helper opened. That's the point.</p>
+
+      <h2>When a subagent helps, and when it doesn't</h2>
+      <p>A subagent shines when a side task produces lots of output that you won't read again. Some typical examples:</p>
+      <ul>
+        <li>Searching a project to find where something happens</li>
+        <li>Running the tests and reporting only what failed</li>
+        <li>Reading through long logs (records a program writes while it runs) to find one error</li>
+        <li>Doing the same kind of job again and again with the same instructions</li>
+      </ul>
+      <p>It's less useful for small, quick things. If you want a typo fixed in one line, just ask. Handing it to a helper only adds a step. A good rule of thumb: <b>lots of output you won't read → subagent. Small and obvious → just ask.</b></p>
+      <p>One more thing to remember: a subagent starts with a fresh, empty desk. It doesn't see what you and Claude talked about earlier. Claude passes it the task, so the clearer your request is, the better the helper's result will be.</p>
+
+      <h2>Make your own: just ask Claude</h2>
+      <p>The built-in helpers are general. Your own subagent can be a specialist, like a tester or a reviewer, with exactly the rules you want. The easiest way to make one is to describe it to Claude in plain English:</p>
+      <pre><code>&gt; create a project subagent called test-runner that runs the tests and reports failures</code></pre>
+      <p>Claude writes a small file for you and, as usual, asks before it saves anything. You review it and approve it, the same way you approve any other change.</p>
+      <div class="note"><b>What about /agents?</b> In older versions of Claude Code, the <code>/agents</code> command opened a menu for creating subagents. In current versions it just reminds you to ask Claude or edit the files yourself. Asking Claude is the simplest route either way.</div>
+      <p>Claude Code notices a new or changed subagent file within a few seconds, so you don't need to restart. If a new subagent doesn't show up, restarting Claude Code fixes it.</p>
+
+      <div class="callout">
+        <div><b>Practice it in a safe simulator</b><p>Watch Claude delegate a search, create a test-runner subagent and call it by name, step by step, with hints if you get stuck.</p></div>
+        <a class="btn small" href="../lesson.html?id=subagents">Start lesson 7</a>
+      </div>
+
+      <h2>What's inside a subagent file</h2>
+      <p>A subagent is just a text file written in <b>Markdown</b>, a simple format for plain text with a little formatting. Here's what the test-runner file looks like:</p>
+      <pre><code>---
+name: test-runner
+description: Runs the test suite and reports failures. Use after code changes.
+tools: Bash, Read, Grep
+---
+Run npm test. Report which tests fail and why. Never edit files.</code></pre>
+      <p>The part between the two <code>---</code> lines holds the settings. Below it are the helper's instructions, written like a note to a colleague. The settings that matter most:</p>
+      <ul>
+        <li><b>name</b>: what you call the helper. Required.</li>
+        <li><b>description</b>: when Claude should use it. Required, and important, because Claude reads it to decide when to hand over a task on its own.</li>
+        <li><b>tools</b>: which actions the helper may use. Optional. Leave it out and the helper gets the same tools as Claude.</li>
+      </ul>
+      <p>Limiting the tools is a simple safety trick. The test-runner above gets <code>Bash</code> (run commands), <code>Read</code> and <code>Grep</code> (search), but not the tools for editing files. So it can run your tests, but it can't change your code, even by mistake.</p>
+      <div class="note"><b>Tip:</b> you can also pick which model a subagent uses with a <code>model</code> line, for example a faster, cheaper one for simple jobs. That's optional. Leave it out until you need it.</div>
+
+      <h2>Calling a subagent by name</h2>
+      <p>Once your helper exists, there are a few ways to use it. Claude may pick it on its own when a task matches the description. To be sure it's used, call it yourself. You can type <code>@agent-</code> followed by its name:</p>
+      <pre><code>&gt; @agent-test-runner run the tests</code></pre>
+      <p>Typing <code>@</code> also opens a list of suggestions, where your subagents show up next to your files. Or you can just say it in plain English:</p>
+      <pre><code>&gt; use the test-runner subagent to check my last change</code></pre>
+      <p>Either way, you'll see the hand-off line and then the result:</p>
+      <pre><code>⏺ test-runner(Run the test suite)
+
+⏺ test-runner reports: all 12 tests pass. No failures.</code></pre>
+      <p>The full test output stayed with the helper. You got the one line you needed.</p>
+
+      <h2>Project or personal?</h2>
+      <p>Where you save a subagent decides where you can use it:</p>
+      <ul>
+        <li><code>.claude/agents/</code> inside your project folder: the helper belongs to that project. If you share the project with others, they get the same helper. This is a good home for helpers tied to one codebase, like the test-runner.</li>
+        <li><code>~/.claude/agents/</code> in your home folder (the <code>~</code> is a shortcut for it): the helper is personal and works in all your projects. Good for general helpers, like a code reviewer you always want around.</li>
+      </ul>
+      <p>If both places have a helper with the same name, the one in the project wins. When you ask Claude to create a subagent, just say "project" or "personal", and it'll save the file in the right place.</p>
+
+      <h2>Try it yourself</h2>
+      <p>Subagents sound advanced, but the habit is simple: let a helper carry the noisy side tasks, and keep your own conversation for the work you care about. Start with the built-in Explore helper, then make one specialist you'll actually use, like a test-runner.</p>
+      <p>The quickest way to get comfortable is to do it once with nothing at stake. Lesson 7 walks you through the whole loop in a simulated terminal: watch a delegation, create your own helper, approve its file and call it by name. New to Claude Code? <a href="../lesson.html?id=start-session">Lesson 1 is free</a> and a good place to start.</p>
+      <div class="callout">
+        <div><b>Ready to build your first subagent?</b><p>Five short steps in the same to-do app you've seen here.</p></div>
+        <a class="btn small" href="../lesson.html?id=subagents">Start lesson 7</a>
+      </div>
+
+      <p class="muted" style="font-size:15px">Claude Code is updated often, so menus, labels and commands may look slightly different in your version. The core idea of subagents stays the same.</p>
+    </div>
+  </article>
+
+  <section class="related">
+    <h2>Keep reading</h2>
+    <div class="post-list">
+      <a class="post-card" href="claude-code-context-and-sessions.html"><span class="post-meta">Context &amp; Sessions</span><h2>Interrupt, compact and resume</h2><span class="more">Read article →</span></a>
+      <a class="post-card" href="claude-code-plan-mode.html"><span class="post-meta">Workflow</span><h2>Plan mode and auto-accept edits</h2><span class="more">Read article →</span></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <span>© AgentDrills</span>
+      <span>Independent training resource. Not affiliated with Anthropic.</span>
+    </div>
+  </footer>
+</body>
+</html>

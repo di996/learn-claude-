@@ -9,6 +9,7 @@ AD.addLesson({
   icon: '⑂',
   pro: true,
   summary: 'You watched Claude delegate a search, created a test-runner subagent and called it by name.',
+  article: 'blog/what-are-claude-code-subagents.html',
   start: 'claude',
   steps: [
     {

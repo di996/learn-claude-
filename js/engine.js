@@ -96,6 +96,7 @@
       $('bar').style.width = `${(i / steps.length) * 100}%`;
       $('stepCount').textContent = `Step ${i + 1} of ${steps.length}`;
       $('say').innerHTML = step.say;
+      document.body.classList.add('lesson-ready'); // reveal the lesson (see .lesson in styles.css)
       $('choices').innerHTML = '';
       $('showAnswer').hidden = true;
       clearCoach();
