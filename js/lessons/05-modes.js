@@ -1,6 +1,6 @@
 AD.addLesson({
   id: 'modes',
-  n: 5,
+  n: 12,
   title: 'Auto-accept & plan mode',
   blurb: 'Switch modes with Shift+Tab and let Claude plan before it codes.',
   icon: '⇄',

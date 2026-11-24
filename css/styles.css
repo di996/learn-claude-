@@ -233,7 +233,7 @@ p { margin: 0 0 1em; }
   flex: 1; min-width: 0;
   background: transparent; border: 0; outline: none;
   color: var(--term-text); caret-color: var(--term-accent);
-  font: inherit; padding: 2px 0;
+  font: inherit; padding: 3px 0;
 }
 .term-input::placeholder { color: var(--term-faint); }
 .term-input[readonly] { caret-color: transparent; }
@@ -283,7 +283,7 @@ p { margin: 0 0 1em; }
    Lesson player
    ========================================================================== */
 .lesson-top { display: flex; align-items: center; gap: 14px; height: 64px; }
-.lesson-top .back { color: var(--muted); text-decoration: none; font-weight: 600; white-space: nowrap; }
+.lesson-top .back { display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-width: 44px; min-height: 44px; color: var(--muted); text-decoration: none; font-weight: 600; white-space: nowrap; }
 .lesson-top .back:hover { color: var(--text); }
 .bar { flex: 1; height: 14px; background: var(--surface-2); border-radius: 999px; overflow: hidden; border: 1px solid var(--border); }
 .bar > span { display: block; height: 100%; width: 0; background: var(--accent); border-radius: 999px; transition: width .5s cubic-bezier(.2,.8,.2,1); }
@@ -494,6 +494,7 @@ p { margin: 0 0 1em; }
 
 .footer { border-top: 1px solid var(--border); padding: 28px 0 40px; color: var(--muted); font-size: 14px; }
 .footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.footer a { display: inline-block; padding: 4px 0; min-height: 24px; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
@@ -521,7 +522,7 @@ p { margin: 0 0 1em; }
 
 .article { max-width: 720px; margin: 0 auto; padding: 40px 16px 24px; }
 .article .crumbs { font-size: 14px; margin-bottom: 18px; }
-.article .crumbs a { color: var(--muted); text-decoration: none; }
+.article .crumbs a { display: inline-block; padding: 4px 0; min-height: 24px; color: var(--muted); text-decoration: none; }
 .article .crumbs a:hover { color: var(--text); }
 .article h1 { font-size: clamp(32px, 4.4vw, 46px); letter-spacing: -.03em; margin-bottom: 14px; }
 .article .dek { font-size: 20px; color: var(--muted); margin-bottom: 14px; }
@@ -842,7 +843,7 @@ kbd {
 .ktag.p { border-color: var(--accent); color: var(--accent-strong); }
 .kempty { padding: 16px 14px; border-top: 1px solid var(--border); color: var(--muted); font-size: 14px; }
 .kfoot { font-size: 12.5px; color: var(--muted); margin: 14px 0 0; }
-.kfoot .linkbtn { font-size: 12.5px; }
+.kfoot .linkbtn { font-size: 12.5px; display: inline-block; min-height: 24px; padding: 4px 0; vertical-align: middle; }
 .pw-lock { color: var(--accent-strong); }
 
 @media (min-width: 860px) {

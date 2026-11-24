@@ -1,6 +1,6 @@
 AD.addLesson({
   id: 'context-sessions',
-  n: 6,
+  n: 13,
   title: 'Interrupt, compact & resume',
   blurb: 'Stop Claude mid-task, save context and continue tomorrow.',
   icon: '↺',

@@ -47,6 +47,12 @@
   const WORDS = ['Thinking', 'Pondering', 'Reading', 'Considering', 'Working', 'Noodling'];
   const PERM_ORDER = ['normal', 'accept', 'plan'];
 
+  // Which menu option Esc picks: one marked "(esc)", otherwise "No" (like real permission prompts).
+  const escIndex = (opts) => {
+    const k = opts.findIndex((o) => /\(esc\)/.test(o));
+    return k >= 0 ? k : opts.findIndex((o) => /^No\b/.test(o));
+  };
+
   class Terminal {
     constructor(el, opts = {}) {
       this.el = el;
@@ -225,7 +231,7 @@
         }
         if (this.busy || !this.history.length) return;
         if (this.hIdx === -1) this.hIdx = this.history.length;
-        this.hIdx = Math.max(0, Math.min(this.history.length, this.hIdx - dir));
+        this.hIdx = Math.max(0, Math.min(this.history.length, this.hIdx + dir));
         this.$input.value = this.history[this.hIdx] || '';
         return;
       }
@@ -304,7 +310,8 @@
     /* ---------- prompting ---------- */
     /**
      * Wait for the user to submit a line. `check(value)` returns true to accept
-     * (input is echoed and cleared) or false to keep the text so they can fix it.
+     * (input is echoed and cleared) or false to reject it. A rejected line is also
+     * cleared, like a real terminal, but kept in history so ↑ brings it back to fix.
      */
     prompt(check) {
       this.waiting = true;
@@ -319,7 +326,14 @@
       const p = this._pending;
       if (!p) return;
       const ok = p.check ? p.check(v) : true;
-      if (!ok) { this.shake(); return; }
+      if (!ok) {
+        this.shake();
+        this.history.push(v);
+        this.hIdx = -1;
+        this.$input.value = '';
+        this.closePopup();
+        return;
+      }
       this.history.push(v);
       this.hIdx = -1;
       this._pending = null;
@@ -374,7 +388,7 @@
         (spec.body ? `<div class="mb">${spec.bodyHtml ? spec.body : inline(spec.body)}</div>` : '') +
         (spec.question ? `<div class="mq">${inline(spec.question)}</div>` : '') +
         opts.map((o, i) => `<button type="button" class="opt" data-i="${i}"><span class="car">❯</span><span>${i + 1}. ${inline(o)}</span></button>`).join('') +
-        `<div class="mf">↑↓ to select · enter to confirm${opts.some((o) => /\(esc\)/.test(o)) ? ' · esc to cancel' : ''}</div>`;
+        `<div class="mf">↑↓ to select · enter to confirm${escIndex(opts) >= 0 ? ' · esc to cancel' : ''}</div>`;
       this.$live.appendChild(box);
       this.scroll();
       const btns = [...box.querySelectorAll('.opt')];
@@ -411,7 +425,7 @@
           }
         };
         const escape = () => {
-          const k = opts.findIndex((o) => /\(esc\)/.test(o));
+          const k = escIndex(opts);
           if (k >= 0) choose(k);
         };
         btns.forEach((b, i) => b.addEventListener('click', () => choose(i)));

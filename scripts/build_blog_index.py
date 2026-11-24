@@ -97,6 +97,7 @@ page = f"""<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <link rel="icon" href="data:,">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Claude Code Guides &amp; Tutorials · AgentDrills Blog</title>
   <meta name="description" content="Practical Claude Code guides by topic: getting started, workflow, permissions, slash commands and CLAUDE.md, context and sessions, testing, building projects, git and subagents.">

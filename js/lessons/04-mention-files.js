@@ -1,6 +1,6 @@
 AD.addLesson({
   id: 'mention-files',
-  n: 4,
+  n: 11,
   title: 'Point at files with @',
   blurb: 'Reference exact files and run shell commands without leaving Claude.',
   icon: '@',

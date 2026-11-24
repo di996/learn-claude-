@@ -189,10 +189,9 @@
         : i.kind === 'soon' ? '<span class="ktag">SOON</span>'
         : '<span class="ktag">FREE</span>';
     const inner = `<span class="knum">${i.state === 'locked' ? LOCK : esc(label)}</span>
-      <span><span class="t">${esc(i.title)}</span><span class="m">${meta}</span></span>${tag}`;
+      <span><span class="t">${esc(i.title)}</span><span class="m">${meta}</span></span>${tag}${i.state === 'locked' ? '<span class="sr-only">, locked</span>' : ''}`;
     if (!i.lesson) return `<div class="krow soon">${inner}</div>`;
-    const aria = i.state === 'locked' ? ` aria-label="${esc(i.title)} (Pro, locked)"` : '';
-    return `<button type="button" class="krow ${i.state}" data-id="${i.lesson.id}"${aria}>${inner}</button>`;
+    return `<button type="button" class="krow ${i.state}" data-id="${i.lesson.id}">${inner}</button>`;
   }
 
   function countUp(el, end) {
