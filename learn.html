@@ -32,17 +32,11 @@
 
     <section class="kbox" aria-labelledby="totalLabel">
       <h2 class="klabel" id="totalLabel">Total lessons completed</h2>
-      <div class="total-row">
+      <div class="ktotal-top">
         <div class="total-n"><span id="doneCount">0</span> / <span id="totalCount">0</span></div>
-        <div class="kstripe" id="stripe" role="img"></div>
+        <span class="ktotal-sub" id="totalSub"></span>
       </div>
-      <div class="klegend" aria-hidden="true">
-        <span><i class="done"></i>Done</span>
-        <span><i class="now"></i>Up next</span>
-        <span><i></i>Free, not started</span>
-        <span><i class="pro"></i>Pro</span>
-        <span><i class="soon"></i>Coming soon</span>
-      </div>
+      <div class="kbars" id="bars"></div>
     </section>
 
     <section class="kp-three">
@@ -79,7 +73,7 @@
       </div>
       <div class="kbox kpro" id="proBox" aria-labelledby="proLabel">
         <h2 class="klabel" id="proLabel">Pro</h2>
-        <p>Files with @, plan mode, subagents and every new lesson as it lands.</p>
+        <p>Everything after lesson 5: memory, files, plan mode, subagents and every new lesson as it lands.</p>
         <button class="btn kp-btn" type="button" id="proBtn">See plans</button>
       </div>
     </section>
@@ -88,10 +82,7 @@
       <h2>All lessons</h2>
       <div class="ktabs" role="group" aria-label="Filter lessons" id="tabs"></div>
     </div>
-    <div class="kcols">
-      <div class="klist" id="listBasics"></div>
-      <div class="klist" id="listCode"></div>
-    </div>
+    <div id="lessonArea"></div>
     <p class="kfoot">Progress is saved in this browser. <button class="linkbtn" id="resetBtn" type="button">Reset progress</button></p>
   </main>
 

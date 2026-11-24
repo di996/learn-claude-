@@ -1,24 +1,28 @@
-/* Dashboard "Kontrolpanel" on learn.html (DESIGN.md, approved 23 Nov 2026). */
+/* Dashboard "Kontrolpanel" on learn.html (DESIGN.md, approved 23 Nov 2026),
+ * with the lesson list as topic tiles in levels ("Dashboard: emner i niveauer", 24 Nov 2026). */
 (function () {
   const AD = window.AD;
   const P = AD.progress;
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const reduceMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const LOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
-  const TRACKS = [
-    { key: 'basics', name: 'Claude Basics', list: 'listBasics' },
-    { key: 'code', name: 'Claude Code', list: 'listCode' },
-  ];
+  const svg = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+  const LOCK = svg('<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>');
+  const FLAG = svg('<path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/>');
+  const BACK = svg('<path d="M15 6l-6 6 6 6"/>');
+  const DOT = { done: 'done', next: 'now', open: '', locked: 'pro', soon: 'soon' };
 
   let pendingLesson = null;
   let filter = 'all';
-  let animated = false; // the stripe and counter animate on first render only
+  let openTopic = null; // index in AD.topics, or null for the tile grid
+  let animated = false; // bars and counter animate on first render only
 
   // XP a lesson gives the first time (same rule as engine.js: 10 per step unless set).
   const lessonXP = (l) => (l.steps || []).reduce((sum, s) => sum + (s.xp === undefined ? 10 : s.xp), 0);
   const shortName = (l) => (AD.trackOf(l) === 'basics' ? `Basics B${l.n}` : `Lesson ${l.n}`);
   const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+  const label = (track, n) => (track === 'basics' ? `B${n}` : String(n));
+  const pct = (a, b) => (b ? Math.round((100 * a) / b) : 0);
 
   function pickNext() {
     const code = AD.lessonsIn('code');
@@ -26,19 +30,22 @@
     return code.find((l) => !P.isDone(l.id)) || basics.find((l) => !P.isDone(l.id)) || null;
   }
 
-  // Every lesson in a track, built ones first, then the planned ones ("Coming soon").
+  // One item per planned lesson number: the built lesson if there is one, otherwise "Coming soon".
   function itemsFor(track, next) {
-    const real = AD.lessonsIn(track).map((l) => {
+    const built = {};
+    AD.lessonsIn(track).forEach((l) => { if (!built[l.n]) built[l.n] = l; });
+    const finals = (AD.finals && AD.finals[track]) || [];
+    return (AD.plan[track] || []).map((title, k) => {
+      const n = k + 1;
+      const l = built[n];
+      const final = finals.includes(n);
+      if (!l) return { lesson: null, n, track, title, state: 'soon', kind: 'soon', final };
       let state = 'open';
       if (P.isDone(l.id)) state = 'done';
       else if (!P.isUnlocked(l)) state = 'locked';
       else if (l === next) state = 'next';
-      return { lesson: l, n: l.n, title: l.title, state, kind: l.pro ? 'pro' : 'free', track };
+      return { lesson: l, n, track, title: l.title, state, kind: l.pro ? 'pro' : 'free', final };
     });
-    const soon = (AD.upcoming || [])
-      .filter((u) => u.track === track)
-      .map((u) => ({ lesson: null, n: u.n, title: u.title, state: 'soon', kind: 'soon', track }));
-    return real.concat(soon).sort((a, b) => a.n - b.n);
   }
 
   function render() {
@@ -48,28 +55,34 @@
     const done = all.filter((i) => i.state === 'done').length;
     const xp = P.get().xp;
     const streak = P.currentStreak();
+    const levelOf = (l) => l && AD.levels.find((v) => v.track === AD.trackOf(l) && l.n >= v.from && l.n <= v.to);
+    const curLevel = levelOf(next);
+    const inLevel = (v) => items[v.track].filter((i) => i.n >= v.from && i.n <= v.to);
 
     // Top bar
     $('streak').textContent = streak;
     $('xp').textContent = xp;
 
-    // 3. Total lessons completed
+    // 1. Total lessons completed: one bar per level
     $('doneCount').textContent = done;
     $('totalCount').textContent = all.length;
-    const stripe = $('stripe');
-    stripe.setAttribute('aria-label', `${done} of ${all.length} lessons completed`);
-    stripe.innerHTML = all
-      .map((i) => `<i class="${{ done: 'done', next: 'now', open: '', locked: 'pro', soon: 'soon' }[i.state]}"></i>`)
+    $('totalSub').textContent = `${all.length} lessons in ${AD.topics.length} topics`;
+    $('bars').innerHTML = AD.levels
+      .map((v) => {
+        const its = inLevel(v);
+        const d = its.filter((i) => i.state === 'done').length;
+        const w = pct(d, its.length);
+        return `<div class="kbar${v === curLevel ? ' cur' : ''}"><strong>${esc(v.bar)}</strong><span>${d}/${its.length}</span>
+          <div class="kmeter" role="img" aria-label="${esc(v.bar)}: ${d} of ${its.length} lessons"><b data-w="${w}" style="width:${!reduceMotion && !animated ? 0 : w}%"></b></div></div>`;
+      })
       .join('');
-    if (!reduceMotion && !animated && stripe.animate) {
-      [...stripe.children].forEach((el, n) =>
-        el.animate([{ transform: 'scaleY(.2)', opacity: 0.3 }, { transform: 'none', opacity: 1 }], {
-          duration: 300, delay: n * 35, easing: 'cubic-bezier(.2,0,0,1)', fill: 'backwards',
-        })
-      );
+    if (!reduceMotion && !animated) {
+      requestAnimationFrame(() => requestAnimationFrame(() =>
+        document.querySelectorAll('.kbar .kmeter b').forEach((b) => (b.style.width = b.dataset.w + '%'))
+      ));
     }
 
-    // 4a. Next lesson
+    // 2. Next lesson
     const btn = $('continueBtn');
     if (next) {
       const locked = !P.isUnlocked(next);
@@ -87,7 +100,7 @@
       btn.onclick = null;
     }
 
-    // 4b. Your points
+    // Your points
     const log = P.todayLog();
     const today = log.reduce((s, e) => s + e.xp, 0);
     $('pointsList').innerHTML =
@@ -96,8 +109,8 @@
         .reverse()
         .map((e) => {
           const l = AD.lessonById(e.id);
-          const label = l ? `${shortName(l)} · ${l.title}` : 'Lesson';
-          return `<li><span>${esc(label)}</span><b>+${e.xp}</b></li>`;
+          const name = l ? `${shortName(l)} · ${l.title}` : 'Lesson';
+          return `<li><span>${esc(name)}</span><b>+${e.xp}</b></li>`;
         })
         .join('') + `<li class="mine"><span>Points today</span><b id="pointsToday">${today}</b></li>`;
     const nextXP = next ? lessonXP(next) : 0;
@@ -106,7 +119,7 @@
       : next ? `No points yet today. One lesson gives +${nextXP}.` : `No points yet today. ${xp} XP in total.`;
     if (!reduceMotion && !animated && today) countUp($('pointsToday'), today);
 
-    // 4c. Your streak
+    // Your streak
     const days = P.recentDays(14);
     const grid = $('streakGrid');
     grid.setAttribute('aria-label', `Practiced on ${days.filter((d) => d.practiced).length} of the last 14 days`);
@@ -116,22 +129,23 @@
       ? `Do one lesson tomorrow to make it ${streak + 1}.`
       : streak ? 'Do one lesson today to keep your streak.' : 'Do one lesson today to start a streak.';
 
-    // 5. Projects (only the two real ones)
-    const basicsDone = items.basics.filter((i) => i.state === 'done').length;
-    const todo = items.code.filter((i) => i.n >= 1 && i.n <= 7);
-    const todoDone = todo.filter((i) => i.state === 'done').length;
+    // 3. Projects: Basics B1-B10 and Claude Code 1-25
+    const count = (list, from, to) => {
+      const its = list.filter((i) => i.n >= from && i.n <= to);
+      return { done: its.filter((i) => i.state === 'done').length, total: its.length };
+    };
     const projects = [
-      { name: "Plan mum's 60th birthday", done: basicsDone, total: items.basics.length },
-      { name: 'Ship the to-do app', done: todoDone, total: todo.length },
+      { name: "Plan mum's 60th birthday", ...count(items.basics, 1, 10) },
+      { name: 'Ship the to-do app', ...count(items.code, 1, 25) },
     ];
     $('projects').innerHTML = projects
       .map(
         (p) => `<div class="kproj-row"><strong>${esc(p.name)}</strong><span>${p.done}/${p.total}</span>
-          <div class="kmeter" role="img" aria-label="${p.done} of ${p.total} lessons"><b style="width:${p.total ? Math.round((100 * p.done) / p.total) : 0}%"></b></div></div>`
+          <div class="kmeter" role="img" aria-label="${p.done} of ${p.total} lessons"><b style="width:${pct(p.done, p.total)}%"></b></div></div>`
       )
       .join('');
 
-    // 5. Pro box
+    // Pro box
     const lockedCount = all.filter((i) => i.state === 'locked').length;
     const hasPro = P.get().unlockAll;
     $('proBox').hidden = hasPro;
@@ -139,7 +153,7 @@
     $('navProBtn').hidden = hasPro;
     $('proLabel').textContent = `Pro · ${plural(lockedCount, 'lesson')} locked`;
 
-    // 6. Lesson list
+    // 4. Lessons: filters, then the tile grid or one open topic
     const counts = {
       all: all.length,
       free: all.filter((i) => i.kind === 'free').length,
@@ -154,17 +168,21 @@
       b.addEventListener('click', () => { filter = b.dataset.f; render(); })
     );
 
-    TRACKS.forEach((t) => {
-      const list = items[t.key];
-      const tDone = list.filter((i) => i.state === 'done').length;
-      const allFree = list.every((i) => i.kind !== 'pro');
-      const shown = list.filter((i) => filter === 'all' || i.kind === filter);
-      $(t.list).innerHTML =
-        `<div class="kgroup"><span>${t.name}</span><span>${tDone}/${list.length}${allFree ? ' · free' : ''}</span></div>` +
-        (shown.length ? shown.map(rowHtml).join('') : '<div class="kempty">Nothing here for this filter.</div>');
+    const topics = AD.topics.map((t) => {
+      const v = AD.levels.find((x) => x.key === t.level);
+      return { ...t, lv: v, items: items[v.track].filter((i) => i.n >= t.from && i.n <= t.to) };
     });
+    const area = $('lessonArea');
+    area.innerHTML = openTopic === null ? gridHtml(topics, next, curLevel, inLevel) : topicHtml(topics, openTopic);
 
-    document.querySelectorAll('.krow[data-id]').forEach((r) =>
+    area.querySelectorAll('.ktile[data-t]').forEach((b) =>
+      b.addEventListener('click', () => showTopic(Number(b.dataset.t)))
+    );
+    const back = $('topicBack');
+    if (back) back.addEventListener('click', () => { openTopic = null; render(); scrollToLessons(); });
+    const nextT = $('topicNext');
+    if (nextT) nextT.addEventListener('click', () => showTopic(openTopic + 1));
+    area.querySelectorAll('.krow[data-id]').forEach((r) =>
       r.addEventListener('click', () => {
         const l = AD.lessonById(r.dataset.id);
         if (P.isUnlocked(l)) location.href = `lesson.html?id=${l.id}`;
@@ -174,8 +192,76 @@
     animated = true;
   }
 
+  function showTopic(i) {
+    openTopic = i;
+    render();
+    scrollToLessons();
+  }
+
+  function scrollToLessons() {
+    $('lessons').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+  }
+
+  // Tile grid: per level one level cell and its three topic tiles.
+  function gridHtml(topics, next, curLevel, inLevel) {
+    let h = '<div class="ktiles">';
+    AD.levels.forEach((v) => {
+      const its = inLevel(v);
+      const d = its.filter((i) => i.state === 'done').length;
+      const range = v.track === 'basics' ? `B${v.from}–B${v.to}` : `Lessons ${v.from}–${v.to}`;
+      h += `<div class="ktile klvcell${v === curLevel ? ' here' : ''}">
+        <span class="kk">${esc(v.kicker)}</span><h3>${esc(v.name)}</h3><span class="ksub2">${esc(v.sub)}</span>
+        <span class="kcnt"><span>${range}</span><span>${d}/${its.length}</span></span>
+        <span class="kmeter"><b style="width:${pct(d, its.length)}%"></b></span></div>`;
+      topics.forEach((t, idx) => {
+        if (t.lv !== v) return;
+        h += tileHtml(t, idx, next, topics.filter((x) => x.lv === v).pop() === t);
+      });
+    });
+    return h + '</div>';
+  }
+
+  function tileHtml(t, idx, next, last) {
+    const its = t.items;
+    const d = its.filter((i) => i.state === 'done').length;
+    const free = its.filter((i) => i.kind === 'free').length;
+    const pro = its.filter((i) => i.kind === 'pro').length;
+    const isCur = !!next && its.some((i) => i.lesson === next);
+    const match = filter === 'all' || its.some((i) => i.kind === filter);
+    const tag = free === its.length ? '<span class="ktag">FREE</span>'
+      : free ? `<span class="ktag">${free} FREE</span>`
+      : pro ? '<span class="ktag p">PRO</span>'
+      : '<span class="ktag">SOON</span>';
+    const flagText = t.lv.track === 'basics' ? 'Ends with the bridge to Claude Code' : 'Ends with the final project';
+    const range = `${label(t.lv.track, t.from)}–${label(t.lv.track, t.to)}`;
+    return `<button type="button" class="ktile${isCur ? ' cur' : ''}${match ? '' : ' dim'}" data-t="${idx}">
+      ${isCur ? '<span class="kstamp">UP NEXT</span>' : ''}
+      <span class="ktile-top"><span class="krng">${range}${last ? `<span class="kfl" title="${flagText}"><span class="sr-only">${flagText}</span>${FLAG}</span>` : ''}</span>${isCur ? '' : tag}</span>
+      <h3>${esc(t.title)}</h3><span class="ksub2">${esc(t.sub)}</span>
+      <span class="kdots" role="img" aria-label="${d} of ${its.length} done">${its.map((i) => `<i class="${DOT[i.state]}${i.final ? ' final' : ''}"></i>`).join('')}</span>
+    </button>`;
+  }
+
+  // One open topic: back button, header, its lessons and a button to the next topic.
+  function topicHtml(topics, idx) {
+    const t = topics[idx];
+    const its = t.items;
+    const d = its.filter((i) => i.state === 'done').length;
+    const shown = its.filter((i) => filter === 'all' || i.kind === filter);
+    const nt = topics[idx + 1];
+    const range = `${label(t.lv.track, t.from)}–${label(t.lv.track, t.to)}`;
+    const where = t.lv.track === 'basics' ? 'Claude Basics' : `Claude Code · ${t.lv.name}`;
+    return `<div class="ktopic">
+      <button type="button" class="kback" id="topicBack">${BACK}All topics</button>
+      <div class="ktopic-h"><div class="krng2">${esc(where)} · Lessons ${range}</div>
+        <h3>${esc(t.title)}</h3><p>${esc(t.sub)} · ${d} of ${its.length} done</p>
+        <div class="kmeter" role="img" aria-label="${d} of ${its.length} done"><b style="width:${pct(d, its.length)}%"></b></div></div>
+      <div class="klist">${shown.length ? shown.map(rowHtml).join('') : '<div class="kempty">Nothing here for this filter.</div>'}</div>
+      ${nt ? `<button type="button" class="knext-topic" id="topicNext"><span><span class="kntl">Next topic</span><b>${esc(nt.title)}</b></span><span aria-hidden="true">→</span></button>` : ''}
+    </div>`;
+  }
+
   function rowHtml(i) {
-    const label = i.track === 'basics' ? `B${i.n}` : String(i.n);
     const meta = {
       done: `Done · +${i.lesson ? lessonXP(i.lesson) : 0} XP`,
       next: 'Up next · 5 min',
@@ -184,14 +270,17 @@
       soon: 'Coming soon',
     }[i.state];
     const tag =
-      i.state === 'done' ? ''
+      i.final ? '<span class="ktag f">PROJECT</span>'
+        : i.state === 'done' ? ''
         : i.kind === 'pro' ? '<span class="ktag p">PRO</span>'
         : i.kind === 'soon' ? '<span class="ktag">SOON</span>'
         : '<span class="ktag">FREE</span>';
-    const inner = `<span class="knum">${i.state === 'locked' ? LOCK : esc(label)}</span>
+    const num = i.final ? FLAG : i.state === 'locked' ? LOCK : esc(label(i.track, i.n));
+    const inner = `<span class="knum">${num}</span>
       <span><span class="t">${esc(i.title)}</span><span class="m">${meta}</span></span>${tag}${i.state === 'locked' ? '<span class="sr-only">, locked</span>' : ''}`;
-    if (!i.lesson) return `<div class="krow soon">${inner}</div>`;
-    return `<button type="button" class="krow ${i.state}" data-id="${i.lesson.id}">${inner}</button>`;
+    const cls = `krow ${i.state}${i.final ? ' final' : ''}`;
+    if (!i.lesson) return `<div class="${cls}">${inner}</div>`;
+    return `<button type="button" class="${cls}" data-id="${i.lesson.id}">${inner}</button>`;
   }
 
   function countUp(el, end) {
