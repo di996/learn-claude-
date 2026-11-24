@@ -60,6 +60,7 @@ if (!args.length) {
       const abs = resolve(process.cwd(), a);
       if (!existsSync(abs)) { console.error(`Filen findes ikke: ${a}`); process.exit(2); }
       const file = relative(ROOT, abs).split("\\").join("/");
+      if (file.startsWith("..")) { console.error(`Lektionsfilen skal ligge i projektmappen: ${a}`); process.exit(2); }
       return { id: idOf(file), file, inject: !siteFiles.includes(file) };
     }
     const file = siteFiles.find((f) => idOf(f) === a);
@@ -78,6 +79,15 @@ try {
   process.exit(2);
 }
 
+// ---------- at most 4 requests to the test server at a time ----------
+const slot = (() => {
+  let free = 4; const queue = [];
+  return {
+    take: () => (free > 0 ? (free--, Promise.resolve()) : new Promise((r) => queue.push(r))),
+    give: () => (queue.length ? queue.shift()() : free++),
+  };
+})();
+
 // ---------- play one lesson ----------
 async function play(browser, job) {
   const t0 = Date.now();
@@ -91,19 +101,27 @@ async function play(browser, job) {
     } catch (e) {}
   }, [PROGRESS_KEY]);
 
-  if (job.inject) {
-    // Add the lesson file to lesson.html for this run only. A lesson with the
-    // same id that is already on the site is replaced by the tested file.
-    await ctx.route(/\/lesson\.html(\?.*)?$/, async (route) => {
-      const res = await route.fetch();
-      let html = await res.text();
+  // Every file from the test server goes through here: at most 4 at a time and
+  // up to 3 tries, because python3 -m http.server drops connections when Chrome
+  // asks for many files at once. A lesson file that is not on the site yet is
+  // added to lesson.html for this run only; a lesson with the same id is replaced.
+  await ctx.route((url) => url.href.startsWith(BASE), async (route) => {
+    let res, lastErr;
+    for (let k = 0; k < 3 && !res; k++) {
+      await slot.take();
+      try { res = await route.fetch(); } catch (e) { lastErr = e; } finally { slot.give(); }
+      if (!res) await new Promise((r) => setTimeout(r, 150));
+    }
+    if (!res) { errors.push(`kunne ikke hente ${route.request().url().replace(BASE, "/")} efter 3 forsøg (${lastErr && lastErr.message.split("\n")[0]})`); return route.abort(); }
+    if (job.inject && /\/lesson\.html(\?.*)?$/.test(route.request().url())) {
       const tag =
         `<script>(function(){var add=AD.addLesson;AD.addLesson=function(l){AD.lessons=AD.lessons.filter(function(x){return x.id!==l.id});add(l)};})();</script>\n` +
         `  <script src="${job.file}"></script>\n  <script src="js/engine.js"></script>`;
-      html = html.replace('<script src="js/engine.js"></script>', tag);
-      await route.fulfill({ response: res, body: html, headers: { ...res.headers(), "content-type": "text/html" } });
-    });
-  }
+      const html = (await res.text()).replace('<script src="js/engine.js"></script>', tag);
+      return route.fulfill({ response: res, body: html, headers: { ...res.headers(), "content-type": "text/html" } });
+    }
+    return route.fulfill({ response: res });
+  });
 
   const page = await ctx.newPage();
   // "Failed to load resource" is reported again, with the file name, by requestfailed/response below.
@@ -218,7 +236,8 @@ await Promise.all(Array.from({ length: Math.min(PARALLEL, jobs.length) }, async 
     const i = next++;
     let r = await play(browser, jobs[i]);
     // The small test server sometimes drops a connection. Try such a lesson once more.
-    const serverHiccup = (x) => x.errors.length && x.errors.every((e) => /ERR_CONNECTION_RESET|ERR_SOCKET_NOT_CONNECTED|ERR_EMPTY_RESPONSE/.test(e));
+    // A dropped file can cause follow-up errors (e.g. "AD.runLesson is not a function"), so one dropped file is enough.
+    const serverHiccup = (x) => x.errors.some((e) => /ERR_CONNECTION_RESET|ERR_SOCKET_NOT_CONNECTED|ERR_EMPTY_RESPONSE/.test(e));
     if (serverHiccup(r)) { r = await play(browser, jobs[i]); r.retried = true; }
     results[i] = r;
   }
