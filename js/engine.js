@@ -73,7 +73,7 @@
     const setPulse = (key) =>
       document.querySelectorAll('[data-key]').forEach((b) => b.classList.toggle('pulse', b.dataset.key === key));
 
-    $('eyebrow').textContent = isChat ? `Claude Basics · Lesson ${lesson.n}` : `Lesson ${lesson.n}${lesson.pro ? ' · Pro' : ''}`;
+    $('eyebrow').textContent = isChat ? `Claude Basics · Lesson ${lesson.n}` : `Lesson ${lesson.n}`;
     $('title').textContent = lesson.title;
     document.title = `${lesson.title} · AgentDrills`;
 
@@ -254,20 +254,24 @@
     $('doneTitle').textContent = stars === 3 ? 'Flawless!' : 'Lesson complete!';
     $('doneSub').textContent = lesson.summary || '';
     const nextBtn = $('doneNext');
-    if (next) {
-      nextBtn.textContent = `Next: ${next.title}`;
-      nextBtn.href = AD.progress.isUnlocked(next) ? `lesson.html?id=${next.id}` : `learn.html?paywall=${next.id}`;
-    } else {
+    // DESIGN.md punkt 6–7 (25 Nov 2026): one button only. When the next lesson is locked,
+    // the end card shows briefly and the full-screen wall slides up; "Not now" goes to the dashboard.
+    const locked = next && !AD.progress.isUnlocked(next);
+    if (next && !locked) {
+      nextBtn.innerHTML = 'Next lesson <span aria-hidden="true">→</span>';
+      nextBtn.href = `lesson.html?id=${next.id}`;
+    } else if (!next) {
       nextBtn.textContent = 'Back to lessons';
       nextBtn.href = 'learn.html';
     }
-    const guide = $('doneGuide');
-    if (guide && lesson.article) {
-      guide.href = lesson.article;
-      guide.hidden = false;
-    }
+    nextBtn.hidden = !!locked;
     $('done').hidden = false;
-    nextBtn.focus();
+    if (locked) {
+      const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      setTimeout(() => { if (AD.wall) AD.wall.open(next); else location.href = `learn.html?paywall=${next.id}`; }, reduce ? 0 : 1400);
+    } else {
+      nextBtn.focus();
+    }
   }
 
   AD.runLesson = runLesson;

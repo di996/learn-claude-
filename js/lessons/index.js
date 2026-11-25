@@ -45,7 +45,7 @@
 
   // Levels and topics for the dashboard (DESIGN.md "Dashboard: emner i niveauer", 24 Nov 2026).
   AD.levels = [
-    { key: 'basics', track: 'basics', kicker: 'Start here', name: 'Claude Basics', bar: 'Claude Basics', sub: 'Simulated chat · free', from: 1, to: 20 },
+    { key: 'basics', track: 'basics', kicker: 'Start here', name: 'Claude Basics', bar: 'Claude Basics', sub: 'Simulated chat', from: 1, to: 20 },
     { key: 'beginner', track: 'code', kicker: 'Claude Code', name: 'Beginner', bar: 'Claude Code · Beginner', sub: 'Project: the to-do app', from: 1, to: 25 },
     { key: 'intermediate', track: 'code', kicker: 'Claude Code', name: 'Intermediate', bar: 'Claude Code · Intermediate', sub: 'Project: a bigger app', from: 26, to: 50 },
     { key: 'pro', track: 'code', kicker: 'Claude Code', name: 'Pro', bar: 'Claude Code · Pro', sub: 'Project: a team repo', from: 51, to: 75 },

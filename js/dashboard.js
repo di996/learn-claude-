@@ -87,8 +87,8 @@
     if (next) {
       const locked = !P.isUnlocked(next);
       $('nextTitle').textContent = next.title;
-      $('nextMeta').textContent = `${shortName(next)} · ${next.pro ? 'Pro' : 'Free'} · 5 min`;
-      btn.innerHTML = `Continue ${esc(AD.trackOf(next) === 'basics' ? `basics B${next.n}` : `lesson ${next.n}`)} <span aria-hidden="true">→</span>`;
+      $('nextMeta').textContent = `${shortName(next)} · 5 min`;
+      btn.innerHTML = `Continue ${esc(AD.trackOf(next) === 'basics' ? `basics B${next.n}` : `lesson ${next.n}`)} ${locked ? `<span class="klock">${LOCK}</span>` : ''}<span aria-hidden="true">→</span>`;
       btn.href = locked ? '#' : `lesson.html?id=${next.id}`;
       btn.onclick = locked ? (e) => { e.preventDefault(); openPaywall(next); } : null;
     } else {
@@ -145,22 +145,15 @@
       )
       .join('');
 
-    // Pro box
-    const lockedCount = all.filter((i) => i.state === 'locked').length;
-    const hasPro = P.get().unlockAll;
-    $('proBox').hidden = hasPro;
-    $('kpTwo').classList.toggle('no-pro', hasPro);
-    $('navProBtn').hidden = hasPro;
-    $('proLabel').textContent = `Pro · ${plural(lockedCount, 'lesson')} locked`;
+    // Sign up is hidden once Pro is unlocked (no Pro box: DESIGN.md punkt 8, 25 Nov 2026)
+    $('navProBtn').hidden = P.get().unlockAll;
 
     // 4. Lessons: filters, then the tile grid or one open topic
     const counts = {
       all: all.length,
-      free: all.filter((i) => i.kind === 'free').length,
-      pro: all.filter((i) => i.kind === 'pro').length,
       soon: all.filter((i) => i.kind === 'soon').length,
     };
-    const labels = { all: 'All', free: 'Free', pro: 'Pro', soon: 'Coming' };
+    const labels = { all: 'All', soon: 'Coming' };
     $('tabs').innerHTML = Object.keys(labels)
       .map((k) => `<button type="button" class="ktab" data-f="${k}" aria-pressed="${k === filter}">${labels[k]} ${counts[k]}</button>`)
       .join('');
@@ -224,19 +217,15 @@
   function tileHtml(t, idx, next, last) {
     const its = t.items;
     const d = its.filter((i) => i.state === 'done').length;
-    const free = its.filter((i) => i.kind === 'free').length;
-    const pro = its.filter((i) => i.kind === 'pro').length;
+    const anyLocked = its.some((i) => i.state === 'locked');
     const isCur = !!next && its.some((i) => i.lesson === next);
     const match = filter === 'all' || its.some((i) => i.kind === filter);
-    const tag = free === its.length ? '<span class="ktag">FREE</span>'
-      : free ? `<span class="ktag">${free} FREE</span>`
-      : pro ? '<span class="ktag p">PRO</span>'
-      : '<span class="ktag">SOON</span>';
+    const tag = its.every((i) => i.kind === 'soon') ? '<span class="ktag">SOON</span>' : '';
     const flagText = t.lv.track === 'basics' ? 'Ends with the bridge to Claude Code' : 'Ends with the final project';
     const range = `${label(t.lv.track, t.from)}–${label(t.lv.track, t.to)}`;
     return `<button type="button" class="ktile${isCur ? ' cur' : ''}${match ? '' : ' dim'}" data-t="${idx}">
       ${isCur ? '<span class="kstamp">UP NEXT</span>' : ''}
-      <span class="ktile-top"><span class="krng">${range}${last ? `<span class="kfl" title="${flagText}"><span class="sr-only">${flagText}</span>${FLAG}</span>` : ''}</span>${isCur ? '' : tag}</span>
+      <span class="ktile-top"><span class="krng">${range}${anyLocked ? `<span class="klk">${LOCK}<span class="sr-only"> includes locked lessons</span></span>` : ''}${last ? `<span class="kfl" title="${flagText}"><span class="sr-only">${flagText}</span>${FLAG}</span>` : ''}</span>${isCur ? '' : tag}</span>
       <h3>${esc(t.title)}</h3><span class="ksub2">${esc(t.sub)}</span>
       <span class="kdots" role="img" aria-label="${d} of ${its.length} done">${its.map((i) => `<i class="${DOT[i.state]}${i.final ? ' final' : ''}"></i>`).join('')}</span>
     </button>`;
@@ -266,15 +255,14 @@
       done: `Done · +${i.lesson ? lessonXP(i.lesson) : 0} XP`,
       next: 'Up next · 5 min',
       open: '5 min',
-      locked: 'Pro · 5 min',
+      locked: '5 min',
       soon: 'Coming soon',
     }[i.state];
     const tag =
       i.final ? '<span class="ktag f">PROJECT</span>'
         : i.state === 'done' ? ''
-        : i.kind === 'pro' ? '<span class="ktag p">PRO</span>'
         : i.kind === 'soon' ? '<span class="ktag">SOON</span>'
-        : '<span class="ktag">FREE</span>';
+        : '';
     const num = i.final ? FLAG : i.state === 'locked' ? LOCK : esc(label(i.track, i.n));
     const inner = `<span class="knum">${num}</span>
       <span><span class="t">${esc(i.title)}</span><span class="m">${meta}</span></span>${tag}${i.state === 'locked' ? '<span class="sr-only">, locked</span>' : ''}`;
@@ -293,29 +281,18 @@
     requestAnimationFrame(step);
   }
 
+  // The old paywall modal is replaced by the full-screen wall (js/wall.js, DESIGN.md punkt 7).
   function openPaywall(lesson) {
     pendingLesson = lesson || null;
-    $('paywall').hidden = false;
-    $('unlockBtn').focus();
+    AD.wall.open(pendingLesson);
   }
 
-  $('pwClose').addEventListener('click', () => ($('paywall').hidden = true));
-  $('proBtn').addEventListener('click', () => openPaywall(null));
   $('navProBtn').addEventListener('click', () => openPaywall(null));
-  $('unlockBtn').addEventListener('click', () => {
-    P.setUnlockAll(true);
-    $('paywall').hidden = true;
-    if (pendingLesson) location.href = `lesson.html?id=${pendingLesson.id}`;
-    else render();
-  });
   $('resetBtn').addEventListener('click', () => {
     if (confirm('Reset all progress, XP and streak in this browser?')) {
       P.reset();
       render();
     }
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') $('paywall').hidden = true;
   });
 
   render();

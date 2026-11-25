@@ -46,9 +46,7 @@
         <div class="result"><div class="v" id="doneHints">0</div><div class="k">Hints used</div></div>
       </div>
       <div class="modal-actions">
-        <a class="btn" id="doneNext" href="learn.html">Next lesson</a>
-        <a class="btn secondary" id="doneGuide" href="#" hidden>Read the full guide</a>
-        <a class="btn secondary" href="learn.html">Back to lessons</a>
+        <a class="btn" id="doneNext" href="learn.html">Next lesson <span aria-hidden="true">→</span></a>
       </div>
     </div>
   </div>
@@ -74,6 +72,7 @@
   <script src="js/lessons/b01-first-chat.js"></script>
   <script src="js/lessons/b02-good-prompt.js"></script>
   <script src="js/engine.js"></script>
+  <script src="js/wall.js"></script>
   <script>
     (function () {
       const id = new URLSearchParams(location.search).get('id') || 'start-session';

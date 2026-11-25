@@ -5,6 +5,7 @@ AD.addLesson({
   n: 4,
   level: 'beginner',
   title: 'Approve your first edit',
+  pro: true,
   blurb: 'Ask for a change, read the diff and decide how much Claude may edit.',
   icon: '✎',
   summary: 'You read a diff, approved one edit and then let Claude edit freely for the rest of the session.',

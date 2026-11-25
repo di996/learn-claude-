@@ -6,6 +6,7 @@ AD.addLesson({
   n: 5,
   level: 'beginner',
   title: 'Allow or reject a command',
+  pro: true,
   blurb: 'Let Claude run safe commands and stop the risky ones.',
   icon: '$',
   summary: 'You allowed npm test for good and stopped a command that would have deleted your tests.',

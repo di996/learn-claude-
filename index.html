@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <nav class="nav">
+  <nav class="nav nav-home">
     <div class="wrap">
       <a class="brand" href="index.html"><span class="brand-mark">&gt;_</span>AgentDrills</a>
       <div class="nav-links">
@@ -18,26 +18,57 @@
         <a href="#faq">FAQ</a>
         <a href="learn.html">Dashboard</a>
         <a href="blog/index.html">Blog</a>
-        <a class="btn small" href="learn.html">Start free</a>
+        <a class="nav-login" href="learn.html">Log in</a>
+        <button class="btn small nav-signup" type="button" data-signup>Sign up</button>
       </div>
     </div>
   </nav>
 
-  <header class="hero">
+  <header class="home-hero">
     <div class="wrap">
-      <div>
-        <h1>Learn Claude Code by <em>doing it</em> – not by watching videos.</h1>
-        <p class="lede">Bite-sized lessons in a realistic, simulated terminal. Type real commands, approve real-looking edits, make mistakes safely and get instant hints.</p>
-        <div class="hero-cta">
-          <a class="btn" href="lesson.html?id=start-session">Try lesson 1 – free</a>
-          <a class="btn secondary" href="#curriculum">See all lessons</a>
-        </div>
-        <p class="newbie" id="newbie" hidden>Never used Claude? <a href="lesson.html">Start with the basics →</a></p>
-        <p class="hero-note">No install. No API key. No sign-up. 5 minutes per lesson.</p>
-      </div>
-      <div id="demo" aria-label="Animated demo of a Claude Code lesson"></div>
+      <h1>AgentDrills helps regular people learn <span class="home-mark">Claude Code</span> as quickly as possible.</h1>
+      <p class="home-lede">Bite-sized lessons in a terminal that looks and feels like the real thing.</p>
+      <div class="home-cta"><a class="btn" href="lesson.html?id=start-session">Start Training</a></div>
+      <ul class="home-topics">
+        <li>Starting a session</li>
+        <li>Approving edits</li>
+        <li>Slash commands</li>
+        <li>Plan mode</li>
+        <li>Memory</li>
+        <li>Much, much more</li>
+      </ul>
+      <p class="newbie" id="newbie" hidden>Never used Claude? <a href="lesson.html">Start with the basics →</a></p>
     </div>
   </header>
+
+  <section class="home-stripe" aria-label="Why AgentDrills">
+    <ul>
+      <li><b>5-minute</b> lessons</li>
+      <li>A terminal that <b>feels real</b></li>
+      <li>Works on your <b>phone</b></li>
+    </ul>
+  </section>
+
+  <section class="home-peek">
+    <div class="wrap">
+      <div>
+        <h2>One instruction. You do it. You see what happens.</h2>
+        <p>Type real commands, approve real-looking edits and get a hint the moment you slip.</p>
+      </div>
+      <div aria-hidden="true">
+        <div class="home-coach"><small>3/5</small>Type <code>claude</code> and press Enter.</div>
+        <div class="home-term">
+          <div class="home-term-bar"><b></b><b></b><b></b><span>my-project — zsh</span></div>
+          <div class="home-term-body">
+            <div><span class="g">~ $</span> ls</div>
+            <div class="d">Desktop    Documents    my-project</div>
+            <div><span class="g">~ $</span> cd my-project</div>
+            <div><span class="g">~/my-project $</span> <span class="home-cursor"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section class="section alt" id="how">
     <div class="wrap">
@@ -93,7 +124,7 @@
   <section class="section alt" id="curriculum">
     <div class="wrap">
       <h2>What you'll learn</h2>
-      <p class="intro">Start with the essentials for free. Go Pro for the habits that make experienced users so fast.</p>
+      <p class="intro">Start with the essentials. Then build the habits that make experienced users so fast.</p>
       <div id="basicsGroup" hidden>
         <h3 class="cur-group">Start here · Claude Basics</h3>
         <ol class="curriculum" id="basicsList"></ol>
@@ -110,7 +141,7 @@
       <p>That's where most people get stuck. The tool itself is simple to install, but the <b>workflow</b> is new: when should you let it edit without asking? What is a CLAUDE.md file? How do you stop it when it heads the wrong way? Why do answers get worse in long conversations? These are the things that separate someone who "tried it once" from someone who ships with it every day.</p>
 
       <h3>Practice in a safe, simulated terminal</h3>
-      <p>Every AgentDrills lesson runs in a simulation of a Claude Code session, right in your browser. There's nothing to install and nothing can break. You can approve the scary <code>rm -rf</code> command just to see what happens – nothing gets deleted. You can mistype a slash command and get a friendly nudge instead of an error. Because the simulation is scripted, it's also free to use: no API key, no tokens, no bill.</p>
+      <p>Every AgentDrills lesson runs in a simulation of a Claude Code session, right in your browser. There's nothing to install and nothing can break. You can approve the scary <code>rm -rf</code> command just to see what happens – nothing gets deleted. You can mistype a slash command and get a friendly nudge instead of an error. Because the simulation is scripted, it needs no API key and burns no tokens.</p>
 
       <h3>Who is it for?</h3>
       <ul>
@@ -124,7 +155,7 @@
       <p>Each lesson is built around repetition and immediate feedback – the same idea that makes language apps work. You see a short instruction, do it, and get feedback in under a second. Small wins add up to XP, daily streaks keep you coming back, and stars reward you for finishing without hints. By the end of the first unit you'll have launched sessions, reviewed diffs, managed permissions and created a CLAUDE.md file – muscle memory you'll use on day one of a real project.</p>
 
       <h3>From basics to power-user habits</h3>
-      <p>The free unit covers the essentials: starting a session in the right folder, asking good questions, approving or rejecting edits and commands, and the slash commands you'll use every day. The Pro unit goes further: pointing Claude at exact files with <code>@</code>, running shell commands with <code>!</code>, switching modes with Shift+Tab, letting Claude plan before it codes, interrupting with Esc, compacting long conversations and resuming yesterday's session with <code>claude --continue</code>.</p>
+      <p>The first lessons cover the essentials: starting a session in the right folder, asking good questions, approving or rejecting edits and commands, and the slash commands you'll use every day. Later lessons go further: pointing Claude at exact files with <code>@</code>, running shell commands with <code>!</code>, switching modes with Shift+Tab, letting Claude plan before it codes, interrupting with Esc, compacting long conversations and resuming yesterday's session with <code>claude --continue</code>.</p>
     </div>
   </section>
 
@@ -163,8 +194,8 @@
   <section class="cta-band">
     <div class="wrap">
       <h2>Your first lesson takes 5 minutes.</h2>
-      <p class="muted" style="font-size:18px">Free, no sign-up. See if learning by doing works for you.</p>
-      <a class="btn" href="lesson.html?id=start-session">Start lesson 1</a>
+      <p class="muted" style="font-size:18px">No sign-up. See if learning by doing works for you.</p>
+      <a class="btn" href="lesson.html?id=start-session">Start Training</a>
     </div>
   </section>
 
@@ -193,12 +224,14 @@
   <script src="js/lessons/07-subagents.js"></script>
   <script src="js/lessons/b01-first-chat.js"></script>
   <script src="js/lessons/b02-good-prompt.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/wall.js"></script>
   <script>
     (function () {
       // Curriculum list from the lesson registry
       const list = document.getElementById('curriculumList');
       const row = (l) =>
-        `<li><span class="n">${l.n}</span><div><div class="t">${AD.escapeHtml(l.title)}</div><div class="d">${AD.escapeHtml(l.blurb)}</div></div><span class="tag${l.pro ? ' pro' : ''}">${l.pro ? 'Pro' : 'Free'}</span></li>`;
+        `<li><span class="n">${l.n}</span><div><div class="t">${AD.escapeHtml(l.title)}</div><div class="d">${AD.escapeHtml(l.blurb)}</div></div></li>`;
       const items = AD.lessonsIn('code').map(row);
       // Claude Basics: grouped above Claude Code, plus a small link under the hero buttons
       const basics = AD.lessonsIn('basics');
@@ -212,37 +245,6 @@
       items.push(`<li><span class="n">+</span><div><div class="t">Hooks, MCP & more</div><div class="d">New units every month.</div></div><span class="tag soon">Soon</span></li>`);
       list.innerHTML = items.join('');
 
-      // Looping hero demo
-      const term = new AD.Terminal(document.getElementById('demo'), { cwd: '~/my-project', noFocus: true, speed: 1 });
-      const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const script = [
-        { wait: 600 },
-        { type: 'claude' },
-        { launch: true },
-        { wait: 700 },
-        { type: 'add a dark mode toggle' },
-        { think: 1300 },
-        { tool: 'Read', arg: 'src/styles.css', out: 'Read 64 lines' },
-        { tool: 'Update', arg: 'src/styles.css', out: 'Updated src/styles.css with 4 additions', diff: [
-          ['+', '.dark { background: #111; color: #eee; }', 65],
-          ['+', '.dark .todo { border-color: #333; }', 66],
-        ] },
-        { tool: 'Update', arg: 'src/app.js', out: 'Updated src/app.js with 3 additions', diff: [
-          ['+', "toggle.onclick = () =>", 52],
-          ['+', "  document.body.classList.toggle('dark');", 53],
-        ] },
-        { text: 'Added a dark mode toggle in the header. ✓' },
-        { wait: 3500 },
-      ];
-      async function loop() {
-        // eslint-disable-next-line no-constant-condition
-        while (true) {
-          term.reset();
-          await term.stream(script);
-          if (reduce) return;
-        }
-      }
-      loop();
     })();
   </script>
 </body>
