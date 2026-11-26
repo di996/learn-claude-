@@ -3,7 +3,7 @@
 // so this lesson creates the subagent by asking Claude. Delegation rows use the documented `name(task)` format.
 AD.addLesson({
   id: 'subagents',
-  n: 14,
+  n: 42,
   title: 'Delegate with subagents',
   blurb: 'Let helpers do side tasks in their own context – and build your own.',
   icon: '⑂',
