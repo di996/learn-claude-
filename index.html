@@ -49,94 +49,77 @@
     </ul>
   </section>
 
-  <section class="home-peek">
+  <section class="home-sec" id="how">
     <div class="wrap">
-      <div>
-        <h2>One instruction. You do it. You see what happens.</h2>
-        <p>Type real commands, approve real-looking edits and get a hint the moment you slip.</p>
-      </div>
-      <div aria-hidden="true">
-        <div class="home-coach"><small>3/5</small>Type <code>claude</code> and press Enter.</div>
-        <div class="home-term">
-          <div class="home-term-bar"><b></b><b></b><b></b><span>my-project — zsh</span></div>
-          <div class="home-term-body">
-            <div><span class="g">~ $</span> ls</div>
-            <div class="d">Desktop    Documents    my-project</div>
-            <div><span class="g">~ $</span> cd my-project</div>
-            <div><span class="g">~/my-project $</span> <span class="home-cursor"></span></div>
+      <span class="home-kick">How it works</span>
+      <h2>Get it wrong. Get a hint. Get it right.</h2>
+      <p class="home-intro">That's every lesson: one small instruction, your hands on the keyboard and feedback in under a second.</p>
+      <div class="home-show">
+        <div aria-hidden="true">
+          <div class="home-coach" id="homeCoach"><small>3/5</small><span>Type <code>claude</code> and press Enter.</span></div>
+          <div class="home-term">
+            <div class="home-term-bar"><b></b><b></b><b></b><span>my-project — zsh</span></div>
+            <div class="home-term-body" id="homeTerm"><div><span class="g">~ $</span> cd my-project</div></div>
           </div>
         </div>
+        <ol class="home-steps" id="homeSteps">
+          <li data-k="ask"><span class="n">01</span><b>Read one instruction</b><p>Short enough to finish in seconds.</p></li>
+          <li data-k="hint"><span class="n">02</span><b>Slip up? Get a hint</b><p>A hint for exactly the mistake you made, not just "wrong".</p></li>
+          <li data-k="good"><span class="n">03</span><b>Get it right, earn XP</b><p>Small wins, daily streaks, stars for no hints.</p></li>
+        </ol>
       </div>
     </div>
   </section>
 
-  <section class="section alt" id="how">
+  <section class="home-sec home-levels-sec" id="curriculum">
     <div class="wrap">
-      <h2>How it works</h2>
-      <p class="intro">Every lesson is a small, guided task inside a simulated Claude Code session. You read one instruction, you do it, you see what happens.</p>
-      <div class="grid3">
-        <div class="feature">
-          <div class="num">01 · Read</div>
-          <h3>One small instruction</h3>
-          <p>"Start Claude in your project." "Approve just this edit." Each step teaches one thing, so it actually sticks.</p>
+      <span class="home-kick">Lessons</span>
+      <h2>From your first command to running a team setup.</h2>
+      <div class="home-levels">
+        <a class="home-level first" href="lesson.html?id=start-session">
+          <span class="home-level-top"><span class="name">Beginner</span><span class="proj">the to-do app</span></span>
+          <ul><li>Get started <span>· start, ask, approve</span></li><li>Memory and files <span>· CLAUDE.md, @files</span></li><li>Real work <span>· modes, bugs, tests</span></li></ul>
+          <span class="go">Start lesson 1 <span aria-hidden="true">→</span></span>
+        </a>
+        <div class="home-level">
+          <div class="home-level-top"><span class="name">Intermediate</span><span class="proj">a bigger app</span></div>
+          <ul><li>Better tasks <span>· models, settings</span></li><li>Git and your own tools <span>· branches, skills</span></li><li>Workflows <span>· subagents, debugging</span></li></ul>
         </div>
-        <div class="feature">
-          <div class="num">02 · Do</div>
-          <h3>Type it yourself</h3>
-          <p>You type into a terminal that looks and behaves like Claude Code – autocomplete, permission prompts, Shift+Tab, Esc and all.</p>
-        </div>
-        <div class="feature">
-          <div class="num">03 · Get feedback</div>
-          <h3>Instant, specific hints</h3>
-          <p>Typed <code>claude-code</code> instead of <code>claude</code>? Forgot the slash? You get a hint for exactly that mistake, then try again.</p>
+        <div class="home-level">
+          <div class="home-level-top"><span class="name">Pro</span><span class="proj">a team repo</span></div>
+          <ul><li>MCP and hooks <span>· connect tools</span></li><li>Automation <span>· worktrees, plugins</span></li><li>Big tasks and teams <span>· shared setup</span></li></ul>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section">
+  <section class="home-sec" id="faq">
     <div class="wrap">
-      <h2>Why not just watch a tutorial?</h2>
-      <p class="intro">Because you don't learn a tool by watching someone else use it. You learn it with your hands on the keyboard.</p>
-      <div class="compare">
-        <div class="col bad">
-          <h3>Video courses</h3>
-          <ul>
-            <li>You watch for 40 minutes and remember 5</li>
-            <li>Easy to zone out, hard to find that one part again</li>
-            <li>No feedback when you get it wrong</li>
-            <li>Out of date the moment the UI changes</li>
-          </ul>
-        </div>
-        <div class="col good">
-          <h3>AgentDrills</h3>
-          <ul>
-            <li>Active practice – you type every command</li>
-            <li>5-minute lessons you can finish on a coffee break</li>
-            <li>Hints for the mistakes beginners actually make</li>
-            <li>XP, streaks and stars keep you coming back</li>
-          </ul>
-        </div>
+      <span class="home-kick">Questions</span>
+      <h2>Before you start</h2>
+      <div class="home-faq">
+        <details><summary>Do I need Claude Code installed or an account?</summary><p>No. Everything happens in a simulation in your browser. When you're ready for the real thing, what you practiced works the same way.</p></details>
+        <details><summary>Do I need to know how to code?</summary><p>No. Lessons explain every command. Some coding experience helps, but it isn't required.</p></details>
+        <details><summary>How long does a lesson take?</summary><p>Most lessons take 3–6 minutes.</p></details>
+        <details><summary>Is it exactly like the real Claude Code?</summary><p>It mirrors the real workflow – prompts, diffs, permission menus and modes – but Claude's answers are pre-written. We update lessons when the tool changes.</p></details>
+        <details><summary>Is this an official Anthropic product?</summary><p>No. AgentDrills is an independent training site and isn't affiliated with or endorsed by Anthropic.</p></details>
       </div>
     </div>
   </section>
 
-  <section class="section alt" id="curriculum">
+  <section class="home-end">
     <div class="wrap">
-      <h2>What you'll learn</h2>
-      <p class="intro">Start with the essentials. Then build the habits that make experienced users so fast.</p>
-      <div id="basicsGroup" hidden>
-        <h3 class="cur-group">Start here · Claude Basics</h3>
-        <ol class="curriculum" id="basicsList"></ol>
-        <h3 class="cur-group">Claude Code</h3>
-      </div>
-      <ol class="curriculum" id="curriculumList"></ol>
+      <h2>Your first lesson takes 5 minutes.</h2>
+      <p>No sign-up. See if learning by doing works for you.</p>
+      <a class="btn home-big" href="lesson.html?id=start-session">Start Training</a>
     </div>
   </section>
 
-  <section class="section">
-    <div class="wrap prose">
-      <h2>Learn Claude Code the practical way</h2>
+  <div class="wrap">
+    <details class="home-more">
+      <summary>Read more about learning Claude Code</summary>
+      <div class="home-more-body">
+        <h3>Learn Claude Code the practical way</h3>
       <p>Claude Code is an AI coding assistant that runs in your terminal. You describe what you want in plain English – "add a dark mode toggle", "why is this test failing?" – and it reads your files, proposes edits, runs commands and explains what it did. It's one of the fastest ways to build software today, but only once you know how to drive it.</p>
       <p>That's where most people get stuck. The tool itself is simple to install, but the <b>workflow</b> is new: when should you let it edit without asking? What is a CLAUDE.md file? How do you stop it when it heads the wrong way? Why do answers get worse in long conversations? These are the things that separate someone who "tried it once" from someone who ships with it every day.</p>
 
@@ -156,48 +139,9 @@
 
       <h3>From basics to power-user habits</h3>
       <p>The first lessons cover the essentials: starting a session in the right folder, asking good questions, approving or rejecting edits and commands, and the slash commands you'll use every day. Later lessons go further: pointing Claude at exact files with <code>@</code>, running shell commands with <code>!</code>, switching modes with Shift+Tab, letting Claude plan before it codes, interrupting with Esc, compacting long conversations and resuming yesterday's session with <code>claude --continue</code>.</p>
-    </div>
-  </section>
-
-  <section class="section alt" id="faq">
-    <div class="wrap">
-      <h2>Frequently asked questions</h2>
-      <div class="faq">
-        <details>
-          <summary>Do I need Claude Code installed or an account?</summary>
-          <p>No. Everything happens in a simulation in your browser. When you're ready to use the real thing, everything you practiced works the same way.</p>
-        </details>
-        <details>
-          <summary>Do I need to know how to code?</summary>
-          <p>No. Lessons explain every command. Some coding experience helps you understand the example project, but it isn't required.</p>
-        </details>
-        <details>
-          <summary>How long does a lesson take?</summary>
-          <p>Most lessons take 3–6 minutes. They're designed to be finished in one sitting.</p>
-        </details>
-        <details>
-          <summary>Is the simulation exactly like the real Claude Code?</summary>
-          <p>It closely mirrors the real workflow – prompts, tool calls, diffs, permission menus and modes – but it's scripted, so Claude's answers are pre-written. The real tool also changes often; we update lessons as it does.</p>
-        </details>
-        <details>
-          <summary>Is my progress saved?</summary>
-          <p>Yes, in this browser. Accounts that sync across devices are coming soon.</p>
-        </details>
-        <details>
-          <summary>Is this an official Anthropic product?</summary>
-          <p>No. AgentDrills is an independent training site and isn't affiliated with or endorsed by Anthropic. Claude and Claude Code are trademarks of Anthropic.</p>
-        </details>
       </div>
-    </div>
-  </section>
-
-  <section class="cta-band">
-    <div class="wrap">
-      <h2>Your first lesson takes 5 minutes.</h2>
-      <p class="muted" style="font-size:18px">No sign-up. See if learning by doing works for you.</p>
-      <a class="btn" href="lesson.html?id=start-session">Start Training</a>
-    </div>
-  </section>
+    </details>
+  </div>
 
   <footer class="footer">
     <div class="wrap">
@@ -226,25 +170,16 @@
   <script src="js/lessons/b02-good-prompt.js"></script>
   <script src="js/progress.js"></script>
   <script src="js/wall.js"></script>
+  <script src="js/home-demo.js"></script>
   <script>
     (function () {
-      // Curriculum list from the lesson registry
-      const list = document.getElementById('curriculumList');
-      const row = (l) =>
-        `<li><span class="n">${l.n}</span><div><div class="t">${AD.escapeHtml(l.title)}</div><div class="d">${AD.escapeHtml(l.blurb)}</div></div></li>`;
-      const items = AD.lessonsIn('code').map(row);
-      // Claude Basics: grouped above Claude Code, plus a small link under the hero buttons
+      // Claude Basics: small link under the hero buttons
       const basics = AD.lessonsIn('basics');
       if (basics.length) {
-        document.getElementById('basicsList').innerHTML = basics.map(row).join('');
-        document.getElementById('basicsGroup').hidden = false;
         const nb = document.getElementById('newbie');
         nb.querySelector('a').href = `lesson.html?id=${basics[0].id}`;
         nb.hidden = false;
       }
-      items.push(`<li><span class="n">+</span><div><div class="t">Hooks, MCP & more</div><div class="d">New units every month.</div></div><span class="tag soon">Soon</span></li>`);
-      list.innerHTML = items.join('');
-
     })();
   </script>
 </body>
